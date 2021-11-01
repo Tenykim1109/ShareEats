@@ -10,7 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareEats">
         <activity
-            android:name=".MainActivity"
+            android:name=".src.main.mypage.orderdetail.OrderDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.mypage.creator.CreatorActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
