@@ -1,7 +1,8 @@
-package com.sharewanted.shareeats
+package com.sharewanted.shareeats.src.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.sharewanted.shareeats.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
