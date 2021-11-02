@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".src.main.mypage.MyPageFragment">
+
+    <ImageView
+        android:id="@+id/fragment_my_page_ivProfile"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/fragment_my_page_tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="홍길동"
+        android:textSize="20sp"
+        android:layout_marginLeft="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_ivProfile"
+        app:layout_constraintStart_toEndOf="@+id/fragment_my_page_ivProfile"
+        app:layout_constraintTop_toTopOf="@+id/fragment_my_page_ivProfile" />
+
+    <View
+        android:id="@+id/fragment_my_page_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/fragment_my_page_ivProfile" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_my_page_rvMenu"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_my_page_line" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

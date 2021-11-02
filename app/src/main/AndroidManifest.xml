@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareEats">
         <activity
+            android:name=".src.main.mypage.orderdetail.OrderDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.mypage.creator.CreatorActivity"
+            android:exported="true" />
+        <activity
             android:name=".src.main.home.OrderActivity"
             android:exported="true" />
         <activity
