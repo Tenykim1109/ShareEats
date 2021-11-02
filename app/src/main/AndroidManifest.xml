@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareEats">
         <activity
+            android:name=".src.main.home.OrderActivity"
+            android:exported="true" />
+        <activity
             android:name=".src.main.join.JoinActivity"
             android:exported="false" />
         <activity
