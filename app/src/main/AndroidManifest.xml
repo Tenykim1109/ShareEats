@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareEats">
         <activity
+            android:name=".src.main.userlogin.find.CheckPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.main.userlogin.find.FindPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.main.userlogin.find.CheckIdActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.main.userlogin.find.FindIdActivity"
+            android:exported="false" />
+        <activity
             android:name=".src.main.mypage.orderdetail.OrderDetailActivity"
             android:exported="true" />
         <activity
@@ -19,10 +31,10 @@
             android:name=".src.main.home.OrderActivity"
             android:exported="true" />
         <activity
-            android:name=".src.main.join.JoinActivity"
+            android:name=".src.main.userlogin.JoinActivity"
             android:exported="false" />
         <activity
-            android:name=".src.main.login.LoginActivity"
+            android:name=".src.main.userlogin.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
