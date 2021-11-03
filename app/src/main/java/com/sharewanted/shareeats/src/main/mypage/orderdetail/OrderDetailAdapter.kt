@@ -12,8 +12,8 @@ class OrderDetailAdapter(var list: MutableList<OrderDetail>) : RecyclerView.Adap
 
     inner class OrderDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var fragment_my_page_order_detail_list_item_ivStore = itemView.findViewById<ImageView>(R.id.fragment_my_page_order_detail_list_item_ivStore)
-        var fragment_my_page_order_detail_list_item_tvTitle = itemView.findViewById<TextView>(R.id.fragment_my_page_creator_list_item_tvTitle)
-        var fragment_my_page_order_detail_list_item_tvStoreName = itemView.findViewById<TextView>(R.id.fragment_my_page_creator_list_item_tvEmail)
+        var fragment_my_page_order_detail_list_item_tvTitle = itemView.findViewById<TextView>(R.id.fragment_my_page_order_detail_list_item_tvTitle)
+        var fragment_my_page_order_detail_list_item_tvStoreName = itemView.findViewById<TextView>(R.id.fragment_my_page_order_detail_list_item_tvStoreName)
         var fragment_my_page_order_detail_list_item_tvDate = itemView.findViewById<TextView>(R.id.fragment_my_page_order_detail_list_item_tvDate)
         var fragment_my_page_order_detail_list_item_price = itemView.findViewById<TextView>(R.id.fragment_my_page_order_detail_list_item_price)
 

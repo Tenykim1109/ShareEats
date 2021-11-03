@@ -20,7 +20,7 @@ class OrderInfoActivity : AppCompatActivity() {
 
     private fun initView() {
         adapter = OrderInfoAdapter(list)
-        binding.activityOrderInfoRvMenu.adapter = adapter
-        binding.activityOrderInfoRvMenu.layoutManager = LinearLayoutManager(this)
+        binding.fragmentMyPageOrderInfoRv.adapter = adapter
+        binding.fragmentMyPageOrderInfoRv.layoutManager = LinearLayoutManager(this)
     }
 }

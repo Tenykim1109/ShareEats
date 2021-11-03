@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.sharewanted.shareeats.databinding.ActivityLoginBinding
+import com.sharewanted.shareeats.src.main.MainActivity
 import com.sharewanted.shareeats.src.main.userlogin.find.FindIdActivity
 import com.sharewanted.shareeats.src.main.userlogin.find.FindPasswordActivity
 
@@ -24,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
             //db에서 user 체크
 
             Toast.makeText(this, "로그인 $id $pw", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         binding.activityLoginTvJoin.setOnClickListener {

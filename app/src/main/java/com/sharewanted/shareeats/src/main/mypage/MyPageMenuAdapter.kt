@@ -10,10 +10,10 @@ import com.sharewanted.shareeats.R
 class MyPageMenuAdapter(var list: MutableList<String>, val listener: MyPageMenuClickListener) : RecyclerView.Adapter<MyPageMenuAdapter.MyPageMenuViewHolder>() {
 
     inner class MyPageMenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var fragment_my_page_list_item_tvMenu = itemView.findViewById<TextView>(R.id.fragment_my_page_creator_list_item_tvTitle)
+        var fragment_my_page_menu_list_item_tvName = itemView.findViewById<TextView>(R.id.fragment_my_page_menu_list_item_tvName)
 
         fun onBind(s: String) {
-            fragment_my_page_list_item_tvMenu.text = s
+            fragment_my_page_menu_list_item_tvName.text = s
 
             itemView.setOnClickListener {
                 listener.onClick(layoutPosition)
