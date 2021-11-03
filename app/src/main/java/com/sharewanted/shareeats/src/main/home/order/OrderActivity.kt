@@ -1,10 +1,12 @@
-package com.sharewanted.shareeats.src.main.home
+package com.sharewanted.shareeats.src.main.home.order
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.ActivityOrderBinding
+import com.sharewanted.shareeats.src.main.home.participate.ParticipateActivity
 
 
 class OrderActivity : AppCompatActivity() {

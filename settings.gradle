@@ -5,6 +5,9 @@ dependencyResolutionManagement {
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
         maven { url = uri("https://dl.bintray.com/kotlin/kotlin-eap") }
+        maven {
+            url 'https://naver.jfrog.io/artifactory/maven/'
+        }
     }
 }
 rootProject.name = "ShareEats"
