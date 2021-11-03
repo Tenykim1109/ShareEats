@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/chatFragment">
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.sharewanted.shareeats.src.main.chat.ChatListFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="com.sharewanted.shareeats.src.main.location.LocationFragment"
+        android:label="fragment_location"
+        tools:layout="@layout/fragment_chat" >
+    </fragment>
+
+</navigation>
