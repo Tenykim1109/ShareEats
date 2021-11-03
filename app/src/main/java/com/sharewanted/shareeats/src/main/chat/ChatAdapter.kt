@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -33,6 +32,7 @@ class ChatAdapter(val chatList: MutableList<Chat>) : RecyclerView.Adapter<ChatAd
                 Log.d("data check", data.nickName)
 
                 Glide.with(itemView.context).load(data.imageUrl).placeholder(R.drawable.ic_navi_mypage).apply(RequestOptions().circleCrop().circleCrop()).into(otherProfile)
+
                 otherName.text = data.nickName
                 otherChat.text = data.content
 
@@ -44,17 +44,15 @@ class ChatAdapter(val chatList: MutableList<Chat>) : RecyclerView.Adapter<ChatAd
                 val userName = itemView.findViewById<TextView>(R.id.tv_chat_nickName)
                 val userChat = itemView.findViewById<TextView>(R.id.tv_chat_message)
 
+
                 Log.d("data check", data.nickName)
 
                 Glide.with(itemView.context).load(data.imageUrl).placeholder(R.drawable.ic_navi_mypage).apply(RequestOptions().circleCrop().circleCrop()).into(userProfile)
+
                 userName.text = data.nickName
                 userChat.text = data.content
             }
-
-
         }
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatHolder {

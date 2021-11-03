@@ -1,12 +1,13 @@
-package com.sharewanted.shareeats.src.main.login
+package com.sharewanted.shareeats.src.main.userlogin
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.ActivityLoginBinding
-import com.sharewanted.shareeats.src.main.join.JoinActivity
+import com.sharewanted.shareeats.src.main.MainActivity
+import com.sharewanted.shareeats.src.main.userlogin.find.FindIdActivity
+import com.sharewanted.shareeats.src.main.userlogin.find.FindPasswordActivity
 
 private const val TAG = "LoginActivity_싸피"
 class LoginActivity : AppCompatActivity() {
@@ -18,7 +19,13 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.activityLoginBtnLogin.setOnClickListener {
-            Toast.makeText(this, "로그인", Toast.LENGTH_SHORT).show()
+            val id = binding.activityLoginEtLogin.text
+            val pw = binding.activityLoginEtPassword.text
+
+            //db에서 user 체크
+
+            Toast.makeText(this, "로그인 $id $pw", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         binding.activityLoginTvJoin.setOnClickListener {
@@ -29,10 +36,14 @@ class LoginActivity : AppCompatActivity() {
 
         binding.activityLoginTvFindId.setOnClickListener {
             Toast.makeText(this, "아이디 찾기", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, FindIdActivity::class.java)
+            startActivity(intent)
         }
 
         binding.activityLoginTvFindPassword.setOnClickListener {
             Toast.makeText(this, "비밀번호 찾기", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, FindPasswordActivity::class.java)
+            startActivity(intent)
         }
     }
 }

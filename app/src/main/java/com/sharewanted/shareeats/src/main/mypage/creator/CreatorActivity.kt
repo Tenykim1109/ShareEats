@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sharewanted.shareeats.databinding.ActivityCreatorBinding
 
-
+// 만든이 페이지
 class CreatorActivity : AppCompatActivity() {
     private lateinit var binding : ActivityCreatorBinding
     private lateinit var adapter: CreatorAdapter

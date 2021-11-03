@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".src.main.mypage.orderdetail.OrderDetailActivity">
+    tools:context=".src.main.mypage.notice.NoticeActivity">
 
     <ImageView
         android:id="@+id/fragment_my_page_notice_ivArrow"
@@ -13,13 +13,13 @@
         android:padding="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_recyclerview_menu_arrow" />
+        app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
 
     <TextView
         android:id="@+id/fragment_my_page_notice_tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="주문 내역"
+        android:text="공지사항"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_notice_ivArrow"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="@+id/fragment_my_page_notice_ivArrow" />
 
     <View
-        android:id="@+id/fragment_my_page_line"
+        android:id="@+id/fragment_my_page_notice_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black"
@@ -35,10 +35,10 @@
         app:layout_constraintTop_toBottomOf="@id/fragment_my_page_notice_tvTitle" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_my_page_order_detail_rv"
+        android:id="@+id/fragment_my_page_notice_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_my_page_line"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_my_page_notice_line" />
 </androidx.constraintlayout.widget.ConstraintLayout>
