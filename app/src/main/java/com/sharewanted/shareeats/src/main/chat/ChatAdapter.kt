@@ -41,7 +41,7 @@ class ChatAdapter(val chatList: MutableList<Chat>) : RecyclerView.Adapter<ChatAd
                 val userName = itemView.findViewById<TextView>(R.id.tv_chat_nickName)
                 val userChat = itemView.findViewById<TextView>(R.id.tv_chat_message)
 
-                Glide.with(itemView.context).load(data.imageUrl).apply(RequestOptions().circleCrop().circleCrop()).into(userProfile)
+                Glide.with(itemView.context).load(data.imageUrl).placeholder(R.drawable.ic_navi_mypage).apply(RequestOptions().circleCrop().circleCrop()).into(userProfile)
                 userName.text = data.nickName
                 userChat.text = data.content
             }
