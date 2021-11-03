@@ -39,6 +39,21 @@
             android:name=".src.main.userlogin.find.FindIdActivity"
             android:exported="false" />
         <activity
+            android:name=".src.main.mypage.notice.NoticeContentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.mypage.notice.NoticeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.mypage.orderinfo.OrderInfoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.mypage.orderdetailitem.OrderDetailItemActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.mypage.dod.DODActivity"
+            android:exported="true" />
+        <activity
             android:name=".src.main.mypage.orderdetail.OrderDetailActivity"
             android:exported="true" />
         <activity
