@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sharewanted.shareeats">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +11,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareEats">
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="@string/api_id" />
+        <activity
+            android:name=".src.chat.ChatActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.home.order.OrderInfoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.home.participate.ParticipateActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.mypage.edituser.EditUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.main.userlogin.find.CheckPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.main.userlogin.find.FindPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.main.userlogin.find.CheckIdActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.main.userlogin.find.FindIdActivity"
+            android:exported="false" />
         <activity
             android:name=".src.main.mypage.notice.NoticeContentActivity"
             android:exported="true" />
@@ -31,13 +60,13 @@
             android:name=".src.main.mypage.creator.CreatorActivity"
             android:exported="true" />
         <activity
-            android:name=".src.main.home.OrderActivity"
+            android:name=".src.main.home.order.OrderActivity"
             android:exported="true" />
         <activity
-            android:name=".src.main.join.JoinActivity"
+            android:name=".src.main.userlogin.JoinActivity"
             android:exported="false" />
         <activity
-            android:name=".src.main.login.LoginActivity"
+            android:name=".src.main.userlogin.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

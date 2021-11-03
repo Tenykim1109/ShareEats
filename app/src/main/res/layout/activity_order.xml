@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".src.main.home.OrderActivity">
+    tools:context=".src.main.home.order.OrderActivity">
 
     <!-- 커스텀 툴바 적용 -->
     <androidx.appcompat.widget.Toolbar
