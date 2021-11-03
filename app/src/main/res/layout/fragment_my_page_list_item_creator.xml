@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/fragment_my_page_order_detail_list_item_tvTitle"
+        android:id="@+id/fragment_my_page_creator_list_item_tvName"
         android:layout_width="0dp"
         android:layout_height="80dp"
         tools:text="김주환"
@@ -19,15 +19,15 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
-        android:id="@+id/fragment_my_page_order_detail_list_item_tvStoreName"
+        android:id="@+id/fragment_my_page_creator_list_item_tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="juhwan.dev@gmail.com"
         android:textSize="16sp"
         android:paddingLeft="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_order_detail_list_item_tvTitle"
-        app:layout_constraintStart_toEndOf="@+id/fragment_my_page_order_detail_list_item_tvTitle"
-        app:layout_constraintTop_toTopOf="@+id/fragment_my_page_order_detail_list_item_tvTitle" />
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_creator_list_item_tvName"
+        app:layout_constraintStart_toEndOf="@+id/fragment_my_page_creator_list_item_tvName"
+        app:layout_constraintTop_toTopOf="@+id/fragment_my_page_creator_list_item_tvName" />
 
     <View
         android:layout_width="0dp"
