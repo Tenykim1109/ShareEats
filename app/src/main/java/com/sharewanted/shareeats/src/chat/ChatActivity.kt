@@ -2,6 +2,7 @@ package com.sharewanted.shareeats.src.chat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.ActivityChatBinding
