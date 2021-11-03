@@ -19,12 +19,36 @@
             android:exported="true" />
         <activity
             android:name=".src.main.MainActivity"
+            android:name=".src.main.mypage.orderdetail.OrderDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.mypage.creator.CreatorActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.home.OrderActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.join.JoinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".src.main.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".src.main.MainActivity"
+            android:exported="true">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
     </application>
 

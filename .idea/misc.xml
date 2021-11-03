@@ -3,9 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/drawable/menu_selector_color.xml" value="0.3425925925925926" />
-        <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/drawable/menu_selector_color_icon.xml" value="0.3425925925925926" />
-        <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/drawable/menu_selector_color_text.xml" value="0.3425925925925926" />
         <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/drawable/round.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/layout/activity_chat.xml" value="0.22" />
         <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/layout/activity_main.xml" value="0.25815217391304346" />
@@ -14,6 +11,23 @@
         <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/layout/item_chat.xml" value="0.25" />
         <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/layout/item_chat_list.xml" value="0.22" />
         <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/menu/nav_menu.xml" value="0.30462962962962964" />
+        <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/drawable/menu_selector_color.xml" value="0.3425925925925926" />
+        <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/drawable/menu_selector_color_icon.xml" value="0.3425925925925926" />
+        <entry key="..\:/Users/MAYDAY/Desktop/ShareEats/app/src/main/res/drawable/menu_selector_color_text.xml" value="0.3425925925925926" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/activity_creator.xml" value="0.26132246376811596" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/activity_order_detail.xml" value="0.26132246376811596" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page.xml" value="0.26132246376811596" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_creator.xml" value="0.26132246376811596" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_menu.xml" value="0.26132246376811596" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_order_detail.xml" value="0.26132246376811596" />
+        <entry key="..\:/GitHub/ShareEats/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.571875" />
+        <entry key="..\:/GitHub/ShareEats/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.571875" />
+        <entry key="..\:/GitHub/ShareEats/app/src/main/res/drawable/ic_launcher_background.xml" value="0.571875" />
+        <entry key="..\:/GitHub/ShareEats/app/src/main/res/layout/activity_main.xml" value="0.5557291666666667" />
+        <entry key="..\:/GitHub/ShareEats/app/src/main/res/layout/activity_order.xml" value="0.3260416666666667" />
+        <entry key="..\:/GitHub/ShareEats/app/src/main/res/layout/activity_order_toolbar.xml" value="0.5557291666666667" />
+        <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/layout/activity_join.xml" value="0.5536458333333333" />
+        <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/layout/activity_login.xml" value="0.33" />
       </map>
     </option>
   </component>
