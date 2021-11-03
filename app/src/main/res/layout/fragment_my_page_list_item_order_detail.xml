@@ -16,7 +16,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/fragment_my_page_creator_list_item_tvName"
+        android:id="@+id/fragment_my_page_order_detail_list_item_tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -27,13 +27,13 @@
         tools:text="지금 맘스터치 드실 분!" />
 
     <TextView
-        android:id="@+id/fragment_my_page_creator_list_item_tvEmail"
+        android:id="@+id/fragment_my_page_order_detail_list_item_tvStoreName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_order_detail_list_item_ivStore"
-        app:layout_constraintStart_toStartOf="@+id/fragment_my_page_creator_list_item_tvName"
+        app:layout_constraintStart_toStartOf="@+id/fragment_my_page_order_detail_list_item_tvTitle"
         tools:text="맘스터치 구미인동점" />
 
     <TextView
@@ -43,14 +43,14 @@
         tools:text="2021.10.30"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_creator_list_item_tvName" />
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_order_detail_list_item_tvTitle" />
 
     <TextView
         android:id="@+id/fragment_my_page_order_detail_list_item_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_creator_list_item_tvEmail"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_order_detail_list_item_tvStoreName"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="14,900원/14,900원" />
 

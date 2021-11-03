@@ -5,12 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import com.sharewanted.shareeats.databinding.ActivityMainBinding
-import com.sharewanted.shareeats.src.main.home.OrderActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.src.main.chat.ChatListFragment
 import com.sharewanted.shareeats.src.main.location.LocationFragment
+import com.sharewanted.shareeats.src.main.mypage.MyPageFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -38,6 +39,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.locationFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.nav_host, LocationFragment())
+                        .commit()
+                    true
+                }
+                R.id.myPageFragment -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.nav_host, MyPageFragment())
                         .commit()
                     true
                 }
