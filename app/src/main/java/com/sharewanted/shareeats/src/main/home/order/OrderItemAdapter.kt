@@ -8,13 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sharewanted.shareeats.R
 
-class OrderInfoAdapter(var list: MutableList<MenuDetail>) : RecyclerView.Adapter<OrderInfoAdapter.OrderInfoViewHolder>() {
+class OrderItemAdapter(var list: MutableList<MenuDetail>) : RecyclerView.Adapter<OrderItemAdapter.OrderInfoViewHolder>() {
 
     inner class OrderInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvMenu = itemView.findViewById<TextView>(R.id.fragment_order_info_tv_name)
-        var tvDetail = itemView.findViewById<TextView>(R.id.fragment_order_info_tv_detail)
-        var tvPrice = itemView.findViewById<TextView>(R.id.fragment_order_info_tv_price)
-        var ivMenu = itemView.findViewById<ImageView>(R.id.fragment_order_info_iv_menu)
+        var tvMenu = itemView.findViewById<TextView>(R.id.fragment_order_item_tv_name)
+        var tvDetail = itemView.findViewById<TextView>(R.id.fragment_order_item_tv_detail)
+        var tvPrice = itemView.findViewById<TextView>(R.id.fragment_order_item_tv_price)
+        var ivMenu = itemView.findViewById<ImageView>(R.id.fragment_order_item_iv_menu)
 
         fun onBind(detail: MenuDetail) {
             tvMenu.text = detail.name
@@ -29,12 +29,12 @@ class OrderInfoAdapter(var list: MutableList<MenuDetail>) : RecyclerView.Adapter
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderInfoAdapter.OrderInfoViewHolder {
-        var view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_order_info_list_item_menu_detail, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderItemAdapter.OrderInfoViewHolder {
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_order_item_list_item_menu_detail, parent, false)
         return OrderInfoViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: OrderInfoAdapter.OrderInfoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: OrderItemAdapter.OrderInfoViewHolder, position: Int) {
         holder.onBind(list[position])
     }
 

@@ -10,6 +10,7 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.src.main.chat.ChatListFragment
+import com.sharewanted.shareeats.src.main.home.HomeFragment
 import com.sharewanted.shareeats.src.main.location.LocationFragment
 import com.sharewanted.shareeats.src.main.mypage.MyPageFragment
 
@@ -30,6 +31,12 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigation.setOnItemSelectedListener {
             when(it.itemId) {
+                R.id.homeFragment -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.nav_host, HomeFragment())
+                        .commit()
+                    true
+                }
                 R.id.chatFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.nav_host, ChatListFragment())
