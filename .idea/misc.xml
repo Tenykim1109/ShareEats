@@ -3,12 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/activity_creator.xml" value="0.26132246376811596" />
-        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/activity_order_detail.xml" value="0.26132246376811596" />
-        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page.xml" value="0.26132246376811596" />
-        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_creator.xml" value="0.26132246376811596" />
-        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_menu.xml" value="0.26132246376811596" />
-        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_order_detail.xml" value="0.26132246376811596" />
         <entry key="..\:/GitHub/ShareEats/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.571875" />
         <entry key="..\:/GitHub/ShareEats/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.571875" />
         <entry key="..\:/GitHub/ShareEats/app/src/main/res/drawable/ic_launcher_background.xml" value="0.571875" />
@@ -17,6 +11,26 @@
         <entry key="..\:/GitHub/ShareEats/app/src/main/res/layout/activity_order_toolbar.xml" value="0.5557291666666667" />
         <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/layout/activity_join.xml" value="0.5536458333333333" />
         <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/drawable/ic_baseline_arrow_back_ios_24.xml" value="0.3611111111111111" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.3611111111111111" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/activity_creator.xml" value="0.26132246376811596" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/activity_dodactivity.xml" value="0.3442028985507246" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/activity_login.xml" value="0.26222826086956524" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/activity_notice.xml" value="0.3115942028985507" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/activity_notice_content.xml" value="0.3115942028985507" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/activity_order_detail.xml" value="0.26132246376811596" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/activity_order_info.xml" value="0.26222826086956524" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page.xml" value="0.26132246376811596" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_creator.xml" value="0.26132246376811596" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_menu.xml" value="0.26132246376811596" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_notice.xml" value="0.3115942028985507" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_order_detail.xml" value="0.26132246376811596" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_order_info.xml" value="0.26222826086956524" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_order_info_content_1.xml" value="0.26222826086956524" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_order_info_content_2.xml" value="0.26222826086956524" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_order_info_content_3.xml" value="0.26222826086956524" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_order_info_footer.xml" value="0.26222826086956524" />
+        <entry key="..\:/Users/SSAFY/GitHub/ShareEats/app/src/main/res/layout/fragment_my_page_list_item_order_info_header.xml" value="0.26222826086956524" />
       </map>
     </option>
   </component>

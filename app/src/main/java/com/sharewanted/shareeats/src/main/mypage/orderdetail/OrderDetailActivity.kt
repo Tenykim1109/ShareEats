@@ -8,6 +8,7 @@ import com.sharewanted.shareeats.databinding.ActivityOrderDetailBinding
 import com.sharewanted.shareeats.src.main.mypage.creator.Creator
 import com.sharewanted.shareeats.src.main.mypage.creator.CreatorAdapter
 
+// 주문내역 페이지
 class OrderDetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityOrderDetailBinding
     private lateinit var adapter: OrderDetailAdapter
