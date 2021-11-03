@@ -1,15 +1,9 @@
 package com.sharewanted.shareeats.src.main
 
-import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
-import android.widget.Toast
-import android.widget.Toolbar
 import androidx.annotation.RequiresApi
-import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.ActivityMainBinding
 import com.sharewanted.shareeats.src.main.home.OrderActivity
 import androidx.navigation.fragment.NavHostFragment
