@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".src.main.home.order.OrderActivity">
+    tools:context=".src.main.home.order.OrderInfoActivity">
 
     <!-- 커스텀 툴바 적용 -->
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/activity_order_toolbar"
+        android:id="@+id/activity_order_info_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentInsetStart="0dp">
@@ -19,15 +19,15 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/activity_order_btn_cancel"
+                android:id="@+id/activity_order_info_btn_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:background="@color/white"
-                android:src="@drawable/ic_baseline_close_24" />
+                android:src="@drawable/ic_baseline_arrow_back_24" />
 
-            <TextView
+            <!--TextView
                 android:id="@+id/activity_order_tv_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,16 +35,7 @@
                 android:layout_centerVertical="true"
                 android:text="글쓰기"
                 android:textColor="@color/black"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/activity_order_btn_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="@color/appTheme"
-                android:text="확인" />
+                android:textSize="20dp" /-->
 
         </RelativeLayout>
 
@@ -61,27 +52,64 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
-                android:id="@+id/activity_order_tv_title"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="asdf"
-                android:textSize="30dp"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/activity_order_info_tv_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:text="asdf"
+                    android:textSize="30dp" />
+
+                <Button
+                    android:id="@+id/activity_order_info_btn_chat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:backgroundTint="@color/appTheme"
+                    android:text="채팅" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/activity_order_tv_deadline"
+                android:id="@+id/activity_order_info_tv_posted_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:text="10:30"
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:background="@color/black"
                 android:layout_marginTop="11dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="20dp"
+                android:background="@color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="게시자"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/activity_order_info_tv_writer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="나요셉" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -92,51 +120,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="음식점"
-                    android:textSize="20dp"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    android:textSize="20dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="메뉴"
-                    android:textSize="20dp"/>
-
-                <EditText
+                    android:id="@+id/activity_order_info_tv_store"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="최소금액"
-                    android:textSize="20dp"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:text="맘스터치 진평점" />
 
             </LinearLayout>
 
@@ -149,13 +141,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="배달장소"
-                    android:textSize="20dp"/>
+                    android:textSize="20dp" />
 
-                <EditText
+                <TextView
+                    android:id="@+id/activity_order_info_tv_take_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:text="분수대 앞" />
 
             </LinearLayout>
 
@@ -168,33 +162,57 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="마감시간"
-                    android:textSize="20dp"/>
+                    android:textSize="20dp" />
 
-                <EditText
+                <TextView
+                    android:id="@+id/activity_order_info_tv_deadline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:text="2021.10.30 21:00" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:background="@color/black"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="20dp"
+                android:background="@color/black" />
 
-            <EditText
+            <TextView
+                android:id="@+id/activity_order_info_tv_content"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="150dp"
+                android:text="맘스터치 선착2명 ㄱㄱㄱㄱ"
+                android:textSize="30dp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:background="@color/black"
                 android:layout_marginTop="11dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="20dp"
+                android:background="@color/black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_order_info_rv_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp" />
+
+            <Button
+                android:id="@+id/activity_order_info_btn_join"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/appTheme"
+                android:text="참여하기"
+                android:textSize="18dp" />
 
         </LinearLayout>
 

@@ -10,13 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareEats">
         <activity
+            android:name=".src.main.home.order.OrderInfoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.home.participate.ParticipateActivity"
+            android:exported="true" />
+        <activity
             android:name=".src.main.mypage.orderdetail.OrderDetailActivity"
             android:exported="true" />
         <activity
             android:name=".src.main.mypage.creator.CreatorActivity"
             android:exported="true" />
         <activity
-            android:name=".src.main.home.OrderActivity"
+            android:name=".src.main.home.order.OrderActivity"
             android:exported="true" />
         <activity
             android:name=".src.main.join.JoinActivity"
