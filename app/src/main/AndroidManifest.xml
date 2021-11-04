@@ -18,11 +18,11 @@
             android:name=".src.chat.ChatActivity"
             android:exported="true" />
         <activity
-            android:name=".src.main.home.order.OrderInfoActivity"
+            android:name=".src.main.home.order.OrderItemActivity"
             android:exported="true" />
-        <activity
-            android:name=".src.main.home.participate.ParticipateActivity"
-            android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".src.main.home.participate.ParticipateActivity"-->
+<!--            android:exported="true" />-->
         <activity
             android:name=".src.main.mypage.edituser.EditUserActivity"
             android:exported="false" />
@@ -53,22 +53,22 @@
         <activity
             android:name=".src.main.userlogin.LoginActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
-            android:name=".src.main.MainActivity"
+            android:name=".src.main.home.participate.ParticipateActivity"
             android:exported="true">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
     </application>
 
