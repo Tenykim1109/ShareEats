@@ -1,10 +1,11 @@
 package com.sharewanted.shareeats.src.main.home
 
 import android.os.Bundle
+import android.view.*
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentHomeBinding
@@ -14,13 +15,7 @@ import com.sharewanted.shareeats.databinding.FragmentHomeBinding
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: HomeAdapter
     private var param1: String? = null
@@ -33,6 +28,7 @@ class HomeFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
     override fun onCreateView(
@@ -46,6 +42,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbarHome)
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(false)
+        val adapter: ArrayAdapter<String> = ArrayAdapter<String>((activity as AppCompatActivity).applicationContext, R.layout.support_simple_spinner_dropdown_item, resources.getStringArray(R.array.location_array))
+        binding.homeSpinner.adapter = adapter
 
         initView()
     }
@@ -56,16 +56,13 @@ class HomeFragment : Fragment() {
         binding.fragmentHomeRvMain.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.home_spinner_menu, menu)
+
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             HomeFragment().apply {
