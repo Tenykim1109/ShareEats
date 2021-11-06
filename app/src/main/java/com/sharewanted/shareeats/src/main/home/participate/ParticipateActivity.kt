@@ -7,11 +7,18 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sharewanted.shareeats.R
+import com.sharewanted.shareeats.database.creditcard.CreditCard
+import com.sharewanted.shareeats.database.creditcard.CreditCardRepository
 import com.sharewanted.shareeats.databinding.ActivityParticipateBinding
 import com.sharewanted.shareeats.src.main.MainActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val TAG = "ParticipateActivity_싸피"
 class ParticipateActivity : AppCompatActivity() {
@@ -19,10 +26,18 @@ class ParticipateActivity : AppCompatActivity() {
     private lateinit var adapter: ParticipateAdapter
     private var list = mutableListOf<Menu>()
 
+    private var cardPassword: String?=null
+
+    lateinit var creditCardRepository: CreditCardRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityParticipateBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        creditCardRepository = CreditCardRepository.get()
+
+        var cardList = resources.getStringArray(R.array.credit_card)
 
         val toolbar = binding.activityParticipateToolbar
         setSupportActionBar(toolbar)
@@ -35,12 +50,25 @@ class ParticipateActivity : AppCompatActivity() {
         }
 
         binding.activityParticipateBtnPayment.setOnClickListener {
-            Toast.makeText(this, "걸제하기", Toast.LENGTH_SHORT).show()
+            var company = binding.activityParticipateSpinner.selectedItem.toString()
+            var number = binding.activityParticipateCardNumber.text.toString()
+            var expiry = binding.activityParticipateExpiry.text.toString()
+            var cvc = binding.activityParticipateCvc.text.toString()
+            var password = binding.activityParticipatePassword.text.toString()
+
+            Toast.makeText(this, "결제하기", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "$company $number $expiry $cvc $password", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "onCreate: $company $number $expiry $cvc $password")
 //            val intent = Intent(this, MainActivity::class.java)
 //            startActivity(intent)
+
+            var creditCard = CreditCard("joseph", company, number, expiry, cvc, password)
+            CoroutineScope(Dispatchers.IO).launch {
+                creditCardRepository.insert(creditCard)
+            }
+
         }
 
-        var cardList = resources.getStringArray(R.array.credit_card)
 
         val cardAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, cardList)
 
@@ -62,5 +90,18 @@ class ParticipateActivity : AppCompatActivity() {
         adapter = ParticipateAdapter(list)
         binding.activityParticipateRvMenu.adapter = adapter
         binding.activityParticipateRvMenu.layoutManager = LinearLayoutManager(this)
+
+        var tempId = "joseph"
+        var tempCompany = "KB국민카드"
+        var defaultCard = creditCardRepository.getCreditCard(tempId, tempCompany)
+
+        if (defaultCard != null) {
+            defaultCard.observe(this) {
+                binding.activityParticipateCardNumber.setText(it.number)
+                binding.activityParticipateExpiry.setText(it.expiry)
+                binding.activityParticipateCvc.setText(it.cvc)
+                cardPassword = it.password
+            }
+        }
     }
 }

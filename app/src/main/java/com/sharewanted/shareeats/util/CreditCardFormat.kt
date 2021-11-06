@@ -72,14 +72,12 @@ class CreditCardFormat: AppCompatEditText {
             return
         }
 
-        // make sure input always starts with the prefix
         if (!text!!.startsWith(prefix)) {
             setText(prefix)
             setSelection(text!!.length, text!!.length)
             return
         }
 
-        // make sure cursor is always at the end of the string
         if (start != text!!.length || end != text!!.length) {
             setSelection(text!!.length)
         } else {
@@ -134,7 +132,6 @@ class CreditCardFormat: AppCompatEditText {
                 if (enteredText.length > 1) {
                     s.replace(s.length - enteredText.length, s.length, "")
 
-                    // Append one char at a time
                     enteredText.forEach {
                         s.append("$it")
                         handleTextChange(s)
