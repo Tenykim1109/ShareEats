@@ -4,10 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/layout/activity_order.xml" value="0.19072948328267478" />
-        <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/layout/activity_participate.xml" value="0.25" />
+        <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/layout/activity_participate.xml" value="0.4103585657370518" />
         <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/layout/fragment_participate_list_item_menu.xml" value="0.33" />
         <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/layout/item_chat.xml" value="0.17980072463768115" />
+        <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/layout/item_credit_card.xml" value="0.2" />
+        <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/layout/item_spinner.xml" value="0.18115942028985507" />
+        <entry key="..\:/Users/Joseph/Documents/GitHub/ShareEats/app/src/main/res/menu/nav_menu.xml" value="0.3685185185185185" />
       </map>
     </option>
   </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>
