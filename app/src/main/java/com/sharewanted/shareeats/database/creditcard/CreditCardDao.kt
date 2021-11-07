@@ -13,7 +13,7 @@ interface CreditCardDao {
     fun selectAll(): LiveData<MutableList<CreditCard>>
 
     @Query("select * from creditcard where userId = (:userId) and company = (:company)")
-    fun selectOne(userId: String, company: String): LiveData<CreditCard>
+    fun selectOne(userId: String, company: String): CreditCard
 
     @Update
     fun update(dto: CreditCard)

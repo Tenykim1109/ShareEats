@@ -20,7 +20,7 @@ class CreditCardRepository private constructor(context: Context) {
 
     fun getList(): LiveData<MutableList<CreditCard>> = creditCardDao.selectAll()
 
-    fun getCreditCard(userId: String, company: String): LiveData<CreditCard> = creditCardDao.selectOne(userId, company)
+    fun getCreditCard(userId: String, company: String): CreditCard = creditCardDao.selectOne(userId, company)
 
     suspend fun insert(dto: CreditCard) = database.withTransaction {
         creditCardDao.insert(dto)
