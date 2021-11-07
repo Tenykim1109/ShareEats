@@ -4,14 +4,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.ActivityChatBinding
 import com.sharewanted.shareeats.src.main.chat.ChatAdapter
+import com.sharewanted.shareeats.src.main.chat.ChatListAdapter
 import com.sharewanted.shareeats.src.main.chat.models.Chat
+import com.sharewanted.shareeats.src.main.chat.models.ChatList
 
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatBinding
+    private lateinit var database: FirebaseDatabase
+    private lateinit var mRef: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
@@ -25,14 +32,13 @@ class ChatActivity : AppCompatActivity() {
         list.add(user)
         list.add(other)
 
-        val chatAdapter = ChatAdapter(list)
+        // Firebase reference
+        database = FirebaseDatabase.getInstance()
 
         binding.rvChatView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = chatAdapter
+            adapter = ChatAdapter(list)
         }
-
-
 
     }
 }
