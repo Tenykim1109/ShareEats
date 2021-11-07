@@ -1,5 +1,6 @@
 package com.sharewanted.shareeats.src.main.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentHomeBinding
+import com.sharewanted.shareeats.src.main.home.order.OrderActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,6 +56,11 @@ class HomeFragment : Fragment() {
         adapter = HomeAdapter(list)
         binding.fragmentHomeRvMain.adapter = adapter
         binding.fragmentHomeRvMain.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        binding.fbWritePost.setOnClickListener {
+            val intent = Intent(requireContext(), OrderActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

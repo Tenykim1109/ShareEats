@@ -20,8 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:textSize="20sp"
-        android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@+id/fragment_main_list_item_ivStore"
         app:layout_constraintTop_toTopOf="@+id/fragment_main_list_item_ivStore"
         tools:text="지금 맘스터치 드실 분!" />
@@ -30,8 +30,8 @@
         android:id="@+id/fragment_main_list_item_tvStoreName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:textSize="16sp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_main_list_item_ivStore"
         app:layout_constraintStart_toStartOf="@+id/fragment_main_list_item_tvTitle"
         tools:text="맘스터치 구미인동점" />

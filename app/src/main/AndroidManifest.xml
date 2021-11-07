@@ -11,9 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareEats">
+        <activity
+            android:name=".src.main.home.order.selectLocation.SelectLocationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.home.order.findRestaurant.FindRestaurantActivity"
+            android:exported="true" />
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="@string/api_id" />
+
         <activity
             android:name=".src.chat.ChatActivity"
             android:exported="true" />
@@ -71,12 +79,13 @@
         <activity
             android:name=".src.main.MainActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
     </application>
 
