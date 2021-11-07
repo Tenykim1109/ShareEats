@@ -21,7 +21,7 @@ class CheckIdActivity : AppCompatActivity() {
 
     fun initView() {
         var id = intent.getStringExtra("id")!!
-        id = id.replaceRange(3, id.length - 1, "*")
+        id = id.replaceRange(3, id.length, "*")
         var name = intent.getStringExtra("name")
 
         var result = "[${name}] 님의 아이디는\n${id}입니다."

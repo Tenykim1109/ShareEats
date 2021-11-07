@@ -34,6 +34,13 @@ class SharedPreferencesUtil(context: Context) {
         }
     }
 
+    fun updateUser(user: UserDto) {
+        val editor = preferences.edit()
+        editor.putString("password", user.password)
+        editor.putString("email", user.email)
+        editor.apply()
+    }
+
     fun deleteUser() {
         //preference 지우기
         val editor = preferences.edit()

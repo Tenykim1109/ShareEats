@@ -4,6 +4,8 @@ import android.app.Application
 import com.google.android.gms.common.util.SharedPreferencesUtils
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.naver.maps.map.NaverMapSdk
 import com.sharewanted.shareeats.util.SharedPreferencesUtil
 
@@ -13,6 +15,7 @@ class ApplicationClass : Application() {
 
         // Firebase
         lateinit var databaseReference: DatabaseReference
+        lateinit var storageRef: StorageReference
     }
 
     override fun onCreate() {
@@ -24,5 +27,6 @@ class ApplicationClass : Application() {
 
         // Firebase 초기화
         databaseReference = FirebaseDatabase.getInstance().reference
+        storageRef = FirebaseStorage.getInstance().reference
     }
 }

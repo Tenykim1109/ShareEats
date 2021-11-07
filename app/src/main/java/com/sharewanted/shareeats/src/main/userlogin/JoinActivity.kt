@@ -20,7 +20,7 @@ private const val TAG = "JoinActivity_싸피"
 class JoinActivity : AppCompatActivity() {
     lateinit var binding: ActivityJoinBinding
     var users = mutableListOf<String>()
-    var duplicateId = true
+    var duplicateId = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,16 +92,14 @@ class JoinActivity : AppCompatActivity() {
         var email = binding.activityJoinEtEmail.text.toString()
         var user = UserDto(id, password, name, tel, email, "")
 
-        if(hasEmptyInput(user, password2)) {
-            return false
-        }
-        if(isNotEqualPassword(password, password2)) {
+        if(hasEmptyInput(user, password2) || isNotEqualPassword(password, password2)) {
             return false
         }
 
         if(duplicateId) {
             lifecycleScope.launch(Dispatchers.IO){
-                ApplicationClass.databaseReference.child("User").push().setValue(user)
+                ApplicationClass.databaseReference.child("User").child(user.id).setValue(user)
+
             }
             Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
             return true
@@ -122,8 +120,8 @@ class JoinActivity : AppCompatActivity() {
         return false
     }
 
-    private fun isNotEqualPassword(pwd: String, pwd2: String): Boolean {
-        if(pwd != pwd2) {
+    private fun isNotEqualPassword(password: String, password2: String): Boolean {
+        if(password != password2) {
             Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
             return true
         }

@@ -17,8 +17,6 @@ private const val TAG = "FindIdActivity_싸피"
 class FindIdActivity : AppCompatActivity() {
     lateinit var binding: ActivityFindIdBinding
 
-    var users = mutableListOf<String>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFindIdBinding.inflate(layoutInflater)

@@ -45,9 +45,6 @@ class FindPasswordActivity : AppCompatActivity() {
     private fun findPasswordOnFirebase() {
         var myName = binding.activityFindPasswordEtName.text.toString()
         var myId = binding.activityFindPasswordEtId.text.toString()
-        var userName = ""
-        var userId = ""
-        var userPassword = ""
 
         ApplicationClass.databaseReference
             .child("User")
@@ -59,20 +56,25 @@ class FindPasswordActivity : AppCompatActivity() {
                 override fun onDataChange(p0: DataSnapshot) {
                     // p0 == User
                     p0.children.forEach {
-                        // it == 유저 별 해시코드
-                        it.children.forEach { user ->
-                            when(user.key) {
-                                "name" -> userName = user.value.toString()
-                                "id" -> userId = user.value.toString()
-                                "password" -> userPassword = user.value.toString()
-                            }
-                        }
+                        var userName = ""
+                        var userId = ""
+                        var userPassword = ""
 
-                        if(myName == userName && myId == userId) {
-                            var intent = Intent(this@FindPasswordActivity, CheckPasswordActivity::class.java)
-                            intent.putExtra("id", userId)
-                            intent.putExtra("password", userPassword)
-                            startActivity(intent)
+                        if(it.key == myId) {
+                            it.children.forEach { user ->
+                                when(user.key) {
+                                    "name" -> userName = user.value.toString()
+                                    "id" -> userId = user.value.toString()
+                                    "password" -> userPassword = user.value.toString()
+                                }
+                            }
+
+                            if(myName == userName) {
+                                var intent = Intent(this@FindPasswordActivity, CheckPasswordActivity::class.java)
+                                intent.putExtra("id", userId)
+                                intent.putExtra("password", userPassword)
+                                startActivity(intent)
+                            }
                         }
                     }
                 }
