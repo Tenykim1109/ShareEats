@@ -17,9 +17,11 @@ import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.src.chat.ChatActivity
 import com.sharewanted.shareeats.src.main.chat.models.ChatList
 
-class ChatListAdapter(val chatUserList: MutableList<ChatList>) : RecyclerView.Adapter<ChatListAdapter.ChatListHolder>(){
+class ChatListAdapter(val chatUserList: MutableList<ChatList>, val myNickName: String) : RecyclerView.Adapter<ChatListAdapter.ChatListHolder>(){
 
     private lateinit var storage: FirebaseStorage
+    var profileUrl = ""
+    var nickname = ""
 
     inner class ChatListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindInfo(data: ChatList) {
@@ -30,11 +32,7 @@ class ChatListAdapter(val chatUserList: MutableList<ChatList>) : RecyclerView.Ad
 
             /* Firebase storage에 닉네임/imageName.확장자 양식으로 저장
             * ex) 애기동열/imgsrc.png */
-            Log.d("Chatting...data", "data = $data")
-            val profileUrl = data.nickName + "/" + data.imageUrl
             val storageRef = storage.reference.child(profileUrl)
-
-            Log.d("Chatting", "ref = $storageRef")
 
             storageRef.downloadUrl.addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -42,12 +40,14 @@ class ChatListAdapter(val chatUserList: MutableList<ChatList>) : RecyclerView.Ad
                 }
             }
 
-            nickName.text = data.nickName
+            nickName.text = nickname
             recentChat.text = data.recentChat
             recentDate.text = data.recentDate
 
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, ChatActivity::class.java)
+                intent.putExtra("roomId", data.roomId)
+                intent.putExtra("nickname", myNickName)
                 itemView.context.startActivity(intent)
             }
         }
@@ -61,15 +61,22 @@ class ChatListAdapter(val chatUserList: MutableList<ChatList>) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: ChatListHolder, position: Int) {
+        setProfile(chatUserList[position])
         holder.bindInfo(chatUserList[position])
     }
 
     override fun getItemCount(): Int {
-        return 5
+        return chatUserList.size
     }
 
-//    fun add(data : ChatList) {
-//        chatUserList.add(data)
-//    }
+    private fun setProfile(data: ChatList) {
+        if (myNickName == data.nickName1) {
+            nickname = data.nickName2
+            profileUrl = nickname + "/" + data.imageUrl2
+        } else {
+            nickname = data.nickName1
+            profileUrl = nickname + "/" + data.imageUrl1
+        }
+    }
 
 }
