@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
 
         //로그인 상태 확인. id가 있다면 로그인 된 상태
         if (user.id != ""){
-            var intent = Intent(this@LoginActivity, EditUserActivity::class.java)
+            var intent = Intent(this@LoginActivity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent)

@@ -1,5 +1,6 @@
 package com.sharewanted.shareeats.src.main.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sharewanted.shareeats.databinding.FragmentMyPageBinding
+import com.sharewanted.shareeats.src.main.mypage.notice.NoticeActivity
 
 class MyPageFragment : Fragment(), MyPageMenuClickListener {
     private lateinit var binding: FragmentMyPageBinding
@@ -35,11 +37,11 @@ class MyPageFragment : Fragment(), MyPageMenuClickListener {
 
     override fun onClick(position: Int) {
 
-        /*
+
         when(position) {
-            0 -> startActvity(Intent(this, xxxActivity::class.java))
+            2 -> startActivity(Intent(requireContext(), NoticeActivity::class.java))
         }
 
-         */
+
     }
 }
