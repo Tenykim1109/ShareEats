@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".src.main.mypage.notice.NoticeContentActivity">
+
+    <ImageView
+        android:id="@+id/notice_content_ivArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
+
+    <TextView
+        android:id="@+id/notice_content_tvAppBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="목록"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/notice_content_ivArrow"
+        app:layout_constraintStart_toEndOf="@+id/notice_content_ivArrow"
+        app:layout_constraintTop_toTopOf="@+id/notice_content_ivArrow" />
+
+    <TextView
+        android:id="@+id/notice_content_tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="서비스 개선 안내문"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notice_content_ivArrow" />
+
+    <TextView
+        android:id="@+id/notice_content_tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="게시일: 2021.10.29"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notice_content_tvTitle" />
+
+    <View
+        android:id="@+id/notice_content_line1"
+        android:layout_width="0dp"
+        android:layout_height="0.3dp"
+        android:background="@color/black"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notice_content_tvDate" />
+
+    <TextView
+        android:id="@+id/notice_content_tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="안녕하십니까? 정말 힘들군요!"
+        android:layout_margin="16dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notice_content_line1" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0.3dp"
+        android:background="@color/black"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notice_content_tvContent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

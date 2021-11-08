@@ -10,8 +10,8 @@ import com.sharewanted.shareeats.R
 class CreatorAdapter(var list: MutableList<Creator>) : RecyclerView.Adapter<CreatorAdapter.CreatorViewHolder>() {
 
     inner class CreatorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var fragment_my_page_creator_list_item_tvName = itemView.findViewById<TextView>(R.id.fragment_my_page_order_detail_list_item_tvTitle)
-        var fragment_my_page_creator_list_item_tvEmail = itemView.findViewById<TextView>(R.id.fragment_my_page_order_detail_list_item_tvStoreName)
+        var fragment_my_page_creator_list_item_tvName = itemView.findViewById<TextView>(R.id.fragment_my_page_creator_list_item_tvName)
+        var fragment_my_page_creator_list_item_tvEmail = itemView.findViewById<TextView>(R.id.fragment_my_page_creator_list_item_tvEmail)
 
         fun onBind(c: Creator) {
             fragment_my_page_creator_list_item_tvName.text = c.name
