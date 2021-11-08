@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sharewanted.shareeats.databinding.FragmentMyPageBinding
+import com.sharewanted.shareeats.src.main.mypage.creator.CreatorActivity
 import com.sharewanted.shareeats.src.main.mypage.edituser.EditUserActivity
 import com.sharewanted.shareeats.src.main.mypage.notice.NoticeActivity
+
 
 class MyPageFragment : Fragment(), MyPageMenuClickListener {
     private lateinit var binding: FragmentMyPageBinding
@@ -37,13 +39,10 @@ class MyPageFragment : Fragment(), MyPageMenuClickListener {
     }
 
     override fun onClick(position: Int) {
-
-
         when(position) {
             1 -> startActivity(Intent(requireContext(), EditUserActivity::class.java))
             2 -> startActivity(Intent(requireContext(), NoticeActivity::class.java))
+            3 -> startActivity(Intent(requireContext(), CreatorActivity::class.java)
         }
-
-
     }
 }
