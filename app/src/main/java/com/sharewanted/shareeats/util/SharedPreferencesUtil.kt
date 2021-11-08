@@ -18,6 +18,7 @@ class SharedPreferencesUtil(context: Context) {
         editor.putString("password", user.password)
         editor.putString("tel", user.tel)
         editor.putString("email", user.email)
+        editor.putString("profile", user.profile)
         editor.apply()
     }
 
@@ -28,7 +29,8 @@ class SharedPreferencesUtil(context: Context) {
             val password = preferences.getString("password", "")
             val tel = preferences.getString("tel", "")
             val email = preferences.getString("email", "")
-            return UserDto(id!!, password!!, name!!, tel!!, email!!, "")
+            val profile = preferences.getString("profile", "")
+            return UserDto(id!!, password!!, name!!, tel!!, email!!, profile!!)
         } else {
             return UserDto()
         }
@@ -38,6 +40,7 @@ class SharedPreferencesUtil(context: Context) {
         val editor = preferences.edit()
         editor.putString("password", user.password)
         editor.putString("email", user.email)
+        editor.putString("profile", user.profile)
         editor.apply()
     }
 

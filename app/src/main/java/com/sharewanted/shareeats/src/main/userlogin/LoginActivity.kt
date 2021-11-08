@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
 
         //로그인 상태 확인. id가 있다면 로그인 된 상태
         if (user.id != ""){
-            var intent = Intent(this@LoginActivity, MainActivity::class.java)
+            var intent = Intent(this@LoginActivity, EditUserActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent)
@@ -91,6 +91,7 @@ class LoginActivity : AppCompatActivity() {
                             var userPassword = ""
                             var userTel = ""
                             var userEmail = ""
+                            var userProfile = ""
 
                             it.children.forEach { user ->
                                 when(user.key) {
@@ -99,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
                                     "password" -> userPassword = user.value.toString()
                                     "tel" -> userTel = user.value.toString()
                                     "email" -> userEmail = user.value.toString()
+                                    "profile" -> userProfile = user.value.toString()
                                 }
                             }
 
@@ -106,7 +108,7 @@ class LoginActivity : AppCompatActivity() {
                                 var intent = Intent(this@LoginActivity, MainActivity::class.java)
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                sharedPreferencesUtil.addUser(UserDto(userId, userPassword, userName, userTel, userEmail, ""))
+                                sharedPreferencesUtil.addUser(UserDto(userId, userPassword, userName, userTel, userEmail, userProfile))
                                 startActivity(intent)
                             }
                         }

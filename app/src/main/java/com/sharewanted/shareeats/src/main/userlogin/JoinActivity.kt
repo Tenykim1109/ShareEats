@@ -1,26 +1,34 @@
 package com.sharewanted.shareeats.src.main.userlogin
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.sharewanted.shareeats.config.ApplicationClass
+import com.sharewanted.shareeats.config.ApplicationClass.Companion.databaseReference
+import com.sharewanted.shareeats.config.ApplicationClass.Companion.storageRef
 import com.sharewanted.shareeats.databinding.ActivityJoinBinding
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 private const val TAG = "JoinActivity_싸피"
 class JoinActivity : AppCompatActivity() {
     lateinit var binding: ActivityJoinBinding
     var users = mutableListOf<String>()
     var duplicateId = false
+    lateinit var profileImage: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +52,10 @@ class JoinActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        binding.activityJoinIvProfile.setOnClickListener {
+            startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI), 0)
+        }
     }
 
     private fun initFirebase() {
@@ -64,6 +76,16 @@ class JoinActivity : AppCompatActivity() {
                     }
                 }
             })
+    }
+
+    // 갤러리에서 사진 선택
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(data!=null){
+            Glide.with(this).load(data.data).circleCrop().override(100, 100).into(binding.activityJoinIvProfile)
+            profileImage = data.data!!
+        }
     }
 
     private fun duplicateCheck() : Boolean {
@@ -90,16 +112,26 @@ class JoinActivity : AppCompatActivity() {
         var name = binding.activityJoinEtName.text.toString()
         var tel = binding.activityJoinEtTel.text.toString()
         var email = binding.activityJoinEtEmail.text.toString()
-        var user = UserDto(id, password, name, tel, email, "")
+        var timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        var imgFileName = "IMAGE_" + timeStamp
+        var user = UserDto(id, password, name, tel, email, imgFileName)
 
         if(hasEmptyInput(user, password2) || isNotEqualPassword(password, password2)) {
             return false
         }
 
+        if(profileImage == null) {
+            Toast.makeText(this, "프로필을 설정해주세요", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
         if(duplicateId) {
             lifecycleScope.launch(Dispatchers.IO){
-                ApplicationClass.databaseReference.child("User").child(user.id).setValue(user)
+                // 회원 테이블에 추가
+                databaseReference.child("User").child(user.id).setValue(user)
 
+                // Firebase Storage에 프로필 사진 추가
+                storageRef.child("profile")?.child(imgFileName).putFile(profileImage)
             }
             Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
             return true
