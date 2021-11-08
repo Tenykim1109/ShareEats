@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".config.ApplicationClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,11 +18,11 @@
             android:name=".src.chat.ChatActivity"
             android:exported="true" />
         <activity
-            android:name=".src.main.home.order.OrderInfoActivity"
+            android:name=".src.main.home.order.OrderItemActivity"
             android:exported="true" />
-<!--        <activity-->
-<!--            android:name=".src.main.home.participate.ParticipateActivity"-->
-<!--            android:exported="true" />-->
+        <activity
+            android:name=".src.main.home.participate.ParticipateActivity"
+            android:exported="true" />
         <activity
             android:name=".src.main.mypage.edituser.EditUserActivity"
             android:exported="false" />
@@ -40,6 +39,15 @@
             android:name=".src.main.userlogin.find.FindIdActivity"
             android:exported="false" />
         <activity
+            android:name=".src.main.mypage.notice.NoticeContentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.mypage.notice.NoticeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".src.main.mypage.orderinfo.OrderInfoActivity"
+            android:exported="true" />
+        <activity
             android:name=".src.main.mypage.orderdetail.OrderDetailActivity"
             android:exported="true" />
         <activity
@@ -54,22 +62,21 @@
         <activity
             android:name=".src.main.userlogin.LoginActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
-            android:name=".src.main.home.participate.ParticipateActivity"
+            android:name=".src.main.MainActivity"
             android:exported="true">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
 
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
     </application>
 
