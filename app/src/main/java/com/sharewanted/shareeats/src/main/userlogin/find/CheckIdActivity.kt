@@ -15,6 +15,20 @@ class CheckIdActivity : AppCompatActivity() {
         binding = ActivityCheckIdBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initView()
+        initEvent()
+    }
+
+    fun initView() {
+        var id = intent.getStringExtra("id")!!
+        id = id.replaceRange(3, id.length, "*")
+        var name = intent.getStringExtra("name")
+
+        var result = "[${name}] 님의 아이디는\n${id}입니다."
+        binding.activityCheckIdTvResult.text = result
+    }
+
+    fun initEvent() {
         binding.activityCheckIdBtnBack.setOnClickListener {
             finish()
         }

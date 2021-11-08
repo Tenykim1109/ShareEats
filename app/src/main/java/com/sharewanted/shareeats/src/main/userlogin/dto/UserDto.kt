@@ -1,6 +1,5 @@
 package com.sharewanted.shareeats.src.main.userlogin.dto
 
-import android.graphics.drawable.Drawable
-
-
-class UserDto(val id: String, val password: String, val name: String, val phoneNumber: String, val email: String, val profileImg: String)
+data class UserDto(val id: String, var password: String, val name: String, val tel: String, var email: String, var profile: String) {
+    constructor(): this("", "", "", "", "", "")
+}
