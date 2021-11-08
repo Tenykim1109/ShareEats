@@ -55,28 +55,28 @@ class ParticipateActivity : AppCompatActivity() {
         }
 
         binding.activityParticipateBtnPayment.setOnClickListener {
-            var company = binding.activityParticipateSpinner.selectedItem.toString()
-            var number = binding.activityParticipateCardNumber.text.toString()
-            var expiry = binding.activityParticipateExpiry.text.toString()
-            var cvc = binding.activityParticipateCvc.text.toString()
-            var password = binding.activityParticipatePassword.text.toString()
+            val company = binding.activityParticipateSpinner.selectedItem.toString()
+            val number = binding.activityParticipateCardNumber.text.toString()
+            val expiry = binding.activityParticipateExpiry.text.toString()
+            val cvc = binding.activityParticipateCvc.text.toString()
+            val password = binding.activityParticipatePassword.text.toString()
 
-            if (cardPassword.equals(password)) {
-                Toast.makeText(this, "결제하기", Toast.LENGTH_SHORT).show()
-                Toast.makeText(this, "$company $number $expiry $cvc $password", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "onCreate: $company $number $expiry $cvc $password")
+            if (cardPassword != "") {
+                if (cardPassword.equals(password)) {
+                    Toast.makeText(this, "결제하기", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "onCreate: $company $number $expiry $cvc $password")
 //                val intent = Intent(this, MainActivity::class.java)
 //                startActivity(intent)
+                } else {
+                    Toast.makeText(this, "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                Toast.makeText(this, "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show()
+                val creditCard = CreditCard("joseph", company, number, expiry, cvc, password)
+                CoroutineScope(Dispatchers.IO).launch {
+                    creditCardRepository.insert(creditCard)
+                }
+                cardPassword = password
             }
-
-
-            var creditCard = CreditCard("joseph", company, number, expiry, cvc, password)
-            CoroutineScope(Dispatchers.IO).launch {
-                creditCardRepository.insert(creditCard)
-            }
-
         }
 
 
@@ -87,7 +87,6 @@ class ParticipateActivity : AppCompatActivity() {
         binding.activityParticipateSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Toast.makeText(this@ParticipateActivity, "${cardList[position]}", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "onItemSelected: $position")
                 CoroutineScope(Dispatchers.Main).launch {
                     CoroutineScope(Dispatchers.IO).async {
                         selectedCard = creditCardRepository.getCreditCard("joseph", cardList[position])
@@ -123,6 +122,7 @@ class ParticipateActivity : AppCompatActivity() {
             binding.activityParticipateExpiry.setText("")
             binding.activityParticipateCvc.setText("")
             binding.activityParticipatePassword.setText("")
+            cardPassword = ""
         }
     }
 }
