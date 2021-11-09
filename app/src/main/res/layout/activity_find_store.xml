@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".src.main.home.order.selectMenu.SelectMenuActivity">
+    tools:context=".src.main.home.order.findStore.FindStoreActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/activity_select_menu_toolbar"
+        android:id="@+id/activity_find_store_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentInsetStart="0dp"
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/activity_select_menu_btn_cancel"
+                android:id="@+id/activity_find_store_btn_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -32,30 +32,32 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="메뉴 선택"
+                android:text="음식점 선택"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/activity_select_menu_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="@color/appTheme"
-                android:text="완료" />
 
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
+    <AutoCompleteTextView
+        android:id="@+id/activity_find_store_actv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="음식점을 입력하세요."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_find_store_toolbar"
+        tools:ignore="TouchTargetSizeCheck" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_select_menu_rv"
+        android:id="@+id/activity_find_store_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_select_menu_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_find_store_actv" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

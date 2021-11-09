@@ -5,14 +5,20 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.sharewanted.shareeats.R
+import com.sharewanted.shareeats.config.CommonUtils
 import com.sharewanted.shareeats.databinding.ActivityOrderBinding
-import com.sharewanted.shareeats.src.main.home.order.findRestaurant.FindRestaurantActivity
+import com.sharewanted.shareeats.src.main.home.order.findStore.FindStoreActivity
 import com.sharewanted.shareeats.src.main.home.order.orderDto.PersonMenu
-import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
+import com.sharewanted.shareeats.src.main.home.order.orderDto.StoreMenu
 import com.sharewanted.shareeats.src.main.home.order.selectLocation.SelectLocationActivity
 import com.sharewanted.shareeats.src.main.home.order.selectMenu.SelectMenuActivity
 import java.text.SimpleDateFormat
@@ -23,6 +29,10 @@ class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
     private var mDatabase = Firebase.database
     private val POST = "Post"
+    private lateinit var foodType: String
+    private var completed: Boolean = false
+    private var storeId: String? = null
+    private var selectedMenuList = mutableListOf<StoreMenu>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderBinding.inflate(layoutInflater)
@@ -32,19 +42,47 @@ class OrderActivity : AppCompatActivity() {
         val toolbar = binding.activityOrderToolbar
         setSupportActionBar(toolbar)
 
-        binding.activityOrderBtnFindRestaurant.setOnClickListener {
-            val intent = Intent(this, FindRestaurantActivity::class.java)
+        ArrayAdapter.createFromResource(this, R.array.food_type_array, android.R.layout.simple_spinner_item).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.activityOrderSpinnerType.adapter = it
+        }
+
+        binding.activityOrderSpinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                foodType = binding.activityOrderSpinnerType.getItemAtPosition(p2).toString()
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                completed = false
+                Toast.makeText(this@OrderActivity, "음식 분류를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        binding.activityOrderBtnFindStore.setOnClickListener {
+            val intent = Intent(this, FindStoreActivity::class.java)
             activityResult.launch(intent)
         }
 
         binding.activityOrderBtnSelectMenu.setOnClickListener {
-            val intent = Intent(this, SelectMenuActivity::class.java)
-            activityResult.launch(intent)
+            val intent = Intent(this, SelectMenuActivity::class.java).apply {
+                putExtra("storeId", storeId)
+            }
+
+            if (binding.activityOrderTvStore.text == null) {
+                Toast.makeText(this, "음식점을 먼저 선택하세요.", Toast.LENGTH_SHORT).show()
+            } else {
+                activityResult.launch(intent)
+            }
         }
 
         binding.activityOrderBtnSelectLocation.setOnClickListener {
             val intent = Intent(this, SelectLocationActivity::class.java)
-            activityResult.launch(intent)
+            if (binding.activityOrderTvMenu.text == null) {
+                Toast.makeText(this, "메뉴를 먼저 선택하세요.", Toast.LENGTH_SHORT).show()
+            } else {
+                activityResult.launch(intent)
+            }
         }
 
         val current = System.currentTimeMillis()
@@ -76,7 +114,7 @@ class OrderActivity : AppCompatActivity() {
         binding.activityOrderBtnSave.setOnClickListener {
 
             val title = binding.activityOrderTvTitle.text.toString()
-            val restaurant = binding.activityOrderTvRestaurant.text.toString()
+            val store = binding.activityOrderTvStore.text.toString()
             val minPrice = binding.activityOrderTvMinPrice.text.toString().toInt()
             val location = binding.activityOrderTvLocation.text.toString()
 
@@ -88,10 +126,10 @@ class OrderActivity : AppCompatActivity() {
             val list = mutableListOf<PersonMenu>()
             list.add(participant)
 
-            val post = Post(title, restaurant, minPrice, location, postDate, deadLine, content, list)
+//            val post = Post(title, store, minPrice, location, postDate, deadLine, content, list)
 
-            val postRef = mDatabase.getReference(POST).child(post.title)
-            postRef.setValue(post)
+//            val postRef = mDatabase.getReference(POST).child(post.title)
+//            postRef.setValue(post)
 
             Toast.makeText(this, "글 작성완료", Toast.LENGTH_SHORT).show()
             finish()
@@ -106,8 +144,32 @@ class OrderActivity : AppCompatActivity() {
     }
 
 
+
+
     private val activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
+
+            if (it.data?.getStringExtra("resultType") == "findStore") {
+                binding.activityOrderTvStore.text = it.data?.getStringExtra("storeName").toString()
+                storeId = it.data?.getStringExtra("storeId").toString()
+                binding.activityOrderTvMinPrice.text = CommonUtils().makeComma(it.data?.getStringExtra("storeMinPrice").toString().toInt())
+            } else if (it.data?.getStringExtra("resultType") == "selectMenu") {
+                val menuList = it.data?.getParcelableArrayListExtra<StoreMenu>("menuList")
+                val quantityList = it.data?.getIntegerArrayListExtra("menuQuantityList")
+
+                var menuString = ""
+                for (i in quantityList!!.indices) {
+                    if (quantityList[i] != 0) {
+                        val storeMenu = menuList?.get(i)?.let { it1 -> StoreMenu(menuList[i].name, menuList[i].price, menuList[i].photo, it1.desc, quantityList[i]) }
+                        selectedMenuList.add(storeMenu!!)
+                        menuString += "${storeMenu.name} ${storeMenu.quantity}개 \n"
+                    }
+                }
+                binding.activityOrderTvMenu.text = menuString
+            } else if (it.data?.getStringExtra("resultType") == "selectLocation") {
+                val location = it.data?.getStringExtra("location")
+                binding.activityOrderTvLocation.setText(location)
+            }
 
 
 
