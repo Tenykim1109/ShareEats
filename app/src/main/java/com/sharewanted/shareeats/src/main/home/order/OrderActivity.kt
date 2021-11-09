@@ -11,6 +11,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
@@ -18,6 +21,7 @@ import com.sharewanted.shareeats.config.CommonUtils
 import com.sharewanted.shareeats.databinding.ActivityOrderBinding
 import com.sharewanted.shareeats.src.main.home.order.findStore.FindStoreActivity
 import com.sharewanted.shareeats.src.main.home.order.orderDto.PersonMenu
+import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.orderDto.StoreMenu
 import com.sharewanted.shareeats.src.main.home.order.selectLocation.SelectLocationActivity
 import com.sharewanted.shareeats.src.main.home.order.selectMenu.SelectMenuActivity
@@ -27,12 +31,13 @@ import java.util.*
 
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
-    private var mDatabase = Firebase.database
-    private val POST = "Post"
+    private var mDatabase = Firebase.database.reference
     private lateinit var foodType: String
     private var completed: Boolean = false
     private var storeId: String? = null
+    private var storeMinPrice: Int? = null
     private var selectedMenuList = mutableListOf<StoreMenu>()
+    private var dataInputFlag = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderBinding.inflate(layoutInflater)
@@ -98,7 +103,20 @@ class OrderActivity : AppCompatActivity() {
         val callback = TimePickerDialog.OnTimeSetListener { timePicker, i, i2 ->
 
             val detailTime = dateFormat.format(temp).split(" ")
-            binding.activityOrderTvTime.text = "${detailTime[0]} ${i}:${i2}"
+            var hour = ""
+            var minute = ""
+            if (i < 10) {
+                hour += "0${i}"
+            } else {
+                hour += "${i}"
+            }
+            if (i2 < 10) {
+                minute += "0${i2}"
+            } else {
+                minute += "${i2}"
+            }
+
+            binding.activityOrderTvTime.text = "${detailTime[0]} ${hour}:${minute}"
         }
 
         binding.activityOrderBtnSelectTime.setOnClickListener {
@@ -114,25 +132,57 @@ class OrderActivity : AppCompatActivity() {
         binding.activityOrderBtnSave.setOnClickListener {
 
             val title = binding.activityOrderTvTitle.text.toString()
-            val store = binding.activityOrderTvStore.text.toString()
-            val minPrice = binding.activityOrderTvMinPrice.text.toString().toInt()
-            val location = binding.activityOrderTvLocation.text.toString()
+            val place = binding.activityOrderTvLocation.text.toString()
 
-            val postDate = dateFormat.parse(dateFormat.format(temp).toString()).time
-            val deadLine = postDate
+            val date = dateFormat.parse(dateFormat.format(temp).toString()).time
+            val closedTime = dateFormat.parse(binding.activityOrderTvTime.text.toString()).time
             val content = binding.activityOrderEtContent.text.toString()
-            val participant = PersonMenu("Daniel", "thighBurger", 2, 10000)
+//            val participant = mutableListOf<PersonMenu>()
+            val participant = PersonMenu(selectedMenuList)
+//            participant.add(writerMenu)
+            val completed = "모집중"
+            var fund = 0
 
-            val list = mutableListOf<PersonMenu>()
-            list.add(participant)
+            for (i in selectedMenuList.indices) {
+                fund += selectedMenuList[i].price * selectedMenuList[i].quantity
+            }
 
-//            val post = Post(title, store, minPrice, location, postDate, deadLine, content, list)
+            var postId = 1
 
-//            val postRef = mDatabase.getReference(POST).child(post.title)
-//            postRef.setValue(post)
+            mDatabase.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (dataInputFlag == false) {
+                        if (snapshot.hasChildren()) {
+                            postId = snapshot.child("Post").children.last().key!!.toInt() + 1
+                        }
 
-            Toast.makeText(this, "글 작성완료", Toast.LENGTH_SHORT).show()
-            finish()
+                        val post = Post(postId, title, date, "qwe", storeId!!, place, closedTime, content, fund, storeMinPrice!!, completed, foodType)
+
+                        mDatabase.child("Post").child(postId.toString()).setValue(post)
+
+                        for (i in selectedMenuList.indices) {
+                            mDatabase.child("Post").child(postId.toString())
+                                .child("participant").child("qwe")
+                                .child("menu").child(selectedMenuList[i].name).setValue(selectedMenuList[i])
+                        }
+
+                        val map = mapOf("postId" to postId)
+                        mDatabase.child("User").child("qwe").child("postList").child(postId.toString()).setValue(map)
+
+                        dataInputFlag = true
+
+                        Toast.makeText(this@OrderActivity, "글 작성완료", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@OrderActivity, error.toString(), Toast.LENGTH_SHORT).show()
+                }
+
+            })
+
         }
 
         binding.activityOrderBtnCancel.setOnClickListener {
@@ -153,10 +203,11 @@ class OrderActivity : AppCompatActivity() {
                 binding.activityOrderTvStore.text = it.data?.getStringExtra("storeName").toString()
                 storeId = it.data?.getStringExtra("storeId").toString()
                 binding.activityOrderTvMinPrice.text = CommonUtils().makeComma(it.data?.getStringExtra("storeMinPrice").toString().toInt())
+                storeMinPrice = it.data?.getStringExtra("storeMinPrice").toString().toInt()
+
             } else if (it.data?.getStringExtra("resultType") == "selectMenu") {
                 val menuList = it.data?.getParcelableArrayListExtra<StoreMenu>("menuList")
                 val quantityList = it.data?.getIntegerArrayListExtra("menuQuantityList")
-
                 var menuString = ""
                 for (i in quantityList!!.indices) {
                     if (quantityList[i] != 0) {
@@ -166,6 +217,7 @@ class OrderActivity : AppCompatActivity() {
                     }
                 }
                 binding.activityOrderTvMenu.text = menuString
+
             } else if (it.data?.getStringExtra("resultType") == "selectLocation") {
                 val location = it.data?.getStringExtra("location")
                 binding.activityOrderTvLocation.setText(location)

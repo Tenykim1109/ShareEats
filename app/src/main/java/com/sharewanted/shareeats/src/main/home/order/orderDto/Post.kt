@@ -1,6 +1,7 @@
 package com.sharewanted.shareeats.src.main.home.order.orderDto
 
-data class Post (val title: String,
+data class Post (val postId: Int,
+                 val title: String,
                  val date: Long,
                  val userId: String,
                  val storeId: String,
@@ -9,4 +10,5 @@ data class Post (val title: String,
                  val content: String,
                  val fund: Int,
                  val minPrice: Int,
-                 val participant: MutableList<PersonMenu>)
+                 val completed: String,
+                 val type: String)

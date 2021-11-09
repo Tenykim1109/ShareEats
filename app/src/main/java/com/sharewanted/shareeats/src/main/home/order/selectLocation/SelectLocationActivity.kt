@@ -39,6 +39,10 @@ class SelectLocationActivity : AppCompatActivity(), OnMapReadyCallback {
         mapView = binding.activitySelectLocationNaverMap
         mapView.getMapAsync(this)
 
+        binding.activitySelectLocationBtnComplete.setOnClickListener {
+            finish()
+        }
+
     }
 
     override fun onStart() {
@@ -53,12 +57,16 @@ class SelectLocationActivity : AppCompatActivity(), OnMapReadyCallback {
 
                         Log.d("coords test", coords.toString())
 
-                        val lat = coords.coords[0].x
-                        val lng = coords.coords[0].y
+                        if (coords.coords.size != 0) {
+                            val lat = coords.coords[0].x
+                            val lng = coords.coords[0].y
 
-                        setMarker(lat, lng)
+                            setMarker(lat, lng)
 
-                        registerLocation(binding.activitySelectLocationEtAddress.text.toString())
+                            registerLocation(binding.activitySelectLocationEtAddress.text.toString())
+                        }
+
+
                     }
                 }
 
