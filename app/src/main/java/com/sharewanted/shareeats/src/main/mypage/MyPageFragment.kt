@@ -42,7 +42,7 @@ class MyPageFragment : Fragment(), MyPageMenuClickListener {
         when(position) {
             1 -> startActivity(Intent(requireContext(), EditUserActivity::class.java))
             2 -> startActivity(Intent(requireContext(), NoticeActivity::class.java))
-            3 -> startActivity(Intent(requireContext(), CreatorActivity::class.java)
+            3 -> startActivity(Intent(requireContext(), CreatorActivity::class.java))
         }
     }
 }
