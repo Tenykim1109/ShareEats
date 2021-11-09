@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApplicationClass : Application() {
 
     // Geocode API URL
-    val NAVER_GEOCODE_URL = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode"
+    val NAVER_GEOCODE_URL = "https://naveropenapi.apigw.ntruss.com"
 
     companion object {
         lateinit var sharedPreferencesUtil: SharedPreferencesUtil
@@ -24,7 +24,7 @@ class ApplicationClass : Application() {
         lateinit var storageRef: StorageReference
 
         // Retrofit 2
-        lateinit var wRetrofit: Retrofit
+        lateinit var retrofit: Retrofit
     }
 
     override fun onCreate() {
@@ -39,7 +39,7 @@ class ApplicationClass : Application() {
         storageRef = FirebaseStorage.getInstance().reference
 
         // Retrofit 초기화
-        wRetrofit = Retrofit.Builder()
+        retrofit = Retrofit.Builder()
             .baseUrl(NAVER_GEOCODE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

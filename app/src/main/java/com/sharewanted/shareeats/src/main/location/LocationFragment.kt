@@ -20,6 +20,8 @@ import com.naver.maps.map.*
 import com.naver.maps.map.util.FusedLocationSource
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentLocationBinding
+import com.sharewanted.shareeats.service.GeocodeService
+import com.sharewanted.shareeats.util.RetrofitCallback
 
 
 class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorActionListener {
@@ -32,6 +34,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     private lateinit var naverMap: NaverMap
     private lateinit var mapFragment: MapFragment
     private lateinit var search: TextView
+    private var curLatitude = ""
+    private var curLongitude = ""
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -108,8 +113,32 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     override fun onEditorAction(tv: TextView?, actionId: Int, event: KeyEvent?): Boolean {
         if (tv!!.id == R.id.editTextTextPersonName && actionId == EditorInfo.IME_ACTION_DONE) {
             Log.d(TAG, binding.editTextTextPersonName.text.toString())
+
+            val lastLocation = mLocationSource.lastLocation!!
+
+            curLatitude = lastLocation.latitude.toString()
+            curLongitude = lastLocation.longitude.toString()
+
+            Log.d(TAG, "Location = ${lastLocation.latitude}, ${lastLocation.longitude}")
+
+            GeocodeService().getGeocode(binding.editTextTextPersonName.text.toString(),
+                "$curLongitude,$curLatitude", getGeocodeCallback())
             search.text = ""
         }
         return false
+    }
+
+    inner class getGeocodeCallback: RetrofitCallback<Boolean> {
+        override fun onError(t: Throwable) {
+            Log.d(TAG, "error")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "$code")
+        }
+
+        override fun onSuccess(code: Int, responseData: Boolean) {
+            Log.d(TAG, "success")
+        }
     }
 }
