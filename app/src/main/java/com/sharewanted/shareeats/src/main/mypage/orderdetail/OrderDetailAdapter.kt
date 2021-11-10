@@ -7,8 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sharewanted.shareeats.R
+import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 
-class OrderDetailAdapter(var list: MutableList<OrderDetail>) : RecyclerView.Adapter<OrderDetailAdapter.OrderDetailViewHolder>() {
+class OrderDetailAdapter(var list: MutableList<Post>) : RecyclerView.Adapter<OrderDetailAdapter.OrderDetailViewHolder>() {
 
     inner class OrderDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var fragment_my_page_order_detail_list_item_ivStore = itemView.findViewById<ImageView>(R.id.fragment_my_page_order_detail_list_item_ivStore)
@@ -17,12 +18,12 @@ class OrderDetailAdapter(var list: MutableList<OrderDetail>) : RecyclerView.Adap
         var fragment_my_page_order_detail_list_item_tvDate = itemView.findViewById<TextView>(R.id.fragment_my_page_order_detail_list_item_tvDate)
         var fragment_my_page_order_detail_list_item_price = itemView.findViewById<TextView>(R.id.fragment_my_page_order_detail_list_item_price)
 
-        fun onBind(o: OrderDetail) {
-            fragment_my_page_order_detail_list_item_ivStore.setImageDrawable(o.storeImg)
-            fragment_my_page_order_detail_list_item_tvTitle.text = o.title
-            fragment_my_page_order_detail_list_item_tvStoreName.text = o.storeName
-            fragment_my_page_order_detail_list_item_tvDate.text = o.date.toString() // 수정해야함 지금은 귀찮
-            fragment_my_page_order_detail_list_item_price.text = o.price
+        fun onBind(p: Post) {
+            //fragment_my_page_order_detail_list_item_ivStore.setImageDrawable(p.storeImg)
+            fragment_my_page_order_detail_list_item_tvTitle.text = p.title
+            //fragment_my_page_order_detail_list_item_tvStoreName.text = p.storeName
+            fragment_my_page_order_detail_list_item_tvDate.text = p.date.toString() // 수정해야함 지금은 귀찮
+            fragment_my_page_order_detail_list_item_price.text = "${p.fund}원/${p.minPrice}원"
         }
     }
 
