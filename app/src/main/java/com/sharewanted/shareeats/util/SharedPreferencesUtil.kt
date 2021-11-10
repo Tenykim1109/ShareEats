@@ -30,7 +30,7 @@ class SharedPreferencesUtil(context: Context) {
             val tel = preferences.getString("tel", "")
             val email = preferences.getString("email", "")
             val profile = preferences.getString("profile", "")
-            return UserDto(id!!, password!!, name!!, tel!!, email!!, profile!!)
+            return UserDto(id!!, password!!, name!!, tel!!, email!!, profile!!, mutableListOf())
         } else {
             return UserDto()
         }

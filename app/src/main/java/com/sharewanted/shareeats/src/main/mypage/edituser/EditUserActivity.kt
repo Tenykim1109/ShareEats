@@ -5,13 +5,19 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.databaseReference
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.sharedPreferencesUtil
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.storageRef
 import com.sharewanted.shareeats.databinding.ActivityEditUserBinding
+import com.sharewanted.shareeats.src.main.MainActivity
+import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.userlogin.LoginActivity
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 import java.text.SimpleDateFormat
@@ -21,7 +27,7 @@ private const val TAG = "EditUserActivity_싸피"
 class EditUserActivity : AppCompatActivity() {
     lateinit var binding: ActivityEditUserBinding
     var user = sharedPreferencesUtil.getUser()
-    lateinit var profileImage: Uri
+    var profileImage: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +64,7 @@ class EditUserActivity : AppCompatActivity() {
 
         binding.activityEditUserTvWithdrawal.setOnClickListener {
             sharedPreferencesUtil.deleteUser()
-            ApplicationClass.databaseReference.child("User").child(user.id).removeValue()
+            databaseReference.child("User").child(user.id).removeValue()
             val intent = Intent(this, LoginActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -89,15 +95,14 @@ class EditUserActivity : AppCompatActivity() {
             // 새로운 사진을 넣은다음
             var timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
             var imgFileName = "IMAGE_" + timeStamp
-            storageRef.child("profile")?.child(imgFileName).putFile(profileImage)
+            storageRef.child("profile")?.child(imgFileName).putFile(profileImage!!)
 
             // 새로운 사진의 이름을 user에 저장
-            user.profile = imgFileName
+            databaseReference.child("User").child(user.id).child("profile").setValue(imgFileName)
         }
 
-        user.email = email
-        user.password = password
-        databaseReference.child("User").child(user.id).setValue(user)
+        databaseReference.child("User").child(user.id).child("email").setValue(email)
+        databaseReference.child("User").child(user.id).child("password").setValue(password)
         sharedPreferencesUtil.updateUser(user)
 
         return true

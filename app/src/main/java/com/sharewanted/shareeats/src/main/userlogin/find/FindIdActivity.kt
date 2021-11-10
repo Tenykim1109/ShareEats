@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.sharewanted.shareeats.config.ApplicationClass
+import com.sharewanted.shareeats.config.ApplicationClass.Companion.databaseReference
 import com.sharewanted.shareeats.databinding.ActivityFindIdBinding
 import com.sharewanted.shareeats.src.main.userlogin.JoinActivity
 
@@ -53,7 +54,7 @@ class FindIdActivity : AppCompatActivity() {
         var userEmail = ""
         var userId = ""
 
-        ApplicationClass.databaseReference
+        databaseReference
             .child("User")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {

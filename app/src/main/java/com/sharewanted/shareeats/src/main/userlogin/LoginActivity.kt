@@ -13,9 +13,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.sharewanted.shareeats.config.ApplicationClass
+import com.sharewanted.shareeats.config.ApplicationClass.Companion.databaseReference
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.sharedPreferencesUtil
 import com.sharewanted.shareeats.databinding.ActivityLoginBinding
 import com.sharewanted.shareeats.src.main.MainActivity
+import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.mypage.edituser.EditUserActivity
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 import com.sharewanted.shareeats.src.main.userlogin.find.CheckPasswordActivity
@@ -73,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login(myId: String, myPassword: String) {
-        ApplicationClass.databaseReference
+        databaseReference
             .child("User")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -85,6 +87,7 @@ class LoginActivity : AppCompatActivity() {
                     p0.children.forEach {
                         // it == 유저 별 정보
                         // key(id)와 현재 입력한 id가 일치한다면
+
                         if(it.key == myId) {
                             var userId = ""
                             var userName = ""
@@ -108,10 +111,14 @@ class LoginActivity : AppCompatActivity() {
                                 var intent = Intent(this@LoginActivity, MainActivity::class.java)
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                sharedPreferencesUtil.addUser(UserDto(userId, userPassword, userName, userTel, userEmail, userProfile))
+                                sharedPreferencesUtil.addUser(UserDto(userId, userPassword, userName, userTel, userEmail, userProfile, mutableListOf()))
                                 startActivity(intent)
                             }
                         }
+                    }
+
+                    if(p0.children.count() == 0) {
+                        Toast.makeText(this@LoginActivity, "아이디와 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show()
                     }
                 }
             })

@@ -12,7 +12,6 @@ import com.sharewanted.shareeats.src.main.mypage.creator.CreatorActivity
 import com.sharewanted.shareeats.src.main.mypage.edituser.EditUserActivity
 import com.sharewanted.shareeats.src.main.mypage.notice.NoticeActivity
 
-
 class MyPageFragment : Fragment(), MyPageMenuClickListener {
     private lateinit var binding: FragmentMyPageBinding
     private lateinit var adapter: MyPageMenuAdapter
