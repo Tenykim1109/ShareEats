@@ -6,6 +6,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.naver.maps.map.NaverMapSdk
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import com.sharewanted.shareeats.util.SharedPreferencesUtil
 import com.sharewanted.shareeats.database.creditcard.CreditCardRepository
 
@@ -16,6 +20,14 @@ class ApplicationClass : Application() {
         // Firebase
         lateinit var databaseReference: DatabaseReference
         lateinit var storageRef: StorageReference
+    }
+
+    companion object {
+        const val BASE_URL = "https://naveropenapi.apigw.ntruss.com/"
+        var retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     override fun onCreate() {
@@ -31,4 +43,9 @@ class ApplicationClass : Application() {
 
         CreditCardRepository.initialize(this)
     }
+
+
+
+
+
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:name="@+id/total_food_fragment"
+        android:title="전체" />
+
+    <item
+        android:name="@+id/ko_food_fragment"
+        android:title="한식" />
+
+    <item
+        android:name="@+id/cn_food_fragment"
+        android:title="중식" />
+
+    <item
+        android:name="@+id/jp_food_fragment"
+        android:title="일식" />
+
+    <item
+        android:name="@+id/en_food_fragment"
+        android:title="양식" />
+
+    <item
+        android:name="@+id/fast_food_fragment"
+        android:title="패스트푸드" />
+
+    <item
+        android:name="@+id/night_food_fragment"
+        android:title="야식" />
+
+</menu>

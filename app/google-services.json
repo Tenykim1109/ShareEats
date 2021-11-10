@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "81283441548",
+    "firebase_url": "https://shareeats-5654f-default-rtdb.firebaseio.com",
     //"firebase_url": "https://shareeats-5654f-default-rtdb.firebaseio.com",
     "project_id": "shareeats-5654f",
     "storage_bucket": "shareeats-5654f.appspot.com"
@@ -15,6 +16,15 @@
       },
       "oauth_client": [
         {
+          "client_id": "81283441548-j6ibeomllpks2map9ktg43p7dkl7fome.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sharewanted.shareeats",
+            "certificate_hash": "7e6794736f16d0d84f4e655f885c8d9254e90a55"
+          }
+        },
+        {
+=======
           "client_id": "81283441548-ji9b10a8ena0o5chr5fbp3rlsk9f5ca8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

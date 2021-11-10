@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="location_array">
+        <item>형곡동</item>
+        <item>신평동</item>
+        <item>원평동</item>
+        <item>진미동</item>
+        <item>인동동</item>
+    </string-array>
+    <string-array name="food_type_array">
+        <item>한식</item>
+        <item>중식</item>
+        <item>일식</item>
+        <item>양식</item>
+        <item>분식</item>
+    </string-array>
+</resources>
