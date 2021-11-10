@@ -25,6 +25,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
@@ -46,7 +47,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     private lateinit var naverMap: NaverMap
     private lateinit var mapFragment: MapFragment
     private lateinit var search: TextView
-    private lateinit var markers: MutableList<Marker>
+    private lateinit var storeMarkers: MutableList<Marker>
+    private lateinit var placeMarkers: MutableList<Marker>
+    private lateinit var infoWindow: InfoWindow
 
     private lateinit var database: FirebaseDatabase
     private lateinit var storeRef: DatabaseReference
@@ -61,7 +64,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
         database = FirebaseDatabase.getInstance()
         storeRef = database.getReference("Store")
         postRef = database.getReference("Post")
-        markers = mutableListOf()
         return binding.root
     }
 
@@ -72,7 +74,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
         search.setOnEditorActionListener(this)
 
         // 상점 정보 불러오기
-        initDatabase()
+//        initDatabase()
 
         // 게시글의 배달 위치 불러오기
         initPost()
@@ -92,6 +94,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
 
                 // 현재 위치 추적
                 naverMap.locationTrackingMode = LocationTrackingMode.Follow
+                naverMap.setOnMapClickListener { pointF, latLng ->
+                    infoWindow.close()
+                }
             }
 
             override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
@@ -121,12 +126,13 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                     Log.d(TAG, "livedata = ${res.addresses}")
 
                     executor.execute {
+                        storeMarkers = mutableListOf()
 
                         // BackgroundThread에서 마커 정보 초기화
                         repeat(1) {
                             for (address in res.addresses) {
                                 Log.d(TAG, "도로명주소 = ${address.roadAddress}")
-                                markers += Marker().apply {
+                                storeMarkers += Marker().apply {
                                     position = LatLng(address.y, address.x)
                                     icon = MarkerIcons.YELLOW
                                 }
@@ -135,12 +141,12 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
 
                         handler.post {
                             // MainThread에서 지도에 마커 표시
-                            markers.forEach { marker ->
+                            storeMarkers.forEach { marker ->
                                 run {
                                     marker.map = naverMap
                                 }
                             }
-                            Log.d(TAG, "size = ${markers.size}")
+                            Log.d(TAG, "store size = ${storeMarkers.size}")
                         }
                     }
                 })
@@ -169,37 +175,59 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     private fun initPost() {
         val executor: Executor = Executors.newFixedThreadPool(2)
         val handler = Handler(Looper.getMainLooper())
-        val infoWindow = InfoWindow()
+        placeMarkers = mutableListOf()
 
         postEventListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val location = snapshot.child("place").getValue<String>()!!
+                val title = snapshot.child("title").getValue<String>()!!
+                val storeId = snapshot.child("storeId").getValue<String>()!!
                 val res = GeocodeService().getGeocode(location, getGeocodeCallback())
+
+                Log.d(TAG, "title = $title, storeId = $storeId")
+
+                var storeName = ""
+
+                storeRef.child(storeId).child("name").get().addOnSuccessListener {
+                    storeName = it.getValue<String>()!!
+                }
 
                 res.observe(viewLifecycleOwner, { res ->
                     Log.d(TAG, "livedata = ${res.addresses}")
 
                     executor.execute {
 
+                        infoWindow = InfoWindow()
+
                         // BackgroundThread에서 마커 정보 초기화
                         repeat(1) {
                             for (address in res.addresses) {
+                                Log.d(TAG, "store_value = $storeName")
                                 Log.d(TAG, "도로명주소 = ${address.roadAddress}")
-                                markers += Marker().apply {
+
+                                placeMarkers += Marker().apply {
                                     position = LatLng(address.y, address.x)
                                     icon = MarkerIcons.RED
+                                    onClickListener = markerListener
                                 }
                             }
                         }
 
                         handler.post {
-                            // MainThread에서 지도에 마커 표시
-                            markers.forEach { marker ->
-                                run {
-                                    marker.map = naverMap
+                            infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(requireContext()) {
+                                override fun getText(infoWindow: InfoWindow): CharSequence {
+                                    return "제목: $title \n주문 매장: $storeName"
                                 }
                             }
-                            Log.d(TAG, "size = ${markers.size}")
+
+                            // MainThread에서 지도에 마커 표시
+                            placeMarkers.forEach { marker ->
+                                run {
+                                    marker.map = naverMap
+                                    infoWindow.open(marker)
+                                }
+                            }
+                            Log.d(TAG, "place size = ${placeMarkers.size}")
                         }
                     }
                 })
@@ -281,5 +309,19 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
         override fun onSuccess(code: Int, responseData: Boolean) {
             Log.d(TAG, "success")
         }
+    }
+
+    private val markerListener = Overlay.OnClickListener { overlay ->
+        val marker = overlay as Marker
+
+        if (marker.infoWindow == null) {
+            // 현재 마커에 정보 창이 열려있지 않을 경우 엶
+            infoWindow.open(marker)
+        } else {
+            // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
+            infoWindow.close()
+        }
+
+        true
     }
 }
