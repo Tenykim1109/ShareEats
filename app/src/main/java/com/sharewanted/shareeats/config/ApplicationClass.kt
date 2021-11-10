@@ -20,9 +20,7 @@ class ApplicationClass : Application() {
         // Firebase
         lateinit var databaseReference: DatabaseReference
         lateinit var storageRef: StorageReference
-    }
 
-    companion object {
         const val BASE_URL = "https://naveropenapi.apigw.ntruss.com/"
         var retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
