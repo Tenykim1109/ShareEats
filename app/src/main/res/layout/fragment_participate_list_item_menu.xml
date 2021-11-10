@@ -8,7 +8,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="싸이버거 세트 1개" />
+        android:text="싸이버거 세트" />
+
+    <TextView
+        android:id="@+id/fragment_participate_tv_qty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="1개" />
 
     <TextView
         android:id="@+id/fragment_participate_tv_price"

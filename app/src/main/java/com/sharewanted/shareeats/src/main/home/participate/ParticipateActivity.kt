@@ -12,22 +12,37 @@ import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
+import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.database.creditcard.CreditCard
 import com.sharewanted.shareeats.database.creditcard.CreditCardRepository
 import com.sharewanted.shareeats.databinding.ActivityParticipateBinding
 import com.sharewanted.shareeats.src.main.MainActivity
+import com.sharewanted.shareeats.src.main.home.HomeFragment
+import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
+import com.sharewanted.shareeats.src.main.home.order.orderDto.StoreMenu
+import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 
 private const val TAG = "ParticipateActivity_싸피"
 class ParticipateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityParticipateBinding
     private lateinit var adapter: ParticipateAdapter
-    private var list = mutableListOf<Menu>()
     var selectedCard: CreditCard?=null
+    lateinit var post: Post
+    private var menuList: MutableList<Menu> = arrayListOf()
+    private var mDatabase = Firebase.database.reference
+    private var dataInputFlag = false
+    lateinit var user: UserDto
 
     private var cardPassword: String?=null
 
@@ -45,6 +60,22 @@ class ParticipateActivity : AppCompatActivity() {
         val toolbar = binding.activityParticipateToolbar
         setSupportActionBar(toolbar)
 
+        user = ApplicationClass.sharedPreferencesUtil.getUser()
+
+        post = intent.getSerializableExtra("post") as Post
+        menuList = intent.getParcelableArrayListExtra<Menu>("menu") as ArrayList<Menu>
+
+        Log.d(TAG, "onCreate: $post")
+        Log.d(TAG, "onCreate: $menuList")
+        
+        var totalPrice = 0
+        for (i in menuList.indices) {
+            totalPrice += menuList[i].price * menuList[i].quantity
+        }
+
+        binding.activityParticipateTvOrderDate.text = SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis())
+        binding.activityParticipateTvTotalPrice.text = "${totalPrice} 원"
+        
         initView()
 
 
@@ -67,6 +98,38 @@ class ParticipateActivity : AppCompatActivity() {
                     Log.d(TAG, "onCreate: $company $number $expiry $cvc $password")
 //                val intent = Intent(this, MainActivity::class.java)
 //                startActivity(intent)
+                    mDatabase.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (dataInputFlag == false) {
+                                if (snapshot.hasChildren()) {
+                                    post.postId = snapshot.child("Post").children.last().key!!.toInt() + 1
+                                }
+
+                                mDatabase.child("Post").child(post.postId.toString()).setValue(post)
+
+                                for (i in menuList.indices) {
+                                    mDatabase.child("Post").child(post.postId.toString())
+                                        .child("participant").child(user.id)
+                                        .child("menu").child(menuList[i].name).setValue(menuList[i])
+                                }
+
+                                val map = mapOf("postId" to post.postId)
+                                mDatabase.child("User").child(user.id).child("postList").child(post.postId.toString()).setValue(map)
+
+                                dataInputFlag = true
+
+                                Toast.makeText(this@ParticipateActivity, "글 작성완료", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this@ParticipateActivity, HomeFragment::class.java))
+                                finish()
+                            }
+
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Toast.makeText(this@ParticipateActivity, error.toString(), Toast.LENGTH_SHORT).show()
+                        }
+
+                    })
                 } else {
                     Toast.makeText(this, "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show()
                 }
@@ -105,7 +168,7 @@ class ParticipateActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        adapter = ParticipateAdapter(list)
+        adapter = ParticipateAdapter(menuList)
         binding.activityParticipateRvMenu.adapter = adapter
         binding.activityParticipateRvMenu.layoutManager = LinearLayoutManager(this)
 
