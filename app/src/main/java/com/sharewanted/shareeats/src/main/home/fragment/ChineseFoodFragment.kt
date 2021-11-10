@@ -1,5 +1,6 @@
 package com.sharewanted.shareeats.src.main.home.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentChineseFoodBinding
 import com.sharewanted.shareeats.src.main.home.HomeAdapter
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
+import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
 
 
 private const val ARG_PARAM1 = "param1"
@@ -65,6 +67,14 @@ class ChineseFoodFragment : Fragment() {
                 }
 
                 adapter = HomeAdapter(postList)
+                adapter.setItemClickListener(object : HomeAdapter.ItemClickListener {
+                    override fun onClick(view: View, position: Int, postId: Int) {
+                        val intent = Intent(requireContext(), PostInfoActivity::class.java).apply {
+                            putExtra("postId", postId)
+                        }
+                        startActivity(intent)
+                    }
+                })
                 binding.fragmentChineseFoodRv.adapter = adapter
                 binding.fragmentChineseFoodRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }

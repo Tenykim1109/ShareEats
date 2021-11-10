@@ -23,7 +23,6 @@ import com.sharewanted.shareeats.src.main.home.order.orderDto.StoreMenu
 class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     private val mDatabase = Firebase.database.reference
-    private val listSize = postList.size
     private var index = 0
 
     inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -37,13 +36,10 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
 
             mDatabase.child("Store").child(post.storeId).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (index < listSize) {
+                    if (index < postList.size) {
+
                         val profile = snapshot.child("profile").value.toString()
                         val storeName = snapshot.child("name").value.toString()
-
-                        Glide.with(itemView.context).load(profile).into(ivStore)
-                        tvTitle.text = post.title
-                        tvStore.text = storeName
 
                         val menuList = mutableListOf<StoreMenu>()
 
@@ -57,6 +53,12 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
                         mDatabase.child("Post").child(post.postId.toString()).child("participant")
                             .addValueEventListener(object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
+
+                                    Glide.with(itemView.context).load(profile).into(ivStore)
+                                    tvTitle.text = post.title
+                                    tvStore.text = storeName
+
+
                                     var totalPrice = 0
                                     for (dataSnapshot in snapshot.children) {
                                         Log.d("data test", dataSnapshot.value.toString())
@@ -74,14 +76,11 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
 
                                     }
 
-                                    val goal = "${CommonUtils().makeComma(totalPrice)} / ${
-                                        CommonUtils().makeComma(post.minPrice)
-                                    }"
+                                    val goal = "${CommonUtils().makeComma(totalPrice)} / ${CommonUtils().makeComma(post.minPrice)}"
                                     tvPrice.text = goal
 
                                     progress.max = post.minPrice
                                     progress.progress = totalPrice
-
 
                                 }
 
@@ -111,11 +110,27 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
     }
 
     override fun onBindViewHolder(holder: HomeAdapter.HomeViewHolder, position: Int) {
-        holder.onBind(postList[position])
+        holder.apply {
+            onBind(postList[position])
+            itemView.setOnClickListener{
+                itemClickListner.onClick(it, position, postList[position].postId)
+            }
+        }
+
     }
 
     override fun getItemCount(): Int {
         return postList.size
+    }
+
+    interface ItemClickListener {
+        fun onClick(view: View,  position: Int, postId: Int)
+    }
+
+    private lateinit var itemClickListner: ItemClickListener
+
+    fun setItemClickListener(itemClickListener: ItemClickListener) {
+        this.itemClickListner = itemClickListener
     }
 
     private fun refreshPost() {

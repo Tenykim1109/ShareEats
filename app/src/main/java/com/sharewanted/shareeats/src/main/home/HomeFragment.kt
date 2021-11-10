@@ -7,10 +7,8 @@ import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,7 +19,6 @@ import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentHomeBinding
 import com.sharewanted.shareeats.src.main.home.fragment.*
 import com.sharewanted.shareeats.src.main.home.order.OrderActivity
-import com.sharewanted.shareeats.src.main.home.order.findStore.AutoCompleteAdapter
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
 
@@ -34,7 +31,6 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var adapter: SearchTitleAdapter
     private var postList = mutableListOf<Post>()
     private val mDatabase = Firebase.database.reference
 
@@ -82,7 +78,7 @@ class HomeFragment : Fragment() {
                 binding.fragmentHomeActvSearchTitle.setOnItemClickListener { adapterView, view, i, l ->
                     val selectedPost = postList[i]
                     val intent = Intent(requireContext(), PostInfoActivity::class.java).apply {
-                        putExtra("storeId", selectedPost.postId)
+                        putExtra("postId", selectedPost.postId)
                     }
                     startActivity(intent)
                     binding.fragmentHomeActvSearchTitle.setText("")
@@ -128,27 +124,27 @@ class HomeFragment : Fragment() {
         when (tab!!.position) {
             0 -> childFragmentManager.beginTransaction()
                 .replace(R.id.fragment_home_fcv_tab_host, TotalFoodFragment())
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit()
             1 -> childFragmentManager.beginTransaction()
                 .replace(R.id.fragment_home_fcv_tab_host, KoreanFoodFragment())
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit()
             2 -> childFragmentManager.beginTransaction()
                 .replace(R.id.fragment_home_fcv_tab_host, ChineseFoodFragment())
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit()
             3 -> childFragmentManager.beginTransaction()
                 .replace(R.id.fragment_home_fcv_tab_host, JapaneseFoodFragment())
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit()
             4 -> childFragmentManager.beginTransaction()
                 .replace(R.id.fragment_home_fcv_tab_host, WesternFoodFragment())
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit()
             5 -> childFragmentManager.beginTransaction()
                 .replace(R.id.fragment_home_fcv_tab_host, FlourBasedFoodFragment())
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit()
         }
     }
