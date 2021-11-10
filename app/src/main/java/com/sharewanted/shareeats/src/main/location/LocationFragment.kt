@@ -23,6 +23,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
@@ -46,19 +47,21 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     private lateinit var mapFragment: MapFragment
     private lateinit var search: TextView
     private lateinit var markers: MutableList<Marker>
-    private var curLatitude = ""
-    private var curLongitude = ""
 
     private lateinit var database: FirebaseDatabase
-    private lateinit var mRef: DatabaseReference
-    private lateinit var childEventListener: ChildEventListener
+    private lateinit var storeRef: DatabaseReference
+    private lateinit var postRef: DatabaseReference
+    private lateinit var storeEventListener: ChildEventListener
+    private lateinit var postEventListener: ChildEventListener
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         binding = FragmentLocationBinding.inflate(inflater, container, false)
         database = FirebaseDatabase.getInstance()
-        mRef = database.getReference("Store")
+        storeRef = database.getReference("Store")
+        postRef = database.getReference("Post")
+        markers = mutableListOf()
         return binding.root
     }
 
@@ -70,6 +73,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
 
         // 상점 정보 불러오기
         initDatabase()
+
+        // 게시글의 배달 위치 불러오기
+        initPost()
 
         // 네이버 지도 초기화
         initMap()
@@ -104,7 +110,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
         val executor: Executor = Executors.newFixedThreadPool(2)
         val handler = Handler(Looper.getMainLooper())
 
-        childEventListener = object : ChildEventListener {
+        storeEventListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val location = snapshot.child("location").getValue<String>()!!
 
@@ -115,8 +121,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                     Log.d(TAG, "livedata = ${res.addresses}")
 
                     executor.execute {
-
-                        markers = mutableListOf()
 
                         // BackgroundThread에서 마커 정보 초기화
                         repeat(1) {
@@ -159,7 +163,66 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
             }
         }
 
-        mRef.addChildEventListener(childEventListener)
+        storeRef.addChildEventListener(storeEventListener)
+    }
+
+    private fun initPost() {
+        val executor: Executor = Executors.newFixedThreadPool(2)
+        val handler = Handler(Looper.getMainLooper())
+        val infoWindow = InfoWindow()
+
+        postEventListener = object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val location = snapshot.child("place").getValue<String>()!!
+                val res = GeocodeService().getGeocode(location, getGeocodeCallback())
+
+                res.observe(viewLifecycleOwner, { res ->
+                    Log.d(TAG, "livedata = ${res.addresses}")
+
+                    executor.execute {
+
+                        // BackgroundThread에서 마커 정보 초기화
+                        repeat(1) {
+                            for (address in res.addresses) {
+                                Log.d(TAG, "도로명주소 = ${address.roadAddress}")
+                                markers += Marker().apply {
+                                    position = LatLng(address.y, address.x)
+                                    icon = MarkerIcons.RED
+                                }
+                            }
+                        }
+
+                        handler.post {
+                            // MainThread에서 지도에 마커 표시
+                            markers.forEach { marker ->
+                                run {
+                                    marker.map = naverMap
+                                }
+                            }
+                            Log.d(TAG, "size = ${markers.size}")
+                        }
+                    }
+                })
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                Log.d(TAG, "Child changed.")
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                Log.d(TAG, "Child moved.")
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                Log.d(TAG, "Child deleted.")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(TAG, "$error")
+            }
+        }
+
+        postRef.addChildEventListener(postEventListener)
     }
 
     private fun initMap() {
