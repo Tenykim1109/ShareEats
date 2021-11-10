@@ -28,7 +28,6 @@
                 android:src="@drawable/ic_baseline_close_24" />
 
             <TextView
-                android:id="@+id/activity_order_tv_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -44,7 +43,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:backgroundTint="@color/appTheme"
-                android:text="확인" />
+                android:text="완료" />
 
         </RelativeLayout>
 
@@ -61,20 +60,11 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
+            <EditText
                 android:id="@+id/activity_order_tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="asdf"
-                android:textSize="30dp"/>
-
-            <TextView
-                android:id="@+id/activity_order_tv_deadline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="10:30"
-                android:textSize="20dp"/>
+                android:hint="제목" />
 
             <View
                 android:layout_width="match_parent"
@@ -94,11 +84,21 @@
                     android:text="음식점"
                     android:textSize="20dp"/>
 
-                <EditText
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/activity_order_tv_store"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:hint="음식점 선택"
+                    android:enabled="false"/>
+
+                <Button
+                    android:id="@+id/activity_order_btn_find_store"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/appTheme"
+                    android:text="찾기" />
 
             </LinearLayout>
 
@@ -107,17 +107,28 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/activity_order_et_menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="메뉴"
                     android:textSize="20dp"/>
 
-                <EditText
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/activity_order_tv_menu"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:hint="메뉴 선택"
+                    android:enabled="false"/>
+
+                <Button
+                    android:id="@+id/activity_order_btn_select_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/appTheme"
+                    android:text="선택" />
 
             </LinearLayout>
 
@@ -129,14 +140,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
                     android:text="최소금액"
                     android:textSize="20dp"/>
 
-                <EditText
+                <TextView
+                    android:id="@+id/activity_order_tv_minPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center"
+                    android:enabled="false"/>
 
             </LinearLayout>
 
@@ -152,10 +167,20 @@
                     android:textSize="20dp"/>
 
                 <EditText
-                    android:layout_width="match_parent"
+                    android:id="@+id/activity_order_tv_location"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:hint="장소 입력"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/activity_order_btn_select_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/appTheme"
+                    android:text="찾기" />
 
             </LinearLayout>
 
@@ -170,24 +195,58 @@
                     android:text="마감시간"
                     android:textSize="20dp"/>
 
-                <EditText
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/activity_order_tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:hint="시간 선택"
+                    android:enabled="false"/>
+
+                <Button
+                    android:id="@+id/activity_order_btn_select_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/appTheme"
+                    android:text="선택" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:text="음식 분류"
+                    android:textSize="20dp"/>
+
+                <Spinner
+                    android:id="@+id/activity_order_spinner_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"/>
+
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:background="@color/black"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="20dp"
+                android:background="@color/black" />
 
             <EditText
+                android:id="@+id/activity_order_et_content"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="200dp"
+                android:gravity="left"
+                android:hint="내용"/>
 
             <View
                 android:layout_width="match_parent"
@@ -195,6 +254,7 @@
                 android:background="@color/black"
                 android:layout_marginTop="11dp"
                 android:layout_marginBottom="20dp"/>
+
 
         </LinearLayout>
 

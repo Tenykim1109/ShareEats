@@ -26,9 +26,9 @@ class CreatorActivity : AppCompatActivity() {
     }
 
     fun initData() {
+        list.add(Creator("김민정", "lona573@gmail.com"))
         list.add(Creator("김주환", "juhwan.dev@gmail.com"))
-        list.add(Creator("김주환", "juhwan.dev@gmail.com"))
-        list.add(Creator("김주환", "juhwan.dev@gmail.com"))
-        list.add(Creator("김주환", "juhwan.dev@gmail.com"))
+        list.add(Creator("나요셉", "js.pekah@gmail.com"))
+        list.add(Creator("백동열", "piece1707@gmail.com"))
     }
 }

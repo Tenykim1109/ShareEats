@@ -10,10 +10,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.storage.FirebaseStorage
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.src.main.chat.models.Chat
 
-class ChatAdapter(val chatList: MutableList<Chat>) : RecyclerView.Adapter<ChatAdapter.ChatHolder>() {
+class ChatAdapter(val chatList: MutableList<Chat>, private val myNickName: String) : RecyclerView.Adapter<ChatAdapter.ChatHolder>() {
+
+    private lateinit var storage: FirebaseStorage
 
     inner class ChatHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -21,7 +24,11 @@ class ChatAdapter(val chatList: MutableList<Chat>) : RecyclerView.Adapter<ChatAd
             val otherChatFrame = itemView.findViewById<ConstraintLayout>(R.id.cl_chat_other_layout)
             val userChatFrame = itemView.findViewById<ConstraintLayout>(R.id.cl_chat_layout)
 
-            if (data.auth == true) {
+            val profileUrl = data.nickName + "/" + data.imageUrl
+            val storageRef = storage.reference.child(profileUrl)
+
+            Log.d("Chatting", "ref = $storageRef")
+            if (data.nickName != myNickName) {
                 otherChatFrame.visibility = View.VISIBLE
                 userChatFrame.visibility = View.GONE
 
@@ -31,7 +38,14 @@ class ChatAdapter(val chatList: MutableList<Chat>) : RecyclerView.Adapter<ChatAd
 
                 Log.d("data check", data.nickName)
 
-                Glide.with(itemView.context).load(data.imageUrl).placeholder(R.drawable.ic_navi_mypage).apply(RequestOptions().circleCrop().circleCrop()).into(otherProfile)
+
+
+                storageRef.downloadUrl.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Glide.with(itemView.context).load(it.result).into(otherProfile)
+                    }
+                }
+//                Glide.with(itemView.context).load(data.imageUrl).placeholder(R.drawable.ic_navi_mypage).apply(RequestOptions().circleCrop().circleCrop()).into(otherProfile)
 
                 otherName.text = data.nickName
                 otherChat.text = data.content
@@ -47,7 +61,13 @@ class ChatAdapter(val chatList: MutableList<Chat>) : RecyclerView.Adapter<ChatAd
 
                 Log.d("data check", data.nickName)
 
-                Glide.with(itemView.context).load(data.imageUrl).placeholder(R.drawable.ic_navi_mypage).apply(RequestOptions().circleCrop().circleCrop()).into(userProfile)
+                storageRef.downloadUrl.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Glide.with(itemView.context).load(it.result).into(userProfile)
+                    }
+                }
+
+//                Glide.with(itemView.context).load(data.imageUrl).placeholder(R.drawable.ic_navi_mypage).apply(RequestOptions().circleCrop().circleCrop()).into(userProfile)
 
                 userName.text = data.nickName
                 userChat.text = data.content
@@ -57,6 +77,7 @@ class ChatAdapter(val chatList: MutableList<Chat>) : RecyclerView.Adapter<ChatAd
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat, parent, false)
+        storage = FirebaseStorage.getInstance()
         return ChatHolder(view)
     }
 

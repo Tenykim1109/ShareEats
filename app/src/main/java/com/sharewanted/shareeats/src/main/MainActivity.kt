@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host, ChatListFragment())
+            .replace(R.id.nav_host, HomeFragment())
             .commit()
 
         bottomNavigation = binding.bottomNavigationView
