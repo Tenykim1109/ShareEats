@@ -15,4 +15,48 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- appbar에 사용(가장 큰 텍스트) | 페이지를 대표하는 텍스트 | 최상단 말머리 -->
+    <style name="appbar_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/appbar_text_size_18sp</item>
+        <item name="android:textColor">@color/black_high_emphasis</item>
+        <item name="android:fontFamily">@font/noto_sans_bold</item>
+    </style>
+
+    <!-- 헤더에 사용 | 특정 영역의 주제가 되는 텍스트 -->
+    <style name="header_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/header_text_size_16sp</item>
+        <item name="android:textColor">@color/black_high_emphasis</item>
+        <item name="android:fontFamily">@font/noto_sans_bold</item>
+    </style>
+
+    <!-- 일반 텍스트 | 내용 -->
+    <style name="body_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/body_text_size_14sp</item>
+        <item name="android:textColor">@color/black_high_emphasis</item>
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+    </style>
+
+    <!-- 작은 텍스트(검은색) -->
+    <style name="explain_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/explain_text_size_10sp</item>
+        <item name="android:textColor">@color/black_high_emphasis</item>
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+    </style>
+
+    <!-- 작은 텍스트(회색) | 중요하지 않은 텍스트 | 설명 텍스트 -->
+    <style name="explain_text_gray">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/explain_text_size_10sp</item>
+        <item name="android:textColor">@color/black_low_emphasis</item>
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+    </style>
 </resources>
