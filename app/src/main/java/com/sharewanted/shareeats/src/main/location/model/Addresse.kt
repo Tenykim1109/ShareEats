@@ -6,6 +6,6 @@ data class Addresse(
     val englishAddress: String,
     val jibunAddress: String,
     val roadAddress: String,
-    val x: String,
-    val y: String
+    val x: Double,
+    val y: Double
 )

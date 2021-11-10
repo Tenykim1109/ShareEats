@@ -1,6 +1,7 @@
 package com.sharewanted.shareeats.service
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.sharewanted.shareeats.src.main.location.model.Geocode
 import com.sharewanted.shareeats.util.RetrofitCallback
 import com.sharewanted.shareeats.util.RetrofitUtil
@@ -11,13 +12,13 @@ import retrofit2.Response
 class GeocodeService {
     private val TAG = "GeocodeService"
 
-    fun getGeocode(query: String, coordinate: String, callback: RetrofitCallback<Boolean>) {
-        RetrofitUtil.geocodeService.getGeocode(query, coordinate).enqueue(object : Callback<Geocode> {
+    fun getGeocode(query: String, callback: RetrofitCallback<Boolean>): MutableLiveData<Geocode> {
+        val responseLiveData: MutableLiveData<Geocode> = MutableLiveData()
 
+        RetrofitUtil.geocodeService.getGeocode(query).enqueue(object : Callback<Geocode> {
             override fun onResponse(call: Call<Geocode>, response: Response<Geocode>) {
                 if (response.code() == 200) {
-                    val res = response.body() as Geocode
-                    Log.d(TAG, "getGeocode: $res")
+                    responseLiveData.value = response.body() as Geocode
                 } else {
                     Log.d(TAG, "getGeocode: Error code ${response.code()}")
                 }
@@ -27,7 +28,7 @@ class GeocodeService {
                 Log.e(TAG, "Failed")
             }
         })
+
+        return responseLiveData
     }
-
-
 }
