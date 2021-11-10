@@ -29,7 +29,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/activity_login_etLogin"
+            android:id="@+id/activity_login_etId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="아이디"
