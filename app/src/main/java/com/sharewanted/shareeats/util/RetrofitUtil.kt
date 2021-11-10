@@ -6,5 +6,7 @@ import com.sharewanted.shareeats.src.api.GeocodeApi
 class RetrofitUtil {
     companion object {
         val geocodeService = ApplicationClass.retrofit.create(GeocodeApi::class.java)
+        val geocodingApi = ApplicationClass.retrofit.create(GeocodingApi::class.java)
     }
 }
+        

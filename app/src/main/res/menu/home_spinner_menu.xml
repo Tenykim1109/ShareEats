@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:name="@+id/first_spinner"
+        android:title="신평동" />
+    <item
+        android:name="@+id/second_spinner"
+        android:title="지산동" />
+    <item
+        android:name="@+id/third_spinner"
+        android:title="인동동" />
+    <item
+        android:name="@+id/fourth_spinner"
+        android:title="형곡동" />
+    <item
+        android:name="@+id/fifth_spinner"
+        android:title="진미동" />
+
+</menu>

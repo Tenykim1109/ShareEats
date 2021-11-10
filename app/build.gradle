@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
+    id 'org.jetbrains.kotlin.android.extensions'
     id 'kotlin-kapt'
 }
 
@@ -36,6 +37,9 @@ android {
     }
     dataBinding {
         enabled = true
+    }
+    androidExtensions {
+        experimental = true
     }
 }
 
@@ -72,6 +76,17 @@ dependencies {
 
     // 네이버 지도 SDK
     implementation 'com.naver.maps:map-sdk:3.13.0'
+    
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
+    implementation platform('com.google.firebase:firebase-bom:28.4.2')
+    implementation 'com.google.firebase:firebase-database-ktx'
+
+    // Retrofit을 사용하기 위한 Dependency 추가
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    implementation 'com.google.code.gson:gson:2.8.7'
 
 
     // Firebase SDK
