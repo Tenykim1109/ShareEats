@@ -27,6 +27,7 @@ import com.sharewanted.shareeats.src.main.home.HomeFragment
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.orderDto.StoreMenu
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
+import com.sharewanted.shareeats.util.SharedPreferencesUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -56,6 +57,8 @@ class ParticipateActivity : AppCompatActivity() {
         creditCardRepository = CreditCardRepository.get()
 
         val cardList = resources.getStringArray(R.array.credit_card)
+
+        user = ApplicationClass.sharedPreferencesUtil.getUser()
 
         val toolbar = binding.activityParticipateToolbar
         setSupportActionBar(toolbar)
@@ -134,11 +137,13 @@ class ParticipateActivity : AppCompatActivity() {
                     Toast.makeText(this, "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                val creditCard = CreditCard("joseph", company, number, expiry, cvc, password)
-                CoroutineScope(Dispatchers.IO).launch {
-                    creditCardRepository.insert(creditCard)
+                if (company.isNotEmpty() && number.isNotEmpty() && expiry.isNotEmpty() && cvc.isNotEmpty() && password.isNotEmpty()) {
+                    val creditCard = CreditCard(user.id, company, number, expiry, cvc, password)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        creditCardRepository.insert(creditCard)
+                    }
+                    cardPassword = password
                 }
-                cardPassword = password
             }
         }
 
@@ -152,7 +157,7 @@ class ParticipateActivity : AppCompatActivity() {
                 Toast.makeText(this@ParticipateActivity, "${cardList[position]}", Toast.LENGTH_SHORT).show()
                 CoroutineScope(Dispatchers.Main).launch {
                     CoroutineScope(Dispatchers.IO).async {
-                        selectedCard = creditCardRepository.getCreditCard("joseph", cardList[position])
+                        selectedCard = creditCardRepository.getCreditCard(user.id, cardList[position])
                     }.await()
 
                     updateView()

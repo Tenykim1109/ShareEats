@@ -17,6 +17,7 @@ import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.databaseReference
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.storageRef
 import com.sharewanted.shareeats.databinding.ActivityJoinBinding
+import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,7 +60,7 @@ class JoinActivity : AppCompatActivity() {
     }
 
     private fun initFirebase() {
-        ApplicationClass.databaseReference
+        databaseReference
             .child("User")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -114,7 +115,7 @@ class JoinActivity : AppCompatActivity() {
         var email = binding.activityJoinEtEmail.text.toString()
         var timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         var imgFileName = "IMAGE_" + timeStamp
-        var user = UserDto(id, password, name, tel, email, imgFileName)
+        var user = UserDto(id, password, name, tel, email, imgFileName, mutableListOf())
 
         if(hasEmptyInput(user, password2) || isNotEqualPassword(password, password2)) {
             return false

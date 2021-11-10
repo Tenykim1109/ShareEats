@@ -13,11 +13,12 @@ import com.google.firebase.database.ktx.getValue
 import com.sharewanted.shareeats.databinding.FragmentChatBinding
 import com.sharewanted.shareeats.src.main.chat.models.Chat
 import com.sharewanted.shareeats.src.main.chat.models.ChatList
+import com.sharewanted.shareeats.util.SharedPreferencesUtil
 import kotlinx.coroutines.*
 
 
 class ChatListFragment : Fragment() {
-
+    private val TAG = "ChatListFragment"
     private lateinit var binding: FragmentChatBinding
     private lateinit var database: FirebaseDatabase
     private lateinit var mRef: DatabaseReference
@@ -42,6 +43,9 @@ class ChatListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = chatListAdapter
         }
+
+        val myNickname = SharedPreferencesUtil(requireContext()).getUser()
+        Log.d(TAG, myNickname.name)
 
         getChatting("애기동열")
     }
