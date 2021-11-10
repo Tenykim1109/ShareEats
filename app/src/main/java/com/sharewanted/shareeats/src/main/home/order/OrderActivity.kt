@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
+import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.config.CommonUtils
 import com.sharewanted.shareeats.databinding.ActivityOrderBinding
 import com.sharewanted.shareeats.src.main.home.order.findStore.FindStoreActivity
@@ -25,10 +26,14 @@ import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.orderDto.StoreMenu
 import com.sharewanted.shareeats.src.main.home.order.selectLocation.SelectLocationActivity
 import com.sharewanted.shareeats.src.main.home.order.selectMenu.SelectMenuActivity
+import com.sharewanted.shareeats.src.main.home.participate.Menu
+import com.sharewanted.shareeats.src.main.home.participate.ParticipateActivity
+import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
-
+private const val TAG = "OrderActivity_싸피"
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
     private var mDatabase = Firebase.database.reference
@@ -38,6 +43,9 @@ class OrderActivity : AppCompatActivity() {
     private var storeMinPrice: Int? = null
     private var selectedMenuList = mutableListOf<StoreMenu>()
     private var dataInputFlag = false
+    lateinit var user: UserDto
+    private var menuList: MutableList<Menu> = arrayListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderBinding.inflate(layoutInflater)
@@ -46,6 +54,8 @@ class OrderActivity : AppCompatActivity() {
         // custom Toolbar 적용
         val toolbar = binding.activityOrderToolbar
         setSupportActionBar(toolbar)
+
+        user = ApplicationClass.sharedPreferencesUtil.getUser()
 
         ArrayAdapter.createFromResource(this, R.array.food_type_array, android.R.layout.simple_spinner_item).also {
             it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -142,43 +152,53 @@ class OrderActivity : AppCompatActivity() {
 
             for (i in selectedMenuList.indices) {
                 fund += selectedMenuList[i].price * selectedMenuList[i].quantity
+                Log.d(TAG, "onCreate: ${selectedMenuList[i].quantity}")
+                menuList.add(Menu(selectedMenuList[i].name, selectedMenuList[i].price, selectedMenuList[i].quantity, selectedMenuList[i].photo, selectedMenuList[i].desc))
             }
 
             var postId = 1
 
-            mDatabase.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (dataInputFlag == false) {
-                        if (snapshot.hasChildren()) {
-                            postId = snapshot.child("Post").children.last().key!!.toInt() + 1
-                        }
+            val post = Post(postId, title, date, user.id, storeId!!, place, closedTime, content, fund, storeMinPrice!!, completed, foodType)
 
-                        val post = Post(postId, title, date, "qwe", storeId!!, place, closedTime, content, fund, storeMinPrice!!, completed, foodType)
+            val intent = Intent(this, ParticipateActivity::class.java).apply {
+                putExtra("post", post)
+                putExtra("menu", ArrayList(menuList))
+            }
+            startActivity(intent)
 
-                        mDatabase.child("Post").child(postId.toString()).setValue(post)
-
-                        for (i in selectedMenuList.indices) {
-                            mDatabase.child("Post").child(postId.toString())
-                                .child("participant").child("qwe")
-                                .child("menu").child(selectedMenuList[i].name).setValue(selectedMenuList[i])
-                        }
-
-                        val map = mapOf("postId" to postId)
-                        mDatabase.child("User").child("qwe").child("postList").child(postId.toString()).setValue(map)
-
-                        dataInputFlag = true
-
-                        Toast.makeText(this@OrderActivity, "글 작성완료", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(this@OrderActivity, error.toString(), Toast.LENGTH_SHORT).show()
-                }
-
-            })
+//            mDatabase.addValueEventListener(object : ValueEventListener {
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    if (dataInputFlag == false) {
+//                        if (snapshot.hasChildren()) {
+//                            postId = snapshot.child("Post").children.last().key!!.toInt() + 1
+//                        }
+//
+//                        val post = Post(postId, title, date, "qwe", storeId!!, place, closedTime, content, fund, storeMinPrice!!, completed, foodType)
+//
+//                        mDatabase.child("Post").child(postId.toString()).setValue(post)
+//
+//                        for (i in selectedMenuList.indices) {
+//                            mDatabase.child("Post").child(postId.toString())
+//                                .child("participant").child("qwe")
+//                                .child("menu").child(selectedMenuList[i].name).setValue(selectedMenuList[i])
+//                        }
+//
+//                        val map = mapOf("postId" to postId)
+//                        mDatabase.child("User").child("qwe").child("postList").child(postId.toString()).setValue(map)
+//
+//                        dataInputFlag = true
+//
+//                        Toast.makeText(this@OrderActivity, "글 작성완료", Toast.LENGTH_SHORT).show()
+//                        finish()
+//                    }
+//
+//                }
+//
+//                override fun onCancelled(error: DatabaseError) {
+//                    Toast.makeText(this@OrderActivity, error.toString(), Toast.LENGTH_SHORT).show()
+//                }
+//
+//            })
 
         }
 
