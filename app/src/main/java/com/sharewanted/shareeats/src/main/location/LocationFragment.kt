@@ -32,6 +32,7 @@ import com.naver.maps.map.util.MarkerIcons
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentLocationBinding
 import com.sharewanted.shareeats.service.GeocodeService
+import com.sharewanted.shareeats.src.main.location.model.MarkerInfo
 import com.sharewanted.shareeats.util.RetrofitCallback
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -49,6 +50,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     private lateinit var search: TextView
     private lateinit var storeMarkers: MutableList<Marker>
     private lateinit var placeMarkers: MutableList<Marker>
+    private lateinit var placeInfoList: MutableList<MarkerInfo>
     private lateinit var infoWindow: InfoWindow
 
     private lateinit var database: FirebaseDatabase
@@ -176,6 +178,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
         val executor: Executor = Executors.newFixedThreadPool(2)
         val handler = Handler(Looper.getMainLooper())
         placeMarkers = mutableListOf()
+        placeInfoList = mutableListOf()
 
         postEventListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -205,29 +208,41 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                                 Log.d(TAG, "store_value = $storeName")
                                 Log.d(TAG, "도로명주소 = ${address.roadAddress}")
 
-                                placeMarkers += Marker().apply {
-                                    position = LatLng(address.y, address.x)
-                                    icon = MarkerIcons.RED
-                                    onClickListener = markerListener
-                                }
+                                val marker = Marker()
+                                marker.position = LatLng(address.y, address.x)
+                                marker.icon = MarkerIcons.RED
+                                marker.onClickListener = markerListener
+                                marker.tag = "제목: $title \n주문 매장: $storeName"
+
+                                placeMarkers += marker
+                                placeInfoList += MarkerInfo(marker, title, storeName)
+
+//                                placeMarkers += Marker().apply {
+//                                    position = LatLng(address.y, address.x)
+//                                    icon = MarkerIcons.RED
+//                                    marker.
+//                                }
+
                             }
                         }
 
                         handler.post {
                             infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(requireContext()) {
                                 override fun getText(infoWindow: InfoWindow): CharSequence {
-                                    return "제목: $title \n주문 매장: $storeName"
+                                    return infoWindow.marker?.tag as CharSequence ?: ""
                                 }
                             }
 
                             // MainThread에서 지도에 마커 표시
-                            placeMarkers.forEach { marker ->
+                            placeInfoList.forEach { markerInfo ->
                                 run {
-                                    marker.map = naverMap
-                                    infoWindow.open(marker)
+                                    markerInfo.marker.map = naverMap
+                                    Log.d(TAG, "title = ${markerInfo.title}, store = ${markerInfo.storeName}")
+                                    infoWindow.open(markerInfo.marker)
                                 }
                             }
                             Log.d(TAG, "place size = ${placeMarkers.size}")
+                            Log.d(TAG, "info size = ${placeInfoList.size}")
                         }
                     }
                 })

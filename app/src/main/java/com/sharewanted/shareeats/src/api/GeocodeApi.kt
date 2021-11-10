@@ -8,6 +8,6 @@ import retrofit2.http.*
 interface GeocodeApi {
 
     @Headers("X-NCP-APIGW-API-KEY-ID: qg2dq62e1v", "X-NCP-APIGW-API-KEY: 7ZjCUUbEHaK2ABuSYCj2dhUgJ6GwjbJJhl30nqEL")
-    @GET("/map-geocode/v2/geocode")
+    @GET("map-geocode/v2/geocode")
     fun getGeocode(@Query("query") query: String): Call<Geocode>
 }

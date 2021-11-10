@@ -12,8 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import com.sharewanted.shareeats.util.SharedPreferencesUtil
 import com.sharewanted.shareeats.database.creditcard.CreditCardRepository
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 class ApplicationClass : Application() {
 
@@ -46,10 +45,10 @@ class ApplicationClass : Application() {
         storageRef = FirebaseStorage.getInstance().reference
 
         // Retrofit 초기화
-        retrofit = Retrofit.Builder()
-            .baseUrl(NAVER_GEOCODE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+//        retrofit = Retrofit.Builder()
+//            .baseUrl(NAVER_GEOCODE_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
 
         CreditCardRepository.initialize(this)
     }
