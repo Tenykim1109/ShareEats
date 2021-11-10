@@ -137,9 +137,6 @@ class OrderActivity : AppCompatActivity() {
             val date = dateFormat.parse(dateFormat.format(temp).toString()).time
             val closedTime = dateFormat.parse(binding.activityOrderTvTime.text.toString()).time
             val content = binding.activityOrderEtContent.text.toString()
-//            val participant = mutableListOf<PersonMenu>()
-            val participant = PersonMenu(selectedMenuList)
-//            participant.add(writerMenu)
             val completed = "모집중"
             var fund = 0
 

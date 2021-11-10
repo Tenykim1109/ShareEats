@@ -5,7 +5,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class StoreMenu (val name: String, val price: Int, val photo: String, val desc: String) : Parcelable {
+data class StoreMenu (val name: String = "", val price: Int = 0, val photo: String = "", val desc: String = "") : Parcelable {
     var quantity: Int = 0
     constructor(name: String, price: Int, photo: String, desc: String, quantity: Int) : this(name, price, photo, desc) {
         this.quantity = quantity

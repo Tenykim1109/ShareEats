@@ -2,15 +2,23 @@ package com.sharewanted.shareeats.src.main.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentHomeBinding
 import com.sharewanted.shareeats.src.main.home.order.OrderActivity
+import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,7 +30,8 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: HomeAdapter
     private var param1: String? = null
     private var param2: String? = null
-    private var list = mutableListOf<HomeMenu>()
+    private var postList = mutableListOf<Post>()
+    private val mDatabase = Firebase.database.reference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +62,28 @@ class HomeFragment : Fragment() {
     }
 
     private fun initView() {
-        adapter = HomeAdapter(list)
-        binding.fragmentHomeRvMain.adapter = adapter
-        binding.fragmentHomeRvMain.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        mDatabase.child("Post").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                postList.clear()
+                for (dataSnapshot in snapshot.children) {
+                    val post = dataSnapshot.getValue(Post::class.java)
+
+                    postList.add(post!!)
+                }
+
+                adapter = HomeAdapter(postList)
+                binding.fragmentHomeRvMain.adapter = adapter
+                binding.fragmentHomeRvMain.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("Post error", error.toString())
+                Toast.makeText(requireContext(), error.toString(), Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
 
         binding.fbWritePost.setOnClickListener {
             val intent = Intent(requireContext(), OrderActivity::class.java)
