@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareEats">
         <activity
+            android:name=".src.main.home.postInfo.PostInfoActivity"
+            android:exported="true" />
+        <activity
             android:name=".src.main.home.order.selectLocation.SelectLocationActivity"
             android:exported="true" />
         <activity
@@ -28,7 +31,6 @@
         <activity
             android:name=".src.chat.ChatActivity"
             android:exported="true" />
-
         <activity
             android:name=".src.main.home.order.selectMenu.SelectMenuActivity"
             android:exported="true" />
@@ -87,12 +89,6 @@
             android:name=".src.main.MainActivity"
             android:exported="true">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
     </application>
 

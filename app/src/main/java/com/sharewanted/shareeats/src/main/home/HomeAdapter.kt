@@ -87,11 +87,7 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
 
                                 override fun onCancelled(error: DatabaseError) {
                                     Log.d("HomeAdapter Post error", error.toString())
-                                    Toast.makeText(
-                                        itemView.context,
-                                        error.toString(),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    Toast.makeText(itemView.context, error.toString(), Toast.LENGTH_SHORT).show()
                                 }
 
                             })
