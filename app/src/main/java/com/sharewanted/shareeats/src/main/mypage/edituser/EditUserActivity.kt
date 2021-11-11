@@ -99,10 +99,14 @@ class EditUserActivity : AppCompatActivity() {
 
             // 새로운 사진의 이름을 user에 저장
             databaseReference.child("User").child(user.id).child("profile").setValue(imgFileName)
+            user.profile = imgFileName
         }
 
         databaseReference.child("User").child(user.id).child("email").setValue(email)
         databaseReference.child("User").child(user.id).child("password").setValue(password)
+
+        user.email = email
+        user.password = password
         sharedPreferencesUtil.updateUser(user)
 
         return true
