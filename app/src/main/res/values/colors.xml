@@ -9,4 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="appTheme">#FC7C33</color>
     <color name="select_nav_color">#D26312</color>
+
+    <!-- 추가 색상 -->
+    <color name="black_high_emphasis">#D9000000</color>
+    <color name="black_medium_emphasis">#99000000</color>
+    <color name="black_low_emphasis">#66000000</color>
 </resources>
