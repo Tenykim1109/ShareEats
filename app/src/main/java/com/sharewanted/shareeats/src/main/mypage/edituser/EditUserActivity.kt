@@ -5,21 +5,13 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.databaseReference
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.sharedPreferencesUtil
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.storageRef
 import com.sharewanted.shareeats.databinding.ActivityEditUserBinding
-import com.sharewanted.shareeats.src.main.MainActivity
-import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.userlogin.LoginActivity
-import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 import java.text.SimpleDateFormat
 import java.util.*
 

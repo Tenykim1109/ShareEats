@@ -42,12 +42,6 @@ class ApplicationClass : Application() {
         databaseReference = FirebaseDatabase.getInstance().reference
         storageRef = FirebaseStorage.getInstance().reference
 
-        // Retrofit 초기화
-        retrofit = Retrofit.Builder()
-            .baseUrl(NAVER_GEOCODE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
         CreditCardRepository.initialize(this)
     }
 
