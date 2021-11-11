@@ -102,18 +102,21 @@ class SelectLocationActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-    fun searchAddress(lng: Double, lat: Double) {
+    fun searchAddress(lat: Double, lng: Double) {
 
         marker.position = LatLng(lng, lat)
         marker.map = naverMap
 
         val reverseGeocodingService = ApplicationClass.retrofit.create(GeocodingApi::class.java)
 
-        val latLng = LatLngCoords(lng, lat).toString()
+        val latLng = LatLngCoords(lat, lng).toString()
 
+        Log.d("coords check", latLng)
 
-        reverseGeocodingService.getAddress(latLng, "legalcode", "json").enqueue(object : Callback<AddressResponse>{
+        reverseGeocodingService.getAddress(latLng, "legalcode,addr", "json").enqueue(object : Callback<AddressResponse>{
             override fun onResponse(call: Call<AddressResponse>, response: Response<AddressResponse>) {
+
+//                Log.d("response check", )
 
                 if (response.isSuccessful) {
 
@@ -121,10 +124,14 @@ class SelectLocationActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     var address = ""
 
-                    address += "${addressResponse.results[0].region.area1.name} "
-                    address += "${addressResponse.results[0].region.area2.name} "
-                    address += "${addressResponse.results[0].region.area3.name} "
-                    address += "${addressResponse.results[0].region.area4.name} "
+                    address += "${addressResponse.results[1].region.area1.name} "
+                    address += "${addressResponse.results[1].region.area2.name} "
+                    address += "${addressResponse.results[1].region.area3.name} "
+                    address += "${addressResponse.results[1].region.area4.name} "
+                    address += "${addressResponse.results[1].land.number1}"
+                    if (addressResponse.results[1].land.number2 != "") {
+                        address += "-${addressResponse.results[1].land.number2}"
+                    }
 
                     Log.d("address check", address)
 

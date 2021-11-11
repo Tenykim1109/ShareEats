@@ -138,17 +138,18 @@ class OrderActivity : AppCompatActivity() {
             timeDialog.show()
         }
 
-        // 툴바 x버튼, 확인 버튼 클릭 테스트
         binding.activityOrderBtnSave.setOnClickListener {
 
-            val title = binding.activityOrderTvTitle.text.toString()
-            val place = binding.activityOrderTvLocation.text.toString()
+            if (emptyFieldCheck() == true) {
 
-            val date = dateFormat.parse(dateFormat.format(temp).toString()).time
-            val closedTime = dateFormat.parse(binding.activityOrderTvTime.text.toString()).time
-            val content = binding.activityOrderEtContent.text.toString()
-            val completed = "모집중"
-            var fund = 0
+                val title = binding.activityOrderTvTitle.text.toString()
+                val place = binding.activityOrderTvLocation.text.toString()
+
+                val date = dateFormat.parse(dateFormat.format(temp).toString()).time
+                val closedTime = dateFormat.parse(binding.activityOrderTvTime.text.toString()).time
+                val content = binding.activityOrderEtContent.text.toString()
+                val completed = "모집중"
+                var fund = 0
 
             for (i in selectedMenuList.indices) {
                 fund += selectedMenuList[i].price * selectedMenuList[i].quantity
@@ -200,6 +201,9 @@ class OrderActivity : AppCompatActivity() {
 //
 //            })
 
+            } else {
+                Toast.makeText(this, "값을 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.activityOrderBtnCancel.setOnClickListener {
@@ -211,6 +215,29 @@ class OrderActivity : AppCompatActivity() {
     }
 
 
+    private fun emptyFieldCheck() : Boolean {
+
+        if (binding.activityOrderTvMenu.text == "" || binding.activityOrderTvMenu.text == null) {
+            return false
+        }
+        if (binding.activityOrderTvStore.text == "" || binding.activityOrderTvStore.text == null) {
+            return false
+        }
+        if (binding.activityOrderEtContent.text.toString() == "" || binding.activityOrderEtContent.text.toString() == null) {
+            return false
+        }
+        if (binding.activityOrderTvLocation.text.toString() == "" || binding.activityOrderTvLocation.text.toString() == null) {
+            return false
+        }
+        if (binding.activityOrderTvTime.text == "" || binding.activityOrderTvTime.text == null) {
+            return false
+        }
+        if (binding.activityOrderTvTitle.text.toString() == "" || binding.activityOrderTvTitle.text.toString() == null) {
+            return false
+        }
+
+        return true
+    }
 
 
     private val activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -239,8 +266,6 @@ class OrderActivity : AppCompatActivity() {
                 val location = it.data?.getStringExtra("location")
                 binding.activityOrderTvLocation.setText(location)
             }
-
-
 
         }
     }

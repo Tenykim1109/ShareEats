@@ -28,16 +28,27 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/home_search_view"
-                android:layout_width="wrap_content"
+            <AutoCompleteTextView
+                android:id="@+id/fragment_home_actv_search_title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+                android:hint="제목을 입력하세요."
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_home_btn_search_title"
+                app:layout_constraintStart_toEndOf="@+id/home_spinner"
                 app:layout_constraintTop_toTopOf="parent"
-                app:queryHint="검색어를 입력하세요." />
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/fragment_home_btn_search_title"
+                android:layout_width="64dp"
+                android:layout_height="46dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:backgroundTint="@color/appTheme"
+                android:text="검색"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -47,7 +58,7 @@
 
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tl_menu_type"
+        android:id="@+id/fragment_home_tl_menu_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,20 +102,23 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tl_menu_type"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_home_tl_menu_type"
         tools:layout_editor_absoluteX="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fragment_home_rv_main"
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragment_home_fcv_tab_host"
+                android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                app:defaultNavHost="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fb_write_post"
