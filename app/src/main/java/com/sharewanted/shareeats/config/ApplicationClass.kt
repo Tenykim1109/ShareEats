@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.sharewanted.shareeats.util.SharedPreferencesUtil
 import com.sharewanted.shareeats.database.creditcard.CreditCardRepository
 
+
 class ApplicationClass : Application() {
 
     // Geocode API URL
