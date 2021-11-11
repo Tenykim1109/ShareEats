@@ -6,14 +6,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.naver.maps.map.NaverMapSdk
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import com.sharewanted.shareeats.util.SharedPreferencesUtil
 import com.sharewanted.shareeats.database.creditcard.CreditCardRepository
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class ApplicationClass : Application() {
 

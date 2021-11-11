@@ -34,10 +34,9 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
 
         fun onBind(post: Post) {
 
-            mDatabase.child("Store").child(post.storeId).addValueEventListener(object : ValueEventListener {
+            mDatabase.child("Store").child(post.storeId).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (index < postList.size) {
-
                         val profile = snapshot.child("profile").value.toString()
                         val storeName = snapshot.child("name").value.toString()
 
@@ -51,7 +50,7 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
                         Log.d("loop test", "loop check")
 
                         mDatabase.child("Post").child(post.postId.toString()).child("participant")
-                            .addValueEventListener(object : ValueEventListener {
+                            .addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
 
                                     Glide.with(itemView.context).load(profile).into(ivStore)
@@ -64,19 +63,23 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
                                         Log.d("data test", dataSnapshot.value.toString())
 
                                         for (index in menuList.indices) {
-                                            val price = dataSnapshot.child("menu").child(menuList[index].name).child("price").value.toString().toInt()
+                                            val price = dataSnapshot.child("menu")
+                                                .child(menuList[index].name)
+                                                .child("price").value.toString()
                                             val quantity = dataSnapshot.child("menu")
                                                 .child(menuList[index].name)
-                                                .child("quantity").value.toString().toInt()
+                                                .child("quantity").value.toString()
 
-                                            if (price != null) {
-                                                totalPrice += price * quantity
+                                            if (price != "null") {
+                                                totalPrice += price.toInt() * quantity.toInt()
                                             }
                                         }
 
                                     }
 
-                                    val goal = "${CommonUtils().makeComma(totalPrice)} / ${CommonUtils().makeComma(post.minPrice)}"
+                                    val goal = "${CommonUtils().makeComma(totalPrice)} / ${
+                                        CommonUtils().makeComma(post.minPrice)
+                                    }"
                                     tvPrice.text = goal
 
                                     progress.max = post.minPrice
@@ -86,7 +89,11 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
 
                                 override fun onCancelled(error: DatabaseError) {
                                     Log.d("HomeAdapter Post error", error.toString())
-                                    Toast.makeText(itemView.context, error.toString(), Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        itemView.context,
+                                        error.toString(),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
 
                             })
@@ -104,7 +111,7 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeAdapter.HomeViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         var view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_main_list_item_menu, parent, false)
         return HomeViewHolder(view)
     }

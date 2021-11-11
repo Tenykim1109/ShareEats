@@ -10,35 +10,38 @@
         android:id="@+id/fragment_my_page_order_info_profile"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/fragment_my_page_order_info_name"
+        style="@style/body_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Joshua"
-        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/fragment_my_page_order_info_profile"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/fragment_my_page_order_info_orders"
+        style="@style/body_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="싸이버거 세트 1개"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/fragment_my_page_order_info_name"
+        app:layout_constraintStart_toEndOf="@+id/fragment_my_page_order_info_profile"
         app:layout_constraintTop_toBottomOf="@+id/fragment_my_page_order_info_name" />
 
     <TextView
         android:id="@+id/fragment_my_page_order_info_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="총 13,000개"
-        android:textSize="20sp"
+        android:text="총 13,000원"
+        style="@style/body_text"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_order_info_orders"
         app:layout_constraintEnd_toEndOf="parent" />
 
