@@ -164,6 +164,7 @@ class OrderActivity : AppCompatActivity() {
             val intent = Intent(this, ParticipateActivity::class.java).apply {
                 putExtra("post", post)
                 putExtra("menu", ArrayList(menuList))
+                putExtra("flag", 0)
             }
             startActivity(intent)
 
