@@ -1,7 +1,9 @@
 package com.sharewanted.shareeats.src.main.location
 
 import android.Manifest
+import android.content.Intent
 import android.graphics.Color
+import android.icu.text.IDNA
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -32,6 +34,8 @@ import com.naver.maps.map.util.MarkerIcons
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentLocationBinding
 import com.sharewanted.shareeats.service.GeocodeService
+import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
+import com.sharewanted.shareeats.src.main.home.participate.ParticipateActivity
 import com.sharewanted.shareeats.src.main.location.model.MarkerInfo
 import com.sharewanted.shareeats.util.RetrofitCallback
 import java.util.concurrent.Executor
@@ -59,6 +63,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     private lateinit var storeEventListener: ChildEventListener
     private lateinit var postEventListener: ChildEventListener
 
+    private var hashMap = HashMap<String, Post>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -182,10 +187,15 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
 
         postEventListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val postId = snapshot.child("postId").getValue<Long>()!!
                 val location = snapshot.child("place").getValue<String>()!!
                 val title = snapshot.child("title").getValue<String>()!!
                 val storeId = snapshot.child("storeId").getValue<String>()!!
                 val res = GeocodeService().getGeocode(location, getGeocodeCallback())
+
+                val post = snapshot.getValue<Post>()
+                Log.d(TAG, "post = $post")
+                hashMap.put("${post!!.postId}", post)
 
                 Log.d(TAG, "title = $title, storeId = $storeId")
 
@@ -213,6 +223,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                                 marker.icon = MarkerIcons.RED
                                 marker.onClickListener = markerListener
                                 marker.tag = "제목: $title \n주문 매장: $storeName"
+                                marker.subCaptionText = "$postId"
 
                                 placeMarkers += marker
                                 placeInfoList += MarkerInfo(marker, title, storeName)
@@ -239,6 +250,22 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                                     markerInfo.marker.map = naverMap
                                     Log.d(TAG, "title = ${markerInfo.title}, store = ${markerInfo.storeName}")
                                     infoWindow.open(markerInfo.marker)
+                                    infoWindow.onClickListener = object : Overlay.OnClickListener {
+                                        override fun onClick(p0: Overlay): Boolean {
+                                            val infoWindow = p0 as InfoWindow
+
+                                            Log.d(TAG, "${infoWindow.marker!!.subCaptionText} clicked.")
+                                            Log.d(TAG, "${hashMap.get(infoWindow.marker!!.subCaptionText)}")
+
+                                            // intent로 게시글 id를 넘겨줌.
+                                            val intent = Intent(requireContext(), ParticipateActivity::class.java)
+                                            intent.putExtra("post", hashMap.get(infoWindow.marker!!.subCaptionText))
+                                            startActivity(intent)
+                                            return false
+                                        }
+                                    }
+
+
                                 }
                             }
                             Log.d(TAG, "place size = ${placeMarkers.size}")
@@ -340,3 +367,4 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
         true
     }
 }
+
