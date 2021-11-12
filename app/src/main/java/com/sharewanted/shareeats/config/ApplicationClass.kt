@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.sharewanted.shareeats.util.SharedPreferencesUtil
 import com.sharewanted.shareeats.database.creditcard.CreditCardRepository
 
+
 class ApplicationClass : Application() {
 
     companion object {
@@ -23,7 +24,11 @@ class ApplicationClass : Application() {
         lateinit var databaseReference: DatabaseReference
         lateinit var storageRef: StorageReference
 
-        lateinit var retrofit: Retrofit
+        // Retrofit 초기화
+        var retrofit = Retrofit.Builder()
+            .baseUrl(NAVER_GEOCODE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     override fun onCreate() {
@@ -36,12 +41,6 @@ class ApplicationClass : Application() {
         // Firebase 초기화
         databaseReference = FirebaseDatabase.getInstance().reference
         storageRef = FirebaseStorage.getInstance().reference
-
-        // Retrofit 초기화
-        retrofit = Retrofit.Builder()
-            .baseUrl(NAVER_GEOCODE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
         CreditCardRepository.initialize(this)
     }

@@ -31,38 +31,37 @@ class ChatListFragment : Fragment() {
         database = FirebaseDatabase.getInstance()
 
         chatList = mutableListOf()
-        mRef = database.getReference("Chatting")
+        mRef = database.getReference("Chat")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        chatListAdapter = ChatListAdapter(chatList, "애기동열")
+        val myId = SharedPreferencesUtil(requireContext()).getUser()
+        Log.d(TAG, myId.id)
+
+        chatListAdapter = ChatListAdapter(chatList, myId.id)
         binding.rvChatList.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = chatListAdapter
         }
 
-        val myNickname = SharedPreferencesUtil(requireContext()).getUser()
-        Log.d(TAG, myNickname.name)
-
-        getChatting("애기동열")
+        getChatting(myId.id)
     }
 
-    private fun getChatting(myNickname: String) {
+    private fun getChatting(myId: String) {
         childEventListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val nickName1 = snapshot.child("nickName1").getValue<String>()!!
-                val nickName2 = snapshot.child("nickName2").getValue<String>()!!
-                val imgUrl1 = snapshot.child("imgUrl1").getValue<String>()!!
-                val imgUrl2 = snapshot.child("imgUrl2").getValue<String>()!!
+                Log.d(TAG, "$snapshot")
+                val userId1 = snapshot.child("userId1").getValue<String>()!!
+                val userId2 = snapshot.child("userId2").getValue<String>()!!
                 val recentChat = snapshot.child("recentChat").getValue<String>()!!
                 val recentDate = snapshot.child("recentDate").getValue<String>()!!
 
-                if (myNickname == nickName1 || myNickname == nickName2) {
+                if (myId == userId1 || myId == userId2) {
                     Log.d("Chatting...roomId", "${snapshot.key!!}")
-                    chatList.add(ChatList(snapshot.key!!, nickName1, nickName2, recentChat, recentDate, imgUrl1, imgUrl2))
+                    chatList.add(ChatList(snapshot.key!!, userId1, userId2, recentChat, recentDate))
                     chatListAdapter.notifyDataSetChanged()
                 }
                 binding.rvChatList.smoothScrollToPosition(chatList.size)
