@@ -10,17 +10,15 @@
         android:id="@+id/fragment_my_page_notice_ivArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="@dimen/activity_margin_16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
 
     <TextView
         android:id="@+id/fragment_my_page_notice_tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/appbar_text"
         android:text="만든이"
-        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_notice_ivArrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

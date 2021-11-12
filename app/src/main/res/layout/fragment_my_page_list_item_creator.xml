@@ -9,9 +9,9 @@
     <TextView
         android:id="@+id/fragment_my_page_creator_list_item_tvName"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="@dimen/appbar_margin_54dp"
         tools:text="김주환"
-        android:textSize="24sp"
+        style="@style/header_text"
         android:paddingLeft="32dp"
         android:gravity="left|center"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,10 +20,8 @@
 
     <TextView
         android:id="@+id/fragment_my_page_creator_list_item_tvEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/body_text"
         tools:text="juhwan.dev@gmail.com"
-        android:textSize="16sp"
         android:paddingLeft="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_creator_list_item_tvName"
         app:layout_constraintStart_toEndOf="@+id/fragment_my_page_creator_list_item_tvName"

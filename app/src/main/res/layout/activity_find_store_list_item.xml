@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <ImageView
         android:id="@+id/activity_find_store_iv_profile"
         android:layout_width="97dp"
@@ -16,8 +15,7 @@
 
     <TextView
         android:id="@+id/activity_find_store_tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/header_text"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="장수촌칼국수"
@@ -27,28 +25,22 @@
 
     <TextView
         android:id="@+id/activity_find_store_tv_tel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        style="@style/explain_text"
         android:text="010-0000-0000"
-        app:layout_constraintStart_toEndOf="@+id/activity_find_store_iv_profile"
+        app:layout_constraintStart_toStartOf="@+id/activity_find_store_tv_name"
         app:layout_constraintTop_toBottomOf="@+id/activity_find_store_tv_name" />
 
     <TextView
         android:id="@+id/activity_find_store_tv_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        style="@style/explain_text"
         android:text="경북 구미시 00동 000-00"
-        app:layout_constraintStart_toEndOf="@+id/activity_find_store_iv_profile"
+        app:layout_constraintStart_toStartOf="@+id/activity_find_store_tv_tel"
         app:layout_constraintTop_toBottomOf="@+id/activity_find_store_tv_tel" />
 
     <TextView
         android:id="@+id/activity_find_store_tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        style="@style/explain_text"
         android:text="매일 11:00 ~ 22:00"
-        app:layout_constraintStart_toEndOf="@+id/activity_find_store_iv_profile"
+        app:layout_constraintStart_toStartOf="@+id/activity_find_store_tv_location"
         app:layout_constraintTop_toBottomOf="@+id/activity_find_store_tv_location" />
 </androidx.constraintlayout.widget.ConstraintLayout>

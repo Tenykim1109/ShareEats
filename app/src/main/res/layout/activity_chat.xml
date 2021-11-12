@@ -34,8 +34,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             app:srcCompat="@drawable/ic_chat_send" />
-
-
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -10,17 +10,15 @@
         android:id="@+id/fragment_my_page_notice_ivArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="@dimen/activity_margin_16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
 
     <TextView
         android:id="@+id/fragment_my_page_order_info_tvAppBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/appbar_text"
         android:text="주문 내역"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_notice_ivArrow"
         app:layout_constraintStart_toEndOf="@+id/fragment_my_page_notice_ivArrow"
         app:layout_constraintTop_toTopOf="@+id/fragment_my_page_notice_ivArrow" />
@@ -29,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
+        android:layout_margin="@dimen/activity_margin_16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_my_page_notice_ivArrow">
 
@@ -39,20 +38,15 @@
 
             <TextView
                 android:id="@+id/fragment_my_page_notice_tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/header_text"
                 android:text="지금 맘스터치 드실 분!"
-                android:layout_marginLeft="16dp"
-                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/fragment_my_page_order_info_tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/body_text"
                 android:text="2021.10.30"
-                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_my_page_notice_tvTitle" />
 
@@ -60,69 +54,58 @@
                 android:id="@+id/fragment_my_page_order_info_line1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_margin="8dp"
+                android:layout_marginVertical="@dimen/activity_margin_16dp"
                 android:background="@color/black"
                 app:layout_constraintTop_toBottomOf="@id/fragment_my_page_order_info_tvDate"/>
 
             <TextView
                 android:id="@+id/fragment_my_page_order_info_tv1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                style="@style/header_text"
+                android:layout_marginLeft="@dimen/activity_margin_16dp"
+                android:layout_marginTop="@dimen/activity_margin_16dp"
                 android:text="음식점"
-                android:textSize="24sp"
                 app:layout_constraintTop_toBottomOf="@id/fragment_my_page_order_info_line1"
                 app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
                 android:id="@+id/fragment_my_page_order_info_tv2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/header_text"
                 android:layout_marginTop="16dp"
                 android:text="배달장소"
-                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@+id/fragment_my_page_order_info_tv1"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_my_page_order_info_tv1" />
 
             <TextView
                 android:id="@+id/fragment_my_page_order_info_tv3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/header_text"
                 android:layout_marginTop="16dp"
                 android:text="마감시간"
-                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@+id/fragment_my_page_order_info_tv2"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_my_page_order_info_tv2" />
 
             <TextView
                 android:id="@+id/fragment_my_page_order_info_store_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/body_text"
                 android:layout_marginLeft="48dp"
                 android:text="맘스터치 진평점"
-                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_order_info_tv1"
                 app:layout_constraintStart_toEndOf="@+id/fragment_my_page_order_info_tv2"
                 app:layout_constraintTop_toTopOf="@+id/fragment_my_page_order_info_tv1" />
 
             <TextView
                 android:id="@+id/fragment_my_page_order_info_store_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/body_text"
                 android:layout_marginLeft="48dp"
                 android:text="분수대 앞"
-                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_order_info_tv2"
                 app:layout_constraintStart_toEndOf="@+id/fragment_my_page_order_info_tv2"
                 app:layout_constraintTop_toTopOf="@+id/fragment_my_page_order_info_tv2" />
 
             <TextView
                 android:id="@+id/fragment_my_page_order_info_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/body_text"
                 android:layout_marginLeft="48dp"
                 android:text="2021.10.30 21:00"
-                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_order_info_tv3"
                 app:layout_constraintStart_toEndOf="@+id/fragment_my_page_order_info_tv3"
                 app:layout_constraintTop_toTopOf="@+id/fragment_my_page_order_info_tv3" />
@@ -131,17 +114,16 @@
                 android:id="@+id/fragment_my_page_order_info_line2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_margin="8dp"
+                android:layout_marginTop="@dimen/activity_margin_16dp"
                 android:background="@color/black"
                 app:layout_constraintTop_toBottomOf="@id/fragment_my_page_order_info_date" />
 
             <TextView
                 android:id="@+id/fragment_my_page_order_info_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                style="@style/body_text"
+                android:layout_marginHorizontal="@dimen/activity_margin_16dp"
+                android:layout_marginTop="@dimen/activity_margin_16dp"
                 android:text="맘스터치 선착 2명 ㄱㄱ"
-                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_my_page_order_info_line2" />
 
@@ -149,7 +131,7 @@
                 android:id="@+id/fragment_my_page_order_info_line3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_margin="8dp"
+                android:layout_marginVertical="@dimen/activity_margin_16dp"
                 android:background="@color/black"
                 app:layout_constraintTop_toBottomOf="@id/fragment_my_page_order_info_name" />
 
@@ -170,10 +152,9 @@
 
             <TextView
                 android:id="@+id/fragment_my_page_order_info_tv4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="8dp"
+                style="@style/body_text"
+                android:layout_marginTop="@dimen/activity_margin_16dp"
+                android:layout_marginLeft="@dimen/activity_margin_16dp"
                 android:text="총 주문금액 / 최소 주문금액"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -181,14 +162,11 @@
 
             <TextView
                 android:id="@+id/fragment_my_page_order_info_total_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="8dp"
+                style="@style/body_text"
                 android:text="25,000원 / 14,900원"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_my_page_order_info_line4" />
+                android:layout_marginRight="@dimen/activity_margin_16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_order_info_tv4"
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

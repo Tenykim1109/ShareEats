@@ -3,26 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/activity_margin_16dp">
 
     <TextView
         android:id="@+id/fragment_my_page_notice_list_item_tvTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/header_text"
         tools:text="서비스 개선 안내문"
-        android:textSize="24sp"
-        android:layout_margin="16dp"
-        android:gravity="left|center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
         android:id="@+id/fragment_my_page_notice_list_item_tvDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:paddingLeft="32dp"
-        android:textSize="16sp"
+        style="@style/body_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_my_page_notice_list_item_tvTitle"

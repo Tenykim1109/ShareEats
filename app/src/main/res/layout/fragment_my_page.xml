@@ -17,10 +17,8 @@
 
     <TextView
         android:id="@+id/fragment_my_page_tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/appbar_text"
         android:text="홍길동"
-        android:textSize="20sp"
         android:layout_marginLeft="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_ivProfile"
         app:layout_constraintStart_toEndOf="@+id/fragment_my_page_ivProfile"

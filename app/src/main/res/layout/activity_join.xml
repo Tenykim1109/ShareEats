@@ -10,25 +10,20 @@
         android:id="@+id/activity_join_btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:padding="@dimen/activity_margin_16dp"
         android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/activity_login_tvJoin"
         app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
 
     <TextView
         android:id="@+id/activity_login_tvJoin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="137dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="182dp"
+        style="@style/appbar_text"
         android:text="회원가입"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_join_btnBack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/activity_join_btnBack"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/activity_join_btnBack" />
 
     <ImageView
         android:id="@+id/activity_join_ivProfile"
@@ -46,7 +41,7 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="48dp"
         android:orientation="vertical"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/activity_margin_16dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_join_btnJoin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,84 +50,105 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/activity_margin_16dp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/activity_join_etId"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:ems="10"
-                android:hint="아이디"
-                android:inputType="textPersonName" />
+                android:layout_marginRight="@dimen/activity_margin_16dp"
+                app:helperTextEnabled="true"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/activity_join_etId"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="아이디" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/activity_join_btnCheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="중복확인" />
-
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/activity_join_etPassword"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="비밀번호"
-            android:layout_marginBottom="10dp"
-            android:inputType="textPersonName" />
+            android:layout_marginBottom="@dimen/activity_margin_16dp"
+            app:helperTextEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activity_join_etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="비밀번호" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/activity_join_etConfirmPassword"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="비밀번호 확인"
-            android:layout_marginBottom="10dp"
-            android:inputType="textPersonName" />
+            android:layout_marginBottom="@dimen/activity_margin_16dp"
+            app:helperTextEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activity_join_etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="비밀번호 확인" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/activity_join_etName"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="이름"
-            android:layout_marginBottom="10dp"
-            android:inputType="textPersonName" />
+            android:layout_marginBottom="@dimen/activity_margin_16dp"
+            app:helperTextEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activity_join_etName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="이름" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/activity_join_etTel"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="전화번호"
-            android:layout_marginBottom="10dp"
-            android:inputType="textPersonName" />
+            android:layout_marginBottom="@dimen/activity_margin_16dp"
+            app:helperTextEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activity_join_etTel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="전화번호" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/activity_join_etEmail"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="이메일"
-            android:layout_marginBottom="10dp"
-            android:inputType="textPersonName" />
-
-
+            android:layout_marginBottom="@dimen/activity_margin_16dp"
+            app:helperTextEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activity_join_etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="이메일" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <Button
         android:id="@+id/activity_join_btnJoin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="48dp"
+        android:layout_marginHorizontal="48dp"
+        android:layout_marginBottom="@dimen/activity_margin_16dp"
         android:text="회원가입"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_login_layoutJoin" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
