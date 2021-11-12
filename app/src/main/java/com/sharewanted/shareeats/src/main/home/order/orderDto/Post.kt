@@ -11,7 +11,7 @@ data class Post (
     val place: String = "",
     val closedTime: Long = 0,
     val content: String = "",
-    val fund: Int = 0,
+    var fund: Int = 0,
     val minPrice: Int = 0,
     val completed: String = "",
     val type: String = ""): Serializable

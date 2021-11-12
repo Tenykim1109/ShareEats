@@ -126,6 +126,9 @@ class ParticipateActivity : AppCompatActivity() {
 
 
                             } else if (dataInputFlag == 1) {
+                                mDatabase.child("Post").child(post.postId.toString())
+                                    .child("fund").setValue(post.fund)
+
                                 for (i in menuList.indices) {
                                     mDatabase.child("Post").child(post.postId.toString())
                                         .child("participant").child(user.id)
