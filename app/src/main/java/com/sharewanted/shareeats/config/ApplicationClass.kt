@@ -13,21 +13,17 @@ import com.sharewanted.shareeats.database.creditcard.CreditCardRepository
 
 class ApplicationClass : Application() {
 
-    // Geocode API URL
-    val NAVER_GEOCODE_URL = "https://naveropenapi.apigw.ntruss.com"
-
     companion object {
         lateinit var sharedPreferencesUtil: SharedPreferencesUtil
+
+        // Geocode API URL
+        const val NAVER_GEOCODE_URL = "https://naveropenapi.apigw.ntruss.com"
 
         // Firebase
         lateinit var databaseReference: DatabaseReference
         lateinit var storageRef: StorageReference
 
-        const val BASE_URL = "https://naveropenapi.apigw.ntruss.com/"
-        var retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        lateinit var retrofit: Retrofit
     }
 
     override fun onCreate() {
