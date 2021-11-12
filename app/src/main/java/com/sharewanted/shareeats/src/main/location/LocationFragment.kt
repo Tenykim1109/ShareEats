@@ -36,6 +36,7 @@ import com.sharewanted.shareeats.databinding.FragmentLocationBinding
 import com.sharewanted.shareeats.service.GeocodeService
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.participate.ParticipateActivity
+import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
 import com.sharewanted.shareeats.src.main.location.model.MarkerInfo
 import com.sharewanted.shareeats.util.RetrofitCallback
 import java.util.concurrent.Executor
@@ -258,8 +259,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                                             Log.d(TAG, "${hashMap.get(infoWindow.marker!!.subCaptionText)}")
 
                                             // intent로 게시글 id를 넘겨줌.
-                                            val intent = Intent(requireContext(), ParticipateActivity::class.java)
-                                            intent.putExtra("post", hashMap.get(infoWindow.marker!!.subCaptionText))
+                                            val intent = Intent(requireContext(), PostInfoActivity::class.java)
+                                            intent.putExtra("postId", infoWindow.marker!!.subCaptionText.toInt())
                                             startActivity(intent)
                                             return false
                                         }
