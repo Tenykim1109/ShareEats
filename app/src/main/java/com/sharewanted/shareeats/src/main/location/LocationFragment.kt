@@ -47,8 +47,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     private var naverMap: NaverMap? = null
     private lateinit var mapFragment: MapFragment
     private lateinit var search: TextView
-    private lateinit var storeMarkers: MutableList<Marker>
-    private lateinit var placeMarkers: MutableList<Marker>
+    private var storeMarkers = mutableListOf<Marker>()
+    private var placeMarkers = mutableListOf<Marker>()
     private lateinit var infoWindow: InfoWindow
 
     private lateinit var database: FirebaseDatabase
@@ -126,7 +126,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                     Log.d(TAG, "livedata = ${res.addresses}")
 
                     executor.execute {
-                        storeMarkers = mutableListOf()
 
                         // BackgroundThread에서 마커 정보 초기화
                         repeat(1) {
@@ -175,7 +174,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     private fun initPost() {
         val executor: Executor = Executors.newFixedThreadPool(2)
         val handler = Handler(Looper.getMainLooper())
-        placeMarkers = mutableListOf()
 
         postEventListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
