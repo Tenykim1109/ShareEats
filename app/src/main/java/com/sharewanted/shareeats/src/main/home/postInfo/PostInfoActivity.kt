@@ -49,7 +49,6 @@ class PostInfoActivity : AppCompatActivity() {
 
             for (i in selectedMenuList.indices) {
                 Log.d(TAG, "onCreate: ${selectedMenuList[i].quantity}")
-                mPost.fund += selectedMenuList[i].price * selectedMenuList[i].quantity
                 menuList.add(Menu(selectedMenuList[i].name, selectedMenuList[i].price, selectedMenuList[i].quantity, selectedMenuList[i].photo, selectedMenuList[i].desc))
             }
 
