@@ -10,24 +10,19 @@
         android:id="@+id/activity_edit_user_btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:padding="@dimen/activity_margin_16dp"
         android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/activity_edit_user_tvEditUser"
         app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
 
     <TextView
         android:id="@+id/activity_edit_user_tvEditUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="137dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="182dp"
+        style="@style/appbar_text"
         android:text="아이디 확인"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_edit_user_btnBack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/activity_edit_user_btnBack"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -42,96 +37,59 @@
 
     <TextView
         android:id="@+id/activity_edit_user_tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        style="@style/body_text"
         android:text="홍길동"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_edit_user_ivUser" />
 
-    <LinearLayout
-        android:id="@+id/activty_edit_user_layoutEditUser"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/activity_edit_user_btnEdit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_edit_user_tilEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin_16dp"
+        app:helperTextEnabled="true"
         app:layout_constraintTop_toBottomOf="@+id/activity_edit_user_tvName">
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/activity_edit_user_etEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:hint="이메일" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/activity_edit_user_tvEmail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:text="이메일" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_edit_user_tilPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin_16dp"
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toBottomOf="@+id/activity_edit_user_tilEmail">
 
-            <EditText
-                android:id="@+id/activity_edit_user_etEmail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="js.pekah@gmail.com" />
-        </LinearLayout>
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/activity_edit_user_etPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:hint="비밀번호" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/activity_edit_user_tvPassword"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:text="비밀번호" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/activity_edit_user_tilComfirmPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin_16dp"
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toBottomOf="@+id/activity_edit_user_tilPassword">
 
-            <EditText
-                android:id="@+id/activity_edit_user_etPassword"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/activity_edit_user_etComfirmPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/activity_edit_user_tvConfirmPassword"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:text="비밀번호 확인" />
-
-            <EditText
-                android:id="@+id/activity_edit_user_etComfirmPassword"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="" />
-        </LinearLayout>
-
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:hint="비밀번호 확인" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/activity_edit_user_btnEdit"
@@ -139,7 +97,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activty_edit_user_layoutEditUser"
+        app:layout_constraintTop_toBottomOf="@id/activity_edit_user_tilComfirmPassword"
         app:layout_constraintBottom_toTopOf="@id/activity_edit_user_layoutLogout"
         android:text="수정하기" />
 
@@ -157,16 +115,14 @@
 
         <TextView
             android:id="@+id/activity_edit_user_tvLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            style="@style/explain_text_gray"
+            android:layout_marginTop="@dimen/activity_margin_16dp"
             android:text="로그아웃" />
 
         <TextView
             android:id="@+id/activity_edit_user_tvWithdrawal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            style="@style/explain_text_gray"
+            android:layout_margin="@dimen/activity_margin_16dp"
             android:text="회원탈퇴" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

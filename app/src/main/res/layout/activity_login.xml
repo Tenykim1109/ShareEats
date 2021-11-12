@@ -61,6 +61,7 @@
 
             <TextView
                 android:id="@+id/activity_login_tvJoin"
+                style="@style/explain_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -69,6 +70,7 @@
 
             <TextView
                 android:id="@+id/activity_login_tvFindId"
+                style="@style/explain_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -77,6 +79,7 @@
 
             <TextView
                 android:id="@+id/activity_login_tvFindPassword"
+                style="@style/explain_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

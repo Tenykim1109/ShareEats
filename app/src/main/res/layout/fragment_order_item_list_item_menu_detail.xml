@@ -14,10 +14,8 @@
 
         <TextView
             android:id="@+id/fragment_order_item_tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="냉면세트"
-            android:textSize="30dp" />
+            style="@style/header_text"
+            android:text="냉면세트" />
 
         <TextView
             android:id="@+id/fragment_order_item_tv_detail"
@@ -26,10 +24,8 @@
 
         <TextView
             android:id="@+id/fragment_order_item_tv_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="12,000원"
-            android:textSize="20dp"/>
+            style="@style/body_text"
+            android:text="12,000원"/>
 
     </LinearLayout>
 

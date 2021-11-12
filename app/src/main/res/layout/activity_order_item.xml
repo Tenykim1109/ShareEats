@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:padding="@dimen/activity_margin_16dp"
                 android:background="@color/white"
                 android:src="@drawable/ic_baseline_arrow_back_24" />
 
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_margin="@dimen/activity_margin_16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -59,11 +59,10 @@
 
                 <TextView
                     android:id="@+id/activity_order_item_tv_title"
+                    style="@style/appbar_text"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="8"
-                    android:text="asdf"
-                    android:textSize="30dp" />
+                    android:text="asdf" />
 
                 <Button
                     android:id="@+id/activity_order_item_btn_chat"
@@ -78,101 +77,90 @@
             <TextView
                 android:id="@+id/activity_order_item_tv_posted_date"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/body_text"
                 android:gravity="right"
-                android:text="10:30"
-                android:textSize="20dp" />
+                android:text="10:30" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="@dimen/activity_margin_16dp"
+                android:layout_marginBottom="@dimen/activity_margin_16dp"
                 android:background="@color/black" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:id="@+id/activity_order_item_header1"
+                    style="@style/header_text"
                     android:text="게시자"
-                    android:textSize="20dp" />
+                    android:layout_marginStart="@dimen/activity_margin_16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/activity_order_item_header2"
+                    style="@style/header_text"
+                    android:text="음식점"
+                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    app:layout_constraintStart_toStartOf="@+id/activity_order_item_header1"
+                    app:layout_constraintTop_toBottomOf="@id/activity_order_item_header1"/>
+
+                <TextView
+                    android:id="@+id/activity_order_item_header3"
+                    style="@style/header_text"
+                    android:text="배달장소"
+                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    app:layout_constraintStart_toStartOf="@+id/activity_order_item_header2"
+                    app:layout_constraintTop_toBottomOf="@id/activity_order_item_header2"/>
+
+                <TextView
+                    android:id="@+id/activity_order_item_header4"
+                    style="@style/header_text"
+                    android:text="마감시간"
+                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    app:layout_constraintStart_toStartOf="@+id/activity_order_item_header3"
+                    app:layout_constraintTop_toBottomOf="@id/activity_order_item_header3"/>
 
                 <TextView
                     android:id="@+id/activity_order_item_tv_writer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="나요셉" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="음식점"
-                    android:textSize="20dp" />
+                    style="@style/body_text"
+                    android:layout_weight="10"
+                    android:text="나요셉"
+                    android:layout_marginLeft="@dimen/activity_margin_32dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_item_header1"
+                    app:layout_constraintStart_toEndOf="@+id/activity_order_item_header1"
+                    app:layout_constraintTop_toTopOf="@+id/activity_order_item_header1"/>
 
                 <TextView
                     android:id="@+id/activity_order_item_tv_store"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="맘스터치 진평점" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="배달장소"
-                    android:textSize="20dp" />
+                    style="@style/body_text"
+                    android:layout_weight="10"
+                    android:text="맘스터치 진평점"
+                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_item_header2"
+                    app:layout_constraintStart_toStartOf="@+id/activity_order_item_tv_writer"
+                    app:layout_constraintTop_toTopOf="@+id/activity_order_item_header2"/>
 
                 <TextView
                     android:id="@+id/activity_order_item_tv_take_place"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="분수대 앞" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="마감시간"
-                    android:textSize="20dp" />
+                    style="@style/body_text"
+                    android:layout_weight="10"
+                    android:text="분수대 앞"
+                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_item_header3"
+                    app:layout_constraintStart_toStartOf="@+id/activity_order_item_tv_store"
+                    app:layout_constraintTop_toTopOf="@+id/activity_order_item_header3"/>
 
                 <TextView
                     android:id="@+id/activity_order_item_tv_deadline"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="2021.10.30 21:00" />
-
-            </LinearLayout>
+                    style="@style/body_text"
+                    android:layout_weight="10"
+                    android:text="2021.10.30 21:00"
+                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_item_header4"
+                    app:layout_constraintStart_toStartOf="@+id/activity_order_item_tv_take_place"
+                    app:layout_constraintTop_toTopOf="@+id/activity_order_item_header4"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -183,16 +171,16 @@
 
             <TextView
                 android:id="@+id/activity_order_item_tv_content"
+                style="@style/body_text"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:text="맘스터치 선착2명 ㄱㄱㄱㄱ"
-                android:textSize="30dp" />
+                android:layout_marginHorizontal="@dimen/activity_margin_16dp"
+                android:text="맘스터치 선착2명 ㄱㄱㄱㄱ" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="@dimen/activity_margin_16dp"
+                android:layout_marginBottom="@dimen/activity_margin_16dp"
                 android:background="@color/black" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -203,8 +191,8 @@
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp" />
+                android:layout_marginTop="@dimen/activity_margin_16dp"
+                android:layout_marginBottom="@dimen/activity_margin_16dp" />
 
             <Button
                 android:id="@+id/activity_order_item_btn_join"
