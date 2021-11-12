@@ -9,14 +9,19 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
 import com.sharewanted.shareeats.R
+import com.sharewanted.shareeats.config.ApplicationClass.Companion.storageRef
 import com.sharewanted.shareeats.src.main.chat.models.Chat
 
-class ChatAdapter(val chatList: MutableList<Chat>, private val myNickName: String) : RecyclerView.Adapter<ChatAdapter.ChatHolder>() {
+class ChatAdapter(val chatList: MutableList<Chat>, private val myId: String) : RecyclerView.Adapter<ChatAdapter.ChatHolder>() {
 
     private lateinit var storage: FirebaseStorage
+    private val database = FirebaseDatabase.getInstance()
+    private val mRef = database.getReference("User")
+    private var profileUrl = ""
 
     inner class ChatHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -24,11 +29,8 @@ class ChatAdapter(val chatList: MutableList<Chat>, private val myNickName: Strin
             val otherChatFrame = itemView.findViewById<ConstraintLayout>(R.id.cl_chat_other_layout)
             val userChatFrame = itemView.findViewById<ConstraintLayout>(R.id.cl_chat_layout)
 
-            val profileUrl = data.nickName + "/" + data.imageUrl
-            val storageRef = storage.reference.child(profileUrl)
-
             Log.d("Chatting", "ref = $storageRef")
-            if (data.nickName != myNickName) {
+            if (data.userId != myId) {
                 otherChatFrame.visibility = View.VISIBLE
                 userChatFrame.visibility = View.GONE
 
@@ -36,16 +38,11 @@ class ChatAdapter(val chatList: MutableList<Chat>, private val myNickName: Strin
                 val otherName = itemView.findViewById<TextView>(R.id.tv_chat_other_nickName)
                 val otherChat = itemView.findViewById<TextView>(R.id.tv_chat_message_other)
 
-                Log.d("data check", data.nickName)
+                Log.d("data check", data.userId)
 
-
-
-                storageRef.downloadUrl.addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        Glide.with(itemView.context).load(it.result).into(otherProfile)
-                    }
+                storageRef.child("profile").child(profileUrl).downloadUrl.addOnSuccessListener {
+                    Glide.with(itemView.context).load(it).circleCrop().override(200, 200).into(otherProfile)
                 }
-//                Glide.with(itemView.context).load(data.imageUrl).placeholder(R.drawable.ic_navi_mypage).apply(RequestOptions().circleCrop().circleCrop()).into(otherProfile)
 
                 otherName.text = data.nickName
                 otherChat.text = data.content
@@ -58,16 +55,11 @@ class ChatAdapter(val chatList: MutableList<Chat>, private val myNickName: Strin
                 val userName = itemView.findViewById<TextView>(R.id.tv_chat_nickName)
                 val userChat = itemView.findViewById<TextView>(R.id.tv_chat_message)
 
-
                 Log.d("data check", data.nickName)
 
-                storageRef.downloadUrl.addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        Glide.with(itemView.context).load(it.result).into(userProfile)
-                    }
+                storageRef.child("profile").child(profileUrl).downloadUrl.addOnSuccessListener {
+                    Glide.with(itemView.context).load(it).circleCrop().override(200, 200).into(userProfile)
                 }
-
-//                Glide.with(itemView.context).load(data.imageUrl).placeholder(R.drawable.ic_navi_mypage).apply(RequestOptions().circleCrop().circleCrop()).into(userProfile)
 
                 userName.text = data.nickName
                 userChat.text = data.content
@@ -82,7 +74,14 @@ class ChatAdapter(val chatList: MutableList<Chat>, private val myNickName: Strin
     }
 
     override fun onBindViewHolder(holder: ChatHolder, position: Int) {
-        holder.bindInfo(chatList[position])
+        setProfile(chatList[position], holder, position)
+    }
+
+    private fun setProfile(data: Chat, holder: ChatHolder, position: Int) {
+        mRef.child(data.userId).child("profile").get().addOnSuccessListener {
+            profileUrl = it.getValue<String>()!!
+            holder.bindInfo(chatList[position])
+        }
     }
 
     override fun getItemCount(): Int {
