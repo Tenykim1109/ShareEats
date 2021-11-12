@@ -36,6 +36,10 @@ class OrderDetailActivity : AppCompatActivity(), OrderDetailClickListener {
         adapter = OrderDetailAdapter(postList, storeList, this)
         binding.fragmentMyPageOrderDetailRv.adapter = adapter
         binding.fragmentMyPageOrderDetailRv.layoutManager = LinearLayoutManager(this)
+
+        binding.fragmentMyPageNoticeIvArrow.setOnClickListener {
+            finish()
+        }
     }
 
     // User 테이블에서 PostId 가져오기

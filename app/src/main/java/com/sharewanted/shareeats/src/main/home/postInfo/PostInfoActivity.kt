@@ -49,19 +49,24 @@ class PostInfoActivity : AppCompatActivity() {
         postId = intent.getIntExtra("postId", 0).toString()
 
         binding.activityPostInfoBtnJoin.setOnClickListener {
-            Toast.makeText(this, "참여하기", Toast.LENGTH_SHORT).show()
+            if (binding.activityPostInfoTvMenu.text != "") {
 
-            for (i in selectedMenuList.indices) {
-                Log.d(TAG, "onCreate: ${selectedMenuList[i].quantity}")
-                menuList.add(Menu(selectedMenuList[i].name, selectedMenuList[i].price, selectedMenuList[i].quantity, selectedMenuList[i].photo, selectedMenuList[i].desc))
-            }
+                Toast.makeText(this, "참여하기", Toast.LENGTH_SHORT).show()
 
-            val intent = Intent(this, ParticipateActivity::class.java).apply {
-                putExtra("post", mPost)
-                putExtra("menu", ArrayList(menuList))
-                putExtra("flag", 1)
+                for (i in selectedMenuList.indices) {
+                    Log.d(TAG, "onCreate: ${selectedMenuList[i].quantity}")
+                    menuList.add(Menu(selectedMenuList[i].name, selectedMenuList[i].price, selectedMenuList[i].quantity, selectedMenuList[i].photo, selectedMenuList[i].desc))
+                }
+
+                val intent = Intent(this, ParticipateActivity::class.java).apply {
+                    putExtra("post", mPost)
+                    putExtra("menu", ArrayList(menuList))
+                    putExtra("flag", 1)
+                }
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "메뉴를 선택해주세요.", Toast.LENGTH_SHORT).show()
             }
-            startActivity(intent)
         }
         binding.activityPostInfoBtnChat.setOnClickListener {
             val chatRef = FirebaseDatabase.getInstance().getReference("Chat").push()

@@ -168,40 +168,6 @@ class OrderActivity : AppCompatActivity() {
             }
             startActivity(intent)
 
-//            mDatabase.addValueEventListener(object : ValueEventListener {
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    if (dataInputFlag == false) {
-//                        if (snapshot.hasChildren()) {
-//                            postId = snapshot.child("Post").children.last().key!!.toInt() + 1
-//                        }
-//
-//                        val post = Post(postId, title, date, "qwe", storeId!!, place, closedTime, content, fund, storeMinPrice!!, completed, foodType)
-//
-//                        mDatabase.child("Post").child(postId.toString()).setValue(post)
-//
-//                        for (i in selectedMenuList.indices) {
-//                            mDatabase.child("Post").child(postId.toString())
-//                                .child("participant").child("qwe")
-//                                .child("menu").child(selectedMenuList[i].name).setValue(selectedMenuList[i])
-//                        }
-//
-//                        val map = mapOf("postId" to postId)
-//                        mDatabase.child("User").child("qwe").child("postList").child(postId.toString()).setValue(map)
-//
-//                        dataInputFlag = true
-//
-//                        Toast.makeText(this@OrderActivity, "글 작성완료", Toast.LENGTH_SHORT).show()
-//                        finish()
-//                    }
-//
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {
-//                    Toast.makeText(this@OrderActivity, error.toString(), Toast.LENGTH_SHORT).show()
-//                }
-//
-//            })
-
             } else {
                 Toast.makeText(this, "값을 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
             }

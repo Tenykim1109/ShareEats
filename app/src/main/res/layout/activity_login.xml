@@ -50,6 +50,7 @@
             android:id="@+id/activity_login_btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/appTheme"
             android:text="로그인"
             android:layout_marginBottom="8dp"
             />

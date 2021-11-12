@@ -27,7 +27,7 @@ class CheckPasswordActivity : AppCompatActivity() {
         var id = intent.getStringExtra("id")!!
 
         var password = intent.getStringExtra("password")!!
-        password = password.substring(0, 4) + "********"
+        password = password.substring(0, 3) + "********"
 
         var result = "[${id}] 님의 비밀번호는\n${password}입니다."
         binding.activityCheckPasswordTvResult.text = result

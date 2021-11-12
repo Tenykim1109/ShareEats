@@ -23,6 +23,10 @@ class CreatorActivity : AppCompatActivity() {
         adapter = CreatorAdapter(list)
         binding.fragmentMyPageRvMenu.adapter = adapter
         binding.fragmentMyPageRvMenu.layoutManager = LinearLayoutManager(this)
+
+        binding.fragmentMyPageNoticeIvArrow.setOnClickListener {
+            finish()
+        }
     }
 
     fun initData() {

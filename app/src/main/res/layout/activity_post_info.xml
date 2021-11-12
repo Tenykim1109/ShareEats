@@ -16,35 +16,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageButton
                 android:id="@+id/activity_post_info_btn_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="39dp"
+                android:layout_height="47dp"
                 android:layout_centerVertical="true"
-                android:padding="@dimen/activity_margin_16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/white"
-                android:src="@drawable/ic_baseline_close_24" />
+                android:padding="@dimen/activity_margin_16dp"
+                android:src="@drawable/ic_baseline_close_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <TextView
                 style="@style/appbar_text"
                 android:layout_centerInParent="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="57dp"
                 android:text="게시글 상세정보"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@+id/activity_post_info_btn_chat"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/activity_post_info_btn_chat"
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="16dp"
                 android:backgroundTint="@color/appTheme"
-                android:text="채팅" />
+                android:text="채팅"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -197,7 +209,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
                 android:layout_marginTop="@dimen/activity_margin_16dp"
-                android:layout_marginBottom="@dimen/activity_margin_16dp"
                 android:background="@color/black" />
 
             <TextView
