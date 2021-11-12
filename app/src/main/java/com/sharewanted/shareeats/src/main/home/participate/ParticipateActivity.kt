@@ -42,7 +42,7 @@ class ParticipateActivity : AppCompatActivity() {
     lateinit var post: Post
     private var menuList: MutableList<Menu> = arrayListOf()
     private var mDatabase = Firebase.database.reference
-    private var dataInputFlag = false
+    private var dataInputFlag = -1
     lateinit var user: UserDto
 
     private var cardPassword: String?=null
@@ -67,6 +67,7 @@ class ParticipateActivity : AppCompatActivity() {
 
         post = intent.getSerializableExtra("post") as Post
         menuList = intent.getParcelableArrayListExtra<Menu>("menu") as ArrayList<Menu>
+        dataInputFlag = intent.getIntExtra("flag", -1)
 
         Log.d(TAG, "onCreate: $post")
         Log.d(TAG, "onCreate: $menuList")
@@ -103,7 +104,7 @@ class ParticipateActivity : AppCompatActivity() {
 //                startActivity(intent)
                     mDatabase.addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
-                            if (dataInputFlag == false) {
+                            if (dataInputFlag == 0) {
                                 if (snapshot.hasChildren()) {
                                     post.postId = snapshot.child("Post").children.last().key!!.toInt() + 1
                                 }
@@ -119,12 +120,30 @@ class ParticipateActivity : AppCompatActivity() {
                                 val map = mapOf("postId" to post.postId)
                                 mDatabase.child("User").child(user.id).child("postList").child(post.postId.toString()).setValue(map)
 
-                                dataInputFlag = true
+                                dataInputFlag = 1
 
                                 Toast.makeText(this@ParticipateActivity, "글 작성완료", Toast.LENGTH_SHORT).show()
-                                startActivity(Intent(this@ParticipateActivity, HomeFragment::class.java))
-                                finish()
+
+
+                            } else if (dataInputFlag == 1) {
+                                for (i in menuList.indices) {
+                                    mDatabase.child("Post").child(post.postId.toString())
+                                        .child("participant").child(user.id)
+                                        .child("menu").child(menuList[i].name).setValue(menuList[i])
+                                }
+
+                                val map = mapOf("postId" to post.postId)
+                                mDatabase.child("User").child(user.id).child("postList").child(post.postId.toString()).setValue(map)
+
+                                Toast.makeText(this@ParticipateActivity, "참여완료", Toast.LENGTH_SHORT).show()
+
                             }
+
+                            val intent = Intent(this@ParticipateActivity, MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent)
+                            finish()
 
                         }
 
