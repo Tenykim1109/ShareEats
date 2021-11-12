@@ -24,7 +24,11 @@ class ApplicationClass : Application() {
         lateinit var databaseReference: DatabaseReference
         lateinit var storageRef: StorageReference
 
-        lateinit var retrofit: Retrofit
+        // Retrofit 초기화
+        var retrofit = Retrofit.Builder()
+            .baseUrl(NAVER_GEOCODE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     override fun onCreate() {

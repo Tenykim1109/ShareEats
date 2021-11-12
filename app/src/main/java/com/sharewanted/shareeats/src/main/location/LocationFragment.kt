@@ -35,7 +35,6 @@ import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentLocationBinding
 import com.sharewanted.shareeats.service.GeocodeService
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
-import com.sharewanted.shareeats.src.main.home.participate.ParticipateActivity
 import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
 import com.sharewanted.shareeats.src.main.location.model.MarkerInfo
 import com.sharewanted.shareeats.util.RetrofitCallback
@@ -54,9 +53,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     private lateinit var mapFragment: MapFragment
     private lateinit var search: TextView
 
-    private var placeInfoList = MutableListOf<MarkerInfo>()
-    private var storeMarkers = mutableListOf<Marker>()
-    private var placeMarkers = mutableListOf<Marker>()
+    private lateinit var storeMarkers: MutableList<Marker>
+    private lateinit var placeMarkers: MutableList<Marker>
+    private lateinit var placeInfoList: MutableList<MarkerInfo>
     private lateinit var infoWindow: InfoWindow
 
     private lateinit var database: FirebaseDatabase
@@ -81,9 +80,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
 
         search = view.findViewById(R.id.editTextTextPersonName)
         search.setOnEditorActionListener(this)
-
-        // 상점 정보 불러오기
-//        initDatabase()
 
         // 게시글의 배달 위치 불러오기
         initPost()
@@ -120,69 +116,11 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
             .check()
     }
 
-    private fun initDatabase() {
-        val executor: Executor = Executors.newFixedThreadPool(2)
-        val handler = Handler(Looper.getMainLooper())
-
-        storeEventListener = object : ChildEventListener {
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val location = snapshot.child("location").getValue<String>()!!
-
-                Log.d(TAG, "value = $location")
-                val res = GeocodeService().getGeocode(location, getGeocodeCallback())
-
-                res.observe(viewLifecycleOwner, { res ->
-                    Log.d(TAG, "livedata = ${res.addresses}")
-
-                    executor.execute {
-
-                        // BackgroundThread에서 마커 정보 초기화
-                        repeat(1) {
-                            for (address in res.addresses) {
-                                Log.d(TAG, "도로명주소 = ${address.roadAddress}")
-                                storeMarkers += Marker().apply {
-                                    position = LatLng(address.y, address.x)
-                                    icon = MarkerIcons.YELLOW
-                                }
-                            }
-                        }
-
-                        handler.post {
-                            // MainThread에서 지도에 마커 표시
-                            storeMarkers.forEach { marker ->
-                                run {
-                                    marker.map = naverMap
-                                }
-                            }
-                            Log.d(TAG, "store size = ${storeMarkers.size}")
-                        }
-                    }
-                })
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                Log.d(TAG, "Child changed.")
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                Log.d(TAG, "Child moved.")
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                Log.d(TAG, "Child deleted.")
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e(TAG, "$error")
-            }
-        }
-
-        storeRef.addChildEventListener(storeEventListener)
-    }
-
     private fun initPost() {
         val executor: Executor = Executors.newFixedThreadPool(2)
         val handler = Handler(Looper.getMainLooper())
+        placeMarkers = mutableListOf()
+        placeInfoList = mutableListOf()
 
         postEventListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -202,6 +140,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
 
                 storeRef.child(storeId).child("name").get().addOnSuccessListener {
                     storeName = it.getValue<String>()!!
+                    Log.d(TAG, "storeName = $storeName")
                 }
 
                 res.observe(viewLifecycleOwner, { res ->
@@ -226,12 +165,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
 
                                 placeMarkers += marker
                                 placeInfoList += MarkerInfo(marker, title, storeName)
-
-//                                placeMarkers += Marker().apply {
-//                                    position = LatLng(address.y, address.x)
-//                                    icon = MarkerIcons.RED
-//                                    marker.
-//                                }
 
                             }
                         }
