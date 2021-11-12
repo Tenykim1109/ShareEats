@@ -7,15 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.sharewanted.shareeats.config.ApplicationClass
+import com.sharewanted.shareeats.config.ApplicationClass.Companion.storageRef
 import com.sharewanted.shareeats.databinding.FragmentMyPageBinding
 import com.sharewanted.shareeats.src.main.mypage.creator.CreatorActivity
 import com.sharewanted.shareeats.src.main.mypage.edituser.EditUserActivity
 import com.sharewanted.shareeats.src.main.mypage.notice.NoticeActivity
+import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 
 class MyPageFragment : Fragment(), MyPageMenuClickListener {
     private lateinit var binding: FragmentMyPageBinding
     private lateinit var adapter: MyPageMenuAdapter
     private var list = mutableListOf<String>("주문 내역", "회원정보 수정", "공지사항", "만든이")
+    lateinit var user: UserDto
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,8 +32,18 @@ class MyPageFragment : Fragment(), MyPageMenuClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        user = ApplicationClass.sharedPreferencesUtil.getUser()
 
         initView()
+
+        binding.fragmentMyPageTvName.text = user.name
+        storageRef.child("profile").child(user.profile).downloadUrl.addOnSuccessListener {
+            Glide.with(this)
+                .load(it)
+                .circleCrop()
+                .into(binding.fragmentMyPageIvProfile)
+        }
+
     }
 
     fun initView() {
