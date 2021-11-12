@@ -9,21 +9,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.getValue
+import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.sharewanted.shareeats.R
-import com.sharewanted.shareeats.config.ApplicationClass.Companion.storageRef
 import com.sharewanted.shareeats.src.chat.ChatActivity
 import com.sharewanted.shareeats.src.main.chat.models.ChatList
-import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 
-class ChatListAdapter(val chatUserList: MutableList<ChatList>, val myId: String) : RecyclerView.Adapter<ChatListAdapter.ChatListHolder>(){
+class ChatListAdapter(val chatUserList: MutableList<ChatList>, val myNickName: String) : RecyclerView.Adapter<ChatListAdapter.ChatListHolder>(){
 
-    private val TAG = "ChatListAdapter"
     private lateinit var storage: FirebaseStorage
-    private val database = FirebaseDatabase.getInstance()
-    private val mRef = database.getReference("User")
     var profileUrl = ""
     var nickname = ""
 
@@ -36,18 +32,13 @@ class ChatListAdapter(val chatUserList: MutableList<ChatList>, val myId: String)
 
             /* Firebase storage에 닉네임/imageName.확장자 양식으로 저장
             * ex) 애기동열/imgsrc.png */
+            val storageRef = storage.reference.child(profileUrl)
 
-            storageRef.child("profile").child(profileUrl).downloadUrl.addOnSuccessListener {
-                Glide.with(itemView.context).load(it).circleCrop().override(200, 200).into(profile)
+            storageRef.downloadUrl.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Glide.with(itemView.context).load(it.result).into(profile)
+                }
             }
-
-//            val storageRef = storage.reference.child(profileUrl)
-//
-//            storageRef.downloadUrl.addOnCompleteListener {
-//                if (it.isSuccessful) {
-//                    Glide.with(itemView.context).load(it.result).into(profile)
-//                }
-//            }
 
             nickName.text = nickname
             recentChat.text = data.recentChat
@@ -56,7 +47,7 @@ class ChatListAdapter(val chatUserList: MutableList<ChatList>, val myId: String)
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, ChatActivity::class.java)
                 intent.putExtra("roomId", data.roomId)
-                intent.putExtra("nickname", nickname)
+                intent.putExtra("nickname", myNickName)
                 itemView.context.startActivity(intent)
             }
         }
@@ -70,41 +61,21 @@ class ChatListAdapter(val chatUserList: MutableList<ChatList>, val myId: String)
     }
 
     override fun onBindViewHolder(holder: ChatListHolder, position: Int) {
-        Log.d(TAG, "${chatUserList[position]}")
-        setProfile(chatUserList[position], holder, position)
-
+        setProfile(chatUserList[position])
+        holder.bindInfo(chatUserList[position])
     }
 
     override fun getItemCount(): Int {
         return chatUserList.size
     }
 
-    private fun setProfile(data: ChatList, holder: ChatListHolder, position: Int) {
-        Log.d(TAG, "setProfile called")
-        Log.d(TAG, "my id = $myId")
-        if (myId == data.userId1) {
-            Log.d(TAG, "I'm user1")
-            mRef.child(data.userId2).get().addOnSuccessListener {
-                val res = it.getValue<UserDto>()!!
-
-                Log.d(TAG, "$res")
-                nickname = res.name
-                profileUrl = res.profile
-                Log.d(TAG, profileUrl)
-
-                holder.bindInfo(chatUserList[position])
-            }
+    private fun setProfile(data: ChatList) {
+        if (myNickName == data.nickName1) {
+            nickname = data.nickName2
+            profileUrl = nickname + "/" + data.imageUrl2
         } else {
-            Log.d(TAG, "I'm user2")
-            mRef.child(data.userId1).get().addOnSuccessListener {
-                val res = it.getValue<UserDto>()!!
-
-                nickname = res.name
-                profileUrl = res.profile
-                Log.d(TAG, profileUrl)
-
-                holder.bindInfo(chatUserList[position])
-            }
+            nickname = data.nickName1
+            profileUrl = nickname + "/" + data.imageUrl1
         }
     }
 

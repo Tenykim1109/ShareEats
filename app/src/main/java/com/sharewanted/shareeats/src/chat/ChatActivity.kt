@@ -8,10 +8,18 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
+import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.ActivityChatBinding
 import com.sharewanted.shareeats.src.main.chat.ChatAdapter
+import com.sharewanted.shareeats.src.main.chat.ChatListAdapter
 import com.sharewanted.shareeats.src.main.chat.models.Chat
-import com.sharewanted.shareeats.util.SharedPreferencesUtil
+import com.sharewanted.shareeats.src.main.chat.models.ChatList
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import java.lang.String.format
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -31,19 +39,17 @@ class ChatActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val roomId = intent.getStringExtra("roomId")!!
-        val myNick = SharedPreferencesUtil(this).getUser().name
         val nickname = intent.getStringExtra("nickname")!!
-        val myId = SharedPreferencesUtil(this).getUser().id
-        val myImage = SharedPreferencesUtil(this).getUser().profile
-        Log.d("ChatActivity_nick", nickname)
+        Log.d("ChatActivity_roomId", roomId)
 
-        list = mutableListOf()
+        list = mutableListOf<Chat>()
 
-        chatAdapter = ChatAdapter(list, myId)
+
+        chatAdapter = ChatAdapter(list, nickname)
 
         // Firebase reference
         database = FirebaseDatabase.getInstance()
-        mRef = database.getReference("Chat").child(roomId).child("Chat")
+        mRef = database.getReference("Chatting").child(roomId).child("Chat")
 
         binding.rvChatView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -59,9 +65,9 @@ class ChatActivity : AppCompatActivity() {
 
             if (!TextUtils.isEmpty(msg)) {
                 binding.editTextTextPersonName.setText("")
-                mRef.push().setValue(Chat(myId, msg, myImage, current.format(formatter), myNick))
-                database.getReference("Chat").child(roomId).child("recentChat").setValue(msg)
-                database.getReference("Chat").child(roomId).child("recentDate").setValue(current.format(formatter))
+                mRef.push().setValue(Chat("애기동열", msg, "", "false"))
+                database.getReference("Chatting").child(roomId).child("recentChat").setValue(msg)
+                database.getReference("Chatting").child(roomId).child("recentDate").setValue(current.format(formatter))
             }
         }
 
