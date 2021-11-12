@@ -1,7 +1,9 @@
 package com.sharewanted.shareeats.src.main.location
 
 import android.Manifest
+import android.content.Intent
 import android.graphics.Color
+import android.icu.text.IDNA
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -32,6 +34,10 @@ import com.naver.maps.map.util.MarkerIcons
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentLocationBinding
 import com.sharewanted.shareeats.service.GeocodeService
+import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
+import com.sharewanted.shareeats.src.main.home.participate.ParticipateActivity
+import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
+import com.sharewanted.shareeats.src.main.location.model.MarkerInfo
 import com.sharewanted.shareeats.util.RetrofitCallback
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -47,6 +53,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     private var naverMap: NaverMap? = null
     private lateinit var mapFragment: MapFragment
     private lateinit var search: TextView
+
+    private var placeInfoList = MutableListOf<MarkerInfo>()
     private var storeMarkers = mutableListOf<Marker>()
     private var placeMarkers = mutableListOf<Marker>()
     private lateinit var infoWindow: InfoWindow
@@ -57,6 +65,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
     private lateinit var storeEventListener: ChildEventListener
     private lateinit var postEventListener: ChildEventListener
 
+    private var hashMap = HashMap<String, Post>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -177,10 +186,15 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
 
         postEventListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val postId = snapshot.child("postId").getValue<Long>()!!
                 val location = snapshot.child("place").getValue<String>()!!
                 val title = snapshot.child("title").getValue<String>()!!
                 val storeId = snapshot.child("storeId").getValue<String>()!!
                 val res = GeocodeService().getGeocode(location, getGeocodeCallback())
+
+                val post = snapshot.getValue<Post>()
+                Log.d(TAG, "post = $post")
+                hashMap.put("${post!!.postId}", post)
 
                 Log.d(TAG, "title = $title, storeId = $storeId")
 
@@ -203,29 +217,58 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                                 Log.d(TAG, "store_value = $storeName")
                                 Log.d(TAG, "도로명주소 = ${address.roadAddress}")
 
-                                placeMarkers += Marker().apply {
-                                    position = LatLng(address.y, address.x)
-                                    icon = MarkerIcons.RED
-                                    onClickListener = markerListener
-                                }
+                                val marker = Marker()
+                                marker.position = LatLng(address.y, address.x)
+                                marker.icon = MarkerIcons.RED
+                                marker.onClickListener = markerListener
+                                marker.tag = "제목: $title \n주문 매장: $storeName"
+                                marker.subCaptionText = "$postId"
+
+                                placeMarkers += marker
+                                placeInfoList += MarkerInfo(marker, title, storeName)
+
+//                                placeMarkers += Marker().apply {
+//                                    position = LatLng(address.y, address.x)
+//                                    icon = MarkerIcons.RED
+//                                    marker.
+//                                }
+
                             }
                         }
 
                         handler.post {
                             infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(requireContext()) {
                                 override fun getText(infoWindow: InfoWindow): CharSequence {
-                                    return "제목: $title \n주문 매장: $storeName"
+                                    return infoWindow.marker?.tag as CharSequence ?: ""
                                 }
                             }
 
                             // MainThread에서 지도에 마커 표시
-                            placeMarkers.forEach { marker ->
+                            placeInfoList.forEach { markerInfo ->
                                 run {
-                                    marker.map = naverMap
-                                    infoWindow.open(marker)
+                                    markerInfo.marker.map = naverMap
+                                    Log.d(TAG, "title = ${markerInfo.title}, store = ${markerInfo.storeName}")
+                                    infoWindow.open(markerInfo.marker)
+                                    infoWindow.onClickListener = object : Overlay.OnClickListener {
+                                        override fun onClick(p0: Overlay): Boolean {
+                                            val infoWindow = p0 as InfoWindow
+
+                                            Log.d(TAG, "${infoWindow.marker!!.subCaptionText} clicked.")
+                                            Log.d(TAG, "${hashMap.get(infoWindow.marker!!.subCaptionText)}")
+
+                                            // intent로 게시글 id를 넘겨줌.
+                                            val intent = Intent(requireContext(), PostInfoActivity::class.java)
+                                            intent.putExtra("postId", infoWindow.marker!!.subCaptionText.toInt())
+                                            startActivity(intent)
+                                            return false
+                                        }
+                                    }
+
+
                                 }
                             }
                             Log.d(TAG, "place size = ${placeMarkers.size}")
+                            Log.d(TAG, "info size = ${placeInfoList.size}")
                         }
                     }
                 })
@@ -323,3 +366,4 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
         true
     }
 }
+

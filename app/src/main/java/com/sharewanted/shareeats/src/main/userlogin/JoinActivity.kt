@@ -5,19 +5,15 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.databaseReference
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.storageRef
 import com.sharewanted.shareeats.databinding.ActivityJoinBinding
-import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -118,8 +114,8 @@ class JoinActivity : AppCompatActivity() {
         var tel = binding.activityJoinEtTel.text.toString()
         var email = binding.activityJoinEtEmail.text.toString()
         var timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        var imgFileName = "IMAGE_" + timeStamp
-        var user = UserDto(id, password, name, tel, email, imgFileName, mutableListOf())
+        var profile = "IMAGE_" + timeStamp
+        var user = UserDto(id, password, name, tel, email, profile, mutableListOf())
 
         if(hasEmptyInput(user, password2) || isNotEqualPassword(password, password2)) {
             return false
@@ -136,7 +132,7 @@ class JoinActivity : AppCompatActivity() {
                 databaseReference.child("User").child(user.id).setValue(user)
 
                 // Firebase Storage에 프로필 사진 추가
-                storageRef.child("profile")?.child(imgFileName).putFile(profileImage)
+                storageRef.child("profile")?.child(profile).putFile(profileImage)
             }
             Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
             return true
