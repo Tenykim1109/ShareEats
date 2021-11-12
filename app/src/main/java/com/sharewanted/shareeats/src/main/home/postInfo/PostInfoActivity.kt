@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -15,12 +16,15 @@ import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.config.CommonUtils
 import com.sharewanted.shareeats.databinding.ActivityPostInfoBinding
+import com.sharewanted.shareeats.src.chat.ChatActivity
+import com.sharewanted.shareeats.src.main.chat.models.ChatList
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.orderDto.StoreMenu
 import com.sharewanted.shareeats.src.main.home.order.selectMenu.SelectMenuActivity
 import com.sharewanted.shareeats.src.main.home.participate.Menu
 import com.sharewanted.shareeats.src.main.home.participate.ParticipateActivity
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
+import com.sharewanted.shareeats.util.SharedPreferencesUtil
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -58,6 +62,20 @@ class PostInfoActivity : AppCompatActivity() {
                 putExtra("flag", 1)
             }
             startActivity(intent)
+        }
+        binding.activityPostInfoBtnChat.setOnClickListener {
+            val chatRef = FirebaseDatabase.getInstance().getReference("Chat").push()
+
+            val key = chatRef.key
+
+            FirebaseDatabase.getInstance().getReference("Chat").child(key!!).setValue(
+                ChatList("", SharedPreferencesUtil(this).getUser().id, binding.activityPostInfoTvWriter.text.toString(), "", ""))
+
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("roomId", key)
+            intent.putExtra("nickname", binding.activityPostInfoTvWriter.text.toString())
+            startActivity(intent)
+
         }
 
     }
