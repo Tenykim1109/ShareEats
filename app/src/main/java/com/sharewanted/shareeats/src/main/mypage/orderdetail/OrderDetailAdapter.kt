@@ -33,7 +33,7 @@ class OrderDetailAdapter(var postList: MutableList<Post>, var storeList: Mutable
             fragment_my_page_order_detail_list_item_tvTitle.text = p.title
             fragment_my_page_order_detail_list_item_tvStoreName.text = s.name
             fragment_my_page_order_detail_list_item_tvDate.text = formatter.format(p.date).toString()
-            fragment_my_page_order_detail_list_item_price.text = "${CommonUtils().makeComma(p.fund)}원/${CommonUtils().makeComma(p.minPrice)}원"
+            fragment_my_page_order_detail_list_item_price.text = "${CommonUtils().makeComma(p.fund)} / ${CommonUtils().makeComma(p.minPrice)}"
 
             fragment_my_page_order_detail_list_item_layout.setOnClickListener {
                 listener.onClick(p.postId)

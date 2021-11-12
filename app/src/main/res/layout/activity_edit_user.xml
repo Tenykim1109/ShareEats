@@ -44,6 +44,7 @@
     <TextView
         android:id="@+id/activity_edit_user_tvName"
         style="@style/body_text"
+        android:layout_marginTop="16dp"
         android:text="홍길동"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
