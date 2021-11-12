@@ -34,7 +34,7 @@ class OrderInfoActivity : AppCompatActivity() {
         binding = ActivityOrderInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        postId = intent.getIntExtra("postId", 0).toString()
+        postId = intent.getStringExtra("postId").toString()
 
         initData()
         initView()

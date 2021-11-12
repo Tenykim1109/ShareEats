@@ -14,7 +14,6 @@ import com.sharewanted.shareeats.databinding.FragmentMyPageBinding
 import com.sharewanted.shareeats.src.main.mypage.creator.CreatorActivity
 import com.sharewanted.shareeats.src.main.mypage.edituser.EditUserActivity
 import com.sharewanted.shareeats.src.main.mypage.notice.NoticeActivity
-import com.sharewanted.shareeats.src.main.mypage.orderdetail.OrderDetailActivity
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 
 class MyPageFragment : Fragment(), MyPageMenuClickListener {
@@ -44,6 +43,7 @@ class MyPageFragment : Fragment(), MyPageMenuClickListener {
                 .circleCrop()
                 .into(binding.fragmentMyPageIvProfile)
         }
+
     }
 
     fun initView() {
@@ -54,7 +54,6 @@ class MyPageFragment : Fragment(), MyPageMenuClickListener {
 
     override fun onClick(position: Int) {
         when(position) {
-            0 -> startActivity(Intent(requireContext(), OrderDetailActivity::class.java))
             1 -> startActivity(Intent(requireContext(), EditUserActivity::class.java))
             2 -> startActivity(Intent(requireContext(), NoticeActivity::class.java))
             3 -> startActivity(Intent(requireContext(), CreatorActivity::class.java))
