@@ -24,29 +24,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:padding="@dimen/activity_margin_8dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/activity_select_menu_tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="싸이버거"
-                android:textSize="20sp" />
+                style="@style/header_text"
+                android:text="싸이버거" />
 
             <TextView
                 android:id="@+id/activity_select_menu_tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                style="@style/body_text"
                 android:text="5,000원" />
 
             <TextView
                 android:id="@+id/activity_select_menu_tv_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                style="@style/body_text"
                 android:text="통닭다리살로 만든패티로 정성껏 만든 햄버거입니다." />
 
         </LinearLayout>
@@ -69,12 +62,10 @@
 
             <TextView
                 android:id="@+id/activity_select_menu_tv_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/header_text"
                 android:layout_weight="1"
                 android:text="0"
-                android:textAlignment="center"
-                android:textSize="22sp" />
+                android:textAlignment="center" />
 
             <ImageView
                 android:id="@+id/activity_select_menu_iv_plus"

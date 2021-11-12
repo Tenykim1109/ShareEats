@@ -10,38 +10,32 @@
         android:id="@+id/fragment_main_list_item_ivStore"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/activity_margin_16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/fragment_main_list_item_tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:textSize="20sp"
+        style="@style/header_text"
+        android:layout_marginLeft="@dimen/activity_margin_8dp"
+        android:layout_marginTop="@dimen/activity_margin_8dp"
         app:layout_constraintStart_toEndOf="@+id/fragment_main_list_item_ivStore"
         app:layout_constraintTop_toTopOf="@+id/fragment_main_list_item_ivStore"
         tools:text="지금 맘스터치 드실 분!" />
 
     <TextView
         android:id="@+id/fragment_main_list_item_tvStoreName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/body_text"
         android:layout_marginBottom="8dp"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_main_list_item_ivStore"
         app:layout_constraintStart_toStartOf="@+id/fragment_main_list_item_tvTitle"
         tools:text="맘스터치 구미인동점" />
 
     <TextView
         android:id="@+id/fragment_main_list_item_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/body_text"
         android:layout_marginEnd="16dp"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_main_list_item_tvStoreName"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="14,900원/14,900원" />

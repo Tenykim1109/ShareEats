@@ -44,29 +44,25 @@
 
                 <TextView
                     android:id="@+id/tv_chat_message_other"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/body_text"
                     android:layout_marginBottom="8dp"
                     android:maxWidth="260dp"
                     android:paddingLeft="12dp"
                     android:paddingTop="8dp"
                     android:paddingRight="12dp"
                     android:text="Message"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
+                    android:textColor="#000000" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/tv_chat_other_nickName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            style="@style/body_text"
             android:text="홍길동"
+            android:layout_marginLeft="@dimen/activity_margin_16dp"
             app:layout_constraintStart_toEndOf="@+id/iv_chat_other_profile"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/iv_chat_other_profile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -83,16 +79,15 @@
             android:layout_height="57dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_navi_mypage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_navi_mypage"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/tv_chat_nickName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            style="@style/body_text"
+            android:layout_marginEnd="@dimen/activity_margin_16dp"
             android:text="홍길동"
             app:layout_constraintBottom_toTopOf="@+id/cv_chat_layout"
             app:layout_constraintEnd_toStartOf="@+id/iv_chat_profile" />
@@ -118,16 +113,14 @@
 
                 <TextView
                     android:id="@+id/tv_chat_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/body_text"
                     android:layout_marginBottom="8dp"
                     android:maxWidth="260dp"
                     android:paddingLeft="12dp"
                     android:paddingTop="8dp"
                     android:paddingRight="12dp"
                     android:text="Message"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp" />
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

@@ -4,14 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp">
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/fragment_my_page_order_info_profile"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -19,9 +17,7 @@
     <TextView
         android:id="@+id/fragment_my_page_order_info_name"
         style="@style/body_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/activity_margin_16dp"
         android:text="Joshua"
         app:layout_constraintStart_toEndOf="@+id/fragment_my_page_order_info_profile"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,19 +25,15 @@
     <TextView
         android:id="@+id/fragment_my_page_order_info_orders"
         style="@style/body_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="싸이버거 세트 1개"
-        app:layout_constraintStart_toEndOf="@+id/fragment_my_page_order_info_profile"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_my_page_order_info_name" />
+        android:layout_margin="@dimen/activity_margin_16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_order_info_profile"
+        app:layout_constraintStart_toEndOf="@+id/fragment_my_page_order_info_profile" />
 
     <TextView
         android:id="@+id/fragment_my_page_order_info_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="총 13,000원"
         style="@style/body_text"
+        android:text="총 13,000개"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_my_page_order_info_orders"
         app:layout_constraintEnd_toEndOf="parent" />
 

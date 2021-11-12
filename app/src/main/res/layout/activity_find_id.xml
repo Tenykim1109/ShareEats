@@ -10,25 +10,20 @@
         android:id="@+id/activity_find_id_btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:padding="@dimen/activity_margin_16dp"
         android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/activity_find_id_tvFindId"
         app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
 
     <TextView
         android:id="@+id/activity_find_id_tvFindId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="137dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="182dp"
+        style="@style/appbar_text"
         android:text="아이디 찾기"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_find_id_btnBack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/activity_find_id_btnBack"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/activity_find_id_btnBack" />
 
     <LinearLayout
         android:id="@+id/activity_find_id_layoutFindId"
@@ -42,23 +37,31 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/activity_find_id_etName"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="이름"
-            android:minHeight="48dp"
+            app:helperTextEnabled="true"
             android:layout_marginBottom="8dp"
-            />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activity_find_id_etName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="이름" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/activity_find_id_etEmail"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="이메일"
-            android:minHeight="48dp"
+            app:helperTextEnabled="true"
             android:layout_marginBottom="8dp"
-            />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activity_find_id_etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="이메일" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/activity_find_id_btnFindId"
@@ -76,16 +79,14 @@
 
             <TextView
                 android:id="@+id/activity_find_id_tvJoin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/explain_text"
                 android:gravity="center"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="@dimen/activity_margin_16dp"
                 android:text="회원가입" />
 
             <TextView
                 android:id="@+id/activity_find_id_tvFindPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/explain_text"
                 android:gravity="center"
                 android:text="비밀번호 찾기"/>
 

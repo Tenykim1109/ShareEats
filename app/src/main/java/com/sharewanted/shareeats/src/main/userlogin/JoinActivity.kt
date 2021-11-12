@@ -57,6 +57,10 @@ class JoinActivity : AppCompatActivity() {
         binding.activityJoinIvProfile.setOnClickListener {
             startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI), 0)
         }
+
+        binding.activityJoinBtnBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun initFirebase() {

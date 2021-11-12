@@ -25,17 +25,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:padding="@dimen/activity_margin_16dp"
                 android:background="@color/white"
                 android:src="@drawable/ic_baseline_close_24" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/appbar_text"
                 android:layout_centerInParent="true"
                 android:text="게시글 상세정보"
-                android:textColor="@color/black"
-                android:textSize="20dp" />
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/activity_post_info_btn_chat"
@@ -61,170 +59,152 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:layout_margin="@dimen/activity_margin_16dp">
 
             <TextView
                 android:id="@+id/activity_post_info_tv_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="제목"
-                android:textSize="20dp"/>
+                style="@style/header_text"
+                android:layout_marginHorizontal="@dimen/activity_margin_16dp"
+                android:hint="제목"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="@dimen/activity_margin_16dp"
+                android:layout_marginBottom="@dimen/activity_margin_16dp"
                 android:background="@color/black" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/activity_post_info_header1"
+                    style="@style/header_text"
                     android:text="작성자"
-                    android:textSize="20dp" />
+                    android:layout_marginStart="@dimen/activity_margin_16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/activity_post_info_header2"
+                    style="@style/header_text"
+                    android:text="작성 시간"
+                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    app:layout_constraintStart_toStartOf="@+id/activity_post_info_header1"
+                    app:layout_constraintTop_toBottomOf="@id/activity_post_info_header1"/>
+
+                <TextView
+                    android:id="@+id/activity_post_info_header3"
+                    style="@style/header_text"
+                    android:text="음식점"
+                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    app:layout_constraintStart_toStartOf="@+id/activity_post_info_header1"
+                    app:layout_constraintTop_toBottomOf="@id/activity_post_info_header2"/>
+
+                <TextView
+                    android:id="@+id/activity_post_info_header4"
+                    style="@style/header_text"
+                    android:text="배달장소"
+                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    app:layout_constraintStart_toStartOf="@+id/activity_post_info_header1"
+                    app:layout_constraintTop_toBottomOf="@id/activity_post_info_header3"/>
+
+                <TextView
+                    android:id="@+id/activity_post_info_header5"
+                    style="@style/header_text"
+                    android:text="마감시간"
+                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    app:layout_constraintStart_toStartOf="@+id/activity_post_info_header1"
+                    app:layout_constraintTop_toBottomOf="@id/activity_post_info_header4"/>
+
+                <TextView
+                    android:id="@+id/activity_post_info_header6"
+                    style="@style/header_text"
+                    android:text="메뉴"
+                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    app:layout_constraintStart_toStartOf="@+id/activity_post_info_header1"
+                    app:layout_constraintTop_toBottomOf="@id/activity_post_info_header5"/>
 
                 <TextView
                     android:id="@+id/activity_post_info_tv_writer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    style="@style/body_text"
+                    android:layout_marginLeft="@dimen/activity_margin_32dp"
                     android:enabled="false"
-                    android:hint="작성자" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="작성시간"
-                    android:textSize="20dp" />
+                    android:hint="작성자"
+                    app:layout_constraintTop_toTopOf="@+id/activity_post_info_header1"
+                    app:layout_constraintBottom_toBottomOf="@+id/activity_post_info_header1"
+                    app:layout_constraintStart_toEndOf="@+id/activity_post_info_header2"/>
 
                 <TextView
                     android:id="@+id/activity_post_info_tv_write_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    style="@style/body_text"
                     android:enabled="false"
-                    android:hint="시간" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="음식점"
-                    android:textSize="20dp" />
+                    android:hint="시간"
+                    app:layout_constraintStart_toStartOf="@+id/activity_post_info_tv_writer"
+                    app:layout_constraintTop_toTopOf="@+id/activity_post_info_header2"
+                    app:layout_constraintBottom_toBottomOf="@id/activity_post_info_header2"/>
 
                 <TextView
                     android:id="@+id/activity_post_info_tv_store"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    style="@style/body_text"
                     android:enabled="false"
-                    android:hint="음식점" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="배달장소"
-                    android:textSize="20dp" />
+                    android:hint="음식점"
+                    app:layout_constraintStart_toStartOf="@+id/activity_post_info_tv_write_date"
+                    app:layout_constraintTop_toTopOf="@+id/activity_post_info_header3"
+                    app:layout_constraintBottom_toBottomOf="@id/activity_post_info_header3"/>
 
                 <TextView
                     android:id="@+id/activity_post_info_tv_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    style="@style/body_text"
                     android:hint="배달 장소"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="마감시간"
-                    android:textSize="20dp" />
+                    app:layout_constraintStart_toStartOf="@+id/activity_post_info_tv_store"
+                    app:layout_constraintTop_toTopOf="@+id/activity_post_info_header4"
+                    app:layout_constraintBottom_toBottomOf="@id/activity_post_info_header4"/>
 
                 <TextView
                     android:id="@+id/activity_post_info_tv_closed_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    style="@style/body_text"
                     android:enabled="false"
                     android:hint="마감 시간"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="메뉴"
-                    android:textSize="20dp" />
+                    app:layout_constraintStart_toStartOf="@+id/activity_post_info_tv_location"
+                    app:layout_constraintTop_toTopOf="@+id/activity_post_info_header5"
+                    app:layout_constraintBottom_toBottomOf="@id/activity_post_info_header5"/>
 
                 <TextView
                     android:id="@+id/activity_post_info_tv_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    style="@style/body_text"
                     android:enabled="false"
-                    android:hint="메뉴 선택" />
+                    android:hint="메뉴 선택"
+                    app:layout_constraintStart_toStartOf="@+id/activity_post_info_tv_location"
+                    app:layout_constraintTop_toTopOf="@+id/activity_post_info_header6"
+                    app:layout_constraintBottom_toBottomOf="@id/activity_post_info_header6"/>
 
                 <Button
                     android:id="@+id/activity_post_info_btn_select_menu"
                     android:layout_width="65dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/appTheme"
-                    android:text="선택" />
-
-            </LinearLayout>
-
+                    android:text="선택"
+                    android:layout_marginStart="@dimen/activity_margin_32dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/activity_post_info_tv_menu"
+                    app:layout_constraintStart_toEndOf="@+id/activity_post_info_tv_menu"
+                    app:layout_constraintTop_toTopOf="@+id/activity_post_info_tv_menu" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="@dimen/activity_margin_16dp"
+                android:layout_marginBottom="@dimen/activity_margin_16dp"
                 android:background="@color/black" />
 
             <TextView
                 android:id="@+id/activity_post_info_tv_content"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
+                android:padding="@dimen/activity_margin_16dp"
                 android:gravity="left"
                 android:textSize="20dp"
                 android:hint="내용" />
@@ -235,6 +215,13 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/activity_post_info_btn_join"
