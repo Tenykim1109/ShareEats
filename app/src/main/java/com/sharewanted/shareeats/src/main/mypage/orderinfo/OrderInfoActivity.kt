@@ -44,6 +44,10 @@ class OrderInfoActivity : AppCompatActivity() {
         adapter = OrderInfoAdapter(orderList)
         binding.activityOrderInfoRvParticipant.adapter = adapter
         binding.activityOrderInfoRvParticipant.layoutManager = LinearLayoutManager(this)
+
+        binding.activityOrderInfoBtnBack.setOnClickListener {
+            finish()
+        }
     }
 
     fun initData() {
@@ -70,39 +74,36 @@ class OrderInfoActivity : AppCompatActivity() {
 
                 val participantSnapshot = snapshot.child("Post").child(postId).child("participant")
 
+                var total = 0
+
                 for (dataSnapshot in participantSnapshot.children) {
                     val participantId = dataSnapshot.key.toString()
 
-                    val participantProfile = snapshot.child("User").child(participantId).child("imgFileName").value.toString()
+                    val participantProfile = snapshot.child("User").child(participantId).child("profile").value.toString()
 
                     var addPrice = 0
                     var participantMenu = ""
-                    val menuListSnapshot = dataSnapshot.child(participantId).child("menu")
+                    val menuListSnapshot = dataSnapshot.child("menu")
+
+                    Log.d("menuList check", menuListSnapshot.toString())
                     for (menuSnapshot in menuListSnapshot.children) {
                         val menuName = menuSnapshot.child("name").value.toString()
                         val menuPrice = menuSnapshot.child("price").value.toString().toInt()
-                        val menuQuantity = menuSnapshot.child("quantitiy").value.toString().toInt()
+                        val menuQuantity = menuSnapshot.child("quantity").value.toString().toInt()
 
                         participantMenu += "${menuName} ${menuQuantity}개\n"
                         addPrice += menuPrice * menuQuantity
                     }
+                    total += addPrice
                     val participantPrice = "총 ${CommonUtils().makeComma(addPrice)}"
 
                     val participantUser = OrderInfo(participantId, participantProfile, participantMenu, participantPrice)
                     orderList.add(participantUser)
                 }
 
-
                 binding.activityOrderInfoRvParticipant.apply {
                     adapter = OrderInfoAdapter(orderList)
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                }
-
-                val priceSnapshot = snapshot.child("Post").child(postId).child("participant").child("menu")
-
-                var total = 0
-                for (dataSnapshot in priceSnapshot.children) {
-                    total += dataSnapshot.child("price").value.toString().toInt() * dataSnapshot.child("quantity").value.toString().toInt()
                 }
 
                 val minPrice = CommonUtils().makeComma(post.minPrice)

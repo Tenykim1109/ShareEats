@@ -67,6 +67,7 @@
             android:id="@+id/activity_find_id_btnFindId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/appTheme"
             android:text="아이디 찾기"
             android:layout_marginBottom="8dp"
             />

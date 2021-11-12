@@ -37,6 +37,10 @@ class NoticeActivity : AppCompatActivity() {
         adapter = NoticeAdapter(list)
         binding.fragmentMyPageNoticeRv.adapter = adapter
         binding.fragmentMyPageNoticeRv.layoutManager = LinearLayoutManager(this)
+
+        binding.fragmentMyPageNoticeIvArrow.setOnClickListener {
+            finish()
+        }
     }
 
     fun initData() {

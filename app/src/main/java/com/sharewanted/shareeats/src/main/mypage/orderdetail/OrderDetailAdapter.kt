@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sharewanted.shareeats.R
+import com.sharewanted.shareeats.config.CommonUtils
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Store
 import java.security.Timestamp
@@ -32,7 +33,7 @@ class OrderDetailAdapter(var postList: MutableList<Post>, var storeList: Mutable
             fragment_my_page_order_detail_list_item_tvTitle.text = p.title
             fragment_my_page_order_detail_list_item_tvStoreName.text = s.name
             fragment_my_page_order_detail_list_item_tvDate.text = formatter.format(p.date).toString()
-            fragment_my_page_order_detail_list_item_price.text = "${p.fund}원/${p.minPrice}원"
+            fragment_my_page_order_detail_list_item_price.text = "${CommonUtils().makeComma(p.fund)}원/${CommonUtils().makeComma(p.minPrice)}원"
 
             fragment_my_page_order_detail_list_item_layout.setOnClickListener {
                 listener.onClick(p.postId)

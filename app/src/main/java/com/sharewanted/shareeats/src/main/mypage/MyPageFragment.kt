@@ -39,10 +39,10 @@ class MyPageFragment : Fragment(), MyPageMenuClickListener {
 
         binding.fragmentMyPageTvName.text = user.name
         storageRef.child("profile").child(user.profile).downloadUrl.addOnSuccessListener {
-            Glide.with(this)
-                .load(it)
-                .circleCrop()
-                .into(binding.fragmentMyPageIvProfile)
+//            Glide.with(this)
+//                .load(it)
+//                .circleCrop()
+//                .into(binding.fragmentMyPageIvProfile)
         }
     }
 

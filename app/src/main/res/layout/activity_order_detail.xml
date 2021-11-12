@@ -6,14 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".src.main.mypage.orderdetail.OrderDetailActivity">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/fragment_my_page_notice_ivArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="44dp"
+        android:layout_height="46dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
         android:padding="@dimen/activity_margin_16dp"
+        android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24" />
+        app:tint="@color/black" />
 
     <TextView
         android:id="@+id/fragment_my_page_notice_tvTitle"
