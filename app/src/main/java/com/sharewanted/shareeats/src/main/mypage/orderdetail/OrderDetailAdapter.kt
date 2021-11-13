@@ -15,10 +15,11 @@ import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Store
 import java.security.Timestamp
 import java.text.SimpleDateFormat
+import java.util.*
 
 class OrderDetailAdapter(var postList: MutableList<Post>, var storeList: MutableList<Store>, var listener: OrderDetailClickListener) : RecyclerView.Adapter<OrderDetailAdapter.OrderDetailViewHolder>() {
-    var pattern = "yyyy.mm.dd"
-    var formatter = SimpleDateFormat(pattern)
+
+    val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
 
     inner class OrderDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var fragment_my_page_order_detail_list_item_layout = itemView.findViewById<ConstraintLayout>(R.id.fragment_my_page_order_detail_list_item_layout)

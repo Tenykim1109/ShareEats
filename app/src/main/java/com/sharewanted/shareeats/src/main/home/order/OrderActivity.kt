@@ -153,7 +153,7 @@ class OrderActivity : AppCompatActivity() {
 
             for (i in selectedMenuList.indices) {
                 fund += selectedMenuList[i].price * selectedMenuList[i].quantity
-                Log.d(TAG, "onCreate: ${selectedMenuList[i].quantity}")
+                Log.d(TAG, "onCreate: price : ${selectedMenuList[i].price} quantity : ${selectedMenuList[i].quantity}")
                 menuList.add(Menu(selectedMenuList[i].name, selectedMenuList[i].price, selectedMenuList[i].quantity, selectedMenuList[i].photo, selectedMenuList[i].desc))
             }
 

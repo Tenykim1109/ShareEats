@@ -140,7 +140,6 @@
                 <TextView
                     android:id="@+id/activity_order_tv_minPrice"
                     style="@style/body_text"
-                    android:hint="10000원"
                     android:enabled="false"
                     app:layout_constraintBottom_toBottomOf="@+id/activity_order_tv_header3"
                     app:layout_constraintStart_toStartOf="@+id/activity_order_tv_store"
