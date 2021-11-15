@@ -2,6 +2,7 @@ package com.sharewanted.shareeats.src.main.mypage
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +17,15 @@ import com.sharewanted.shareeats.src.main.mypage.edituser.EditUserActivity
 import com.sharewanted.shareeats.src.main.mypage.notice.NoticeActivity
 import com.sharewanted.shareeats.src.main.mypage.orderdetail.OrderDetailActivity
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class MyPageFragment : Fragment(), MyPageMenuClickListener {
     private lateinit var binding: FragmentMyPageBinding
     private lateinit var adapter: MyPageMenuAdapter
-    private var list = mutableListOf<String>("주문 내역", "회원정보 수정", "공지사항", "만든이")
+    private var list = mutableListOf("주문 내역", "회원정보 수정", "공지사항", "만든이")
     lateinit var user: UserDto
 
     override fun onCreateView(
@@ -40,7 +45,7 @@ class MyPageFragment : Fragment(), MyPageMenuClickListener {
         binding.fragmentMyPageTvName.text = user.name
         storageRef.child("profile").child(user.profile).downloadUrl.addOnSuccessListener {
             Glide.with(this)
-                .load(it)
+                .load(it.toString())
                 .circleCrop()
                 .into(binding.fragmentMyPageIvProfile)
         }

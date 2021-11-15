@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_edit_user_tvEditUser"
-        android:src="@drawable/shareeats" />
+        android:src="@drawable/user_default_profile" />
 
     <TextView
         android:id="@+id/activity_edit_user_tvName"

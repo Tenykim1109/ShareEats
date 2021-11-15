@@ -33,7 +33,6 @@ class FindIdActivity : AppCompatActivity() {
         // 아이디 찾기 버튼
         binding.activityFindIdBtnFindId.setOnClickListener {
             findIdOnFirebase()
-            //Toast.makeText(this, "일치하는 아이디가 없습니다", Toast.LENGTH_SHORT).show()
         }
 
         binding.activityFindIdTvJoin.setOnClickListener {
@@ -78,8 +77,11 @@ class FindIdActivity : AppCompatActivity() {
                             intent.putExtra("id", userId)
                             intent.putExtra("name", userName)
                             startActivity(intent)
+                            return
                         }
                     }
+
+                    Toast.makeText(this@FindIdActivity, "일치하는 정보가 없습니다", Toast.LENGTH_SHORT).show()
                 }
             })
     }
