@@ -29,7 +29,7 @@ class JoinActivity : AppCompatActivity() {
     lateinit var binding: ActivityJoinBinding
     var users = mutableListOf<String>()
     var duplicateId = false
-    lateinit var profileImage: Uri
+    var profileImage: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,7 +136,7 @@ class JoinActivity : AppCompatActivity() {
                 databaseReference.child("User").child(user.id).setValue(user)
 
                 // Firebase Storage에 프로필 사진 추가
-                storageRef.child("profile")?.child(imgFileName).putFile(profileImage)
+                storageRef.child("profile")?.child(imgFileName).putFile(profileImage!!)
             }
             Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
             return true

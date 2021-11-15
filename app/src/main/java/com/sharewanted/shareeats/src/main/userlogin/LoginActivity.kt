@@ -56,19 +56,16 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.activityLoginTvJoin.setOnClickListener {
-            Toast.makeText(this, "회원가입", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, JoinActivity::class.java)
             startActivity(intent)
         }
 
         binding.activityLoginTvFindId.setOnClickListener {
-            Toast.makeText(this, "아이디 찾기", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, FindIdActivity::class.java)
             startActivity(intent)
         }
 
         binding.activityLoginTvFindPassword.setOnClickListener {
-            Toast.makeText(this, "비밀번호 찾기", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, FindPasswordActivity::class.java)
             startActivity(intent)
         }
@@ -113,13 +110,12 @@ class LoginActivity : AppCompatActivity() {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 sharedPreferencesUtil.addUser(UserDto(userId, userPassword, userName, userTel, userEmail, userProfile, mutableListOf()))
                                 startActivity(intent)
+                                return
                             }
                         }
                     }
 
-                    if(p0.children.count() == 0) {
-                        Toast.makeText(this@LoginActivity, "아이디와 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show()
-                    }
+                    Toast.makeText(this@LoginActivity, "일치하는 로그인 정보가 없습니다.", Toast.LENGTH_SHORT).show()
                 }
             })
     }

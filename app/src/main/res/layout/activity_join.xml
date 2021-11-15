@@ -37,16 +37,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_login_tvJoin"
-        android:src="@drawable/shareeats" />
+        android:src="@drawable/user_default_profile" />
 
     <LinearLayout
         android:id="@+id/activity_login_layoutJoin"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="48dp"
-        android:orientation="vertical"
         android:layout_marginTop="@dimen/activity_margin_16dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_join_btnJoin"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_join_ivProfile">
@@ -58,12 +59,13 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginRight="@dimen/activity_margin_16dp"
-                app:helperTextEnabled="true"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:layout_weight="1"
+                app:helperTextEnabled="true">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/activity_join_etId"
                     android:layout_width="match_parent"
@@ -80,11 +82,12 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_margin_16dp"
-            app:helperTextEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:helperTextEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/activity_join_etPassword"
                 android:layout_width="match_parent"
@@ -93,11 +96,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_margin_16dp"
-            app:helperTextEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:helperTextEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/activity_join_etConfirmPassword"
                 android:layout_width="match_parent"
@@ -106,11 +110,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_margin_16dp"
-            app:helperTextEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:helperTextEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/activity_join_etName"
                 android:layout_width="match_parent"
@@ -119,11 +124,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_margin_16dp"
-            app:helperTextEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:helperTextEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/activity_join_etTel"
                 android:layout_width="match_parent"
@@ -132,11 +138,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_margin_16dp"
-            app:helperTextEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:helperTextEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/activity_join_etEmail"
                 android:layout_width="match_parent"
@@ -147,14 +154,13 @@
 
     <Button
         android:id="@+id/activity_join_btnJoin"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="48dp"
-        android:layout_marginBottom="@dimen/activity_margin_16dp"
+        android:layout_marginRight="@dimen/activity_margin_16dp"
         android:backgroundTint="@color/appTheme"
         android:text="회원가입"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_login_tvJoin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/activity_login_tvJoin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

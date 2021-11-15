@@ -3,6 +3,7 @@ package com.sharewanted.shareeats.src.main.userlogin.find
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -74,9 +75,12 @@ class FindPasswordActivity : AppCompatActivity() {
                                 intent.putExtra("id", userId)
                                 intent.putExtra("password", userPassword)
                                 startActivity(intent)
+                                return
                             }
                         }
                     }
+
+                    Toast.makeText(this@FindPasswordActivity, "일치하는 정보가 없습니다", Toast.LENGTH_SHORT).show()
                 }
             })
     }
