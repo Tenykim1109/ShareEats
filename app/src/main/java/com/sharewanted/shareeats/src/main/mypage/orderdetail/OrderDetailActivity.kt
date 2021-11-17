@@ -107,7 +107,7 @@ class OrderDetailActivity : AppCompatActivity(), OrderDetailClickListener {
                         var name = p0.child(p.storeId).child("name").value.toString()
                         var profile = p0.child(p.storeId).child("profile").value.toString()
 
-                        var store = Store("", name, profile, "", "", "", "", mutableListOf(), 0)
+                        var store = Store("", name, profile, "", "", "", "", mutableListOf(), 0, "")
                         storeList.add(store)
                     }
 

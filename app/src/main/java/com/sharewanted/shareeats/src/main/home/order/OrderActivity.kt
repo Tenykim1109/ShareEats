@@ -37,12 +37,11 @@ private const val TAG = "OrderActivity_싸피"
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
     private var mDatabase = Firebase.database.reference
-    private lateinit var foodType: String
+    private var foodType: String? = null
     private var completed: Boolean = false
     private var storeId: String? = null
     private var storeMinPrice: Int? = null
     private var selectedMenuList = mutableListOf<StoreMenu>()
-    private var dataInputFlag = false
     lateinit var user: UserDto
     private var menuList: MutableList<Menu> = arrayListOf()
 
@@ -57,22 +56,22 @@ class OrderActivity : AppCompatActivity() {
 
         user = ApplicationClass.sharedPreferencesUtil.getUser()
 
-        ArrayAdapter.createFromResource(this, R.array.food_type_array, android.R.layout.simple_spinner_item).also {
-            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.activityOrderSpinnerType.adapter = it
-        }
-
-        binding.activityOrderSpinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                foodType = binding.activityOrderSpinnerType.getItemAtPosition(p2).toString()
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                completed = false
-                Toast.makeText(this@OrderActivity, "음식 분류를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show()
-            }
-
-        }
+//        ArrayAdapter.createFromResource(this, R.array.food_type_array, android.R.layout.simple_spinner_item).also {
+//            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//            binding.activityOrderSpinnerType.adapter = it
+//        }
+//
+//        binding.activityOrderSpinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                foodType = binding.activityOrderSpinnerType.getItemAtPosition(p2).toString()
+//            }
+//
+//            override fun onNothingSelected(p0: AdapterView<*>?) {
+//                completed = false
+//                Toast.makeText(this@OrderActivity, "음식 분류를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show()
+//            }
+//
+//        }
 
         binding.activityOrderBtnFindStore.setOnClickListener {
             val intent = Intent(this, FindStoreActivity::class.java)
@@ -159,7 +158,7 @@ class OrderActivity : AppCompatActivity() {
 
             var postId = 1
 
-            val post = Post(postId, title, date, user.id, storeId!!, place, closedTime, content, fund, storeMinPrice!!, completed, foodType)
+            val post = Post(postId, title, date, user.id, storeId!!, place, closedTime, content, fund, storeMinPrice!!, completed, foodType!!)
 
             val intent = Intent(this, ParticipateActivity::class.java).apply {
                 putExtra("post", post)
@@ -215,7 +214,8 @@ class OrderActivity : AppCompatActivity() {
                 storeId = it.data?.getStringExtra("storeId").toString()
                 binding.activityOrderTvMinPrice.text = CommonUtils().makeComma(it.data?.getStringExtra("storeMinPrice").toString().toInt())
                 storeMinPrice = it.data?.getStringExtra("storeMinPrice").toString().toInt()
-
+                foodType = it.data?.getStringExtra("foodType").toString()
+                Log.d("foodType check", it.data?.getStringExtra("foodType").toString())
             } else if (it.data?.getStringExtra("resultType") == "selectMenu") {
                 val menuList = it.data?.getParcelableArrayListExtra<StoreMenu>("menuList")
                 val quantityList = it.data?.getIntegerArrayListExtra("menuQuantityList")
@@ -228,7 +228,6 @@ class OrderActivity : AppCompatActivity() {
                     }
                 }
                 binding.activityOrderTvMenu.text = menuString
-
             } else if (it.data?.getStringExtra("resultType") == "selectLocation") {
                 val location = it.data?.getStringExtra("location")
                 binding.activityOrderTvLocation.setText(location)
