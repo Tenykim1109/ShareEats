@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
@@ -69,17 +70,69 @@ class PostInfoActivity : AppCompatActivity() {
             }
         }
         binding.activityPostInfoBtnChat.setOnClickListener {
-            val chatRef = FirebaseDatabase.getInstance().getReference("Chat").push()
+            val chatRef = FirebaseDatabase.getInstance().getReference("Chat")
+            val myId = SharedPreferencesUtil(this).getUser().id
+            val writer = binding.activityPostInfoTvWriter.text.toString()
+            var roomId: String? = null
 
-            val key = chatRef.key
+            chatRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (item in snapshot.children) {
+                        val id1 = item.child("userId1").getValue<String>()!!
+                        val id2 = item.child("userId2").getValue<String>()!!
 
-            FirebaseDatabase.getInstance().getReference("Chat").child(key!!).setValue(
-                ChatList("", SharedPreferencesUtil(this).getUser().id, binding.activityPostInfoTvWriter.text.toString(), "", ""))
+                        Log.d(TAG, "user1 = $id1, user2 = $id2")
+                        if (myId == id1 && writer == id2) {
+                            Log.d(TAG, "roomId = ${item.key}")
+                            roomId = item.key
+                            break
+                        } else if (myId == id2 && writer == id1) {
+                            Log.d(TAG, "roomId = ${item.key}")
+                            roomId = item.key
+                            break
+                        } else {
+                            Log.d(TAG, "new room create!!")
+                        }
+                    }
 
-            val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("roomId", key)
-            intent.putExtra("nickname", binding.activityPostInfoTvWriter.text.toString())
-            startActivity(intent)
+                    if (roomId == null) {
+                        Log.d(TAG, "새방판다")
+
+                        val newRef = chatRef.push()
+                        val key = newRef.key
+
+                        FirebaseDatabase.getInstance().getReference("Chat").child(key!!).setValue(ChatList("", myId, writer, "", ""))
+                        val intent = Intent(this@PostInfoActivity, ChatActivity::class.java)
+                        intent.putExtra("roomId", key)
+                        intent.putExtra("nickname", writer)
+                        startActivity(intent)
+                    } else {
+                        Log.d(TAG, roomId!!)
+
+                        val intent = Intent(this@PostInfoActivity, ChatActivity::class.java)
+                        intent.putExtra("roomId", roomId!!)
+                        intent.putExtra("nickname", writer)
+                        startActivity(intent)
+                    }
+                    Log.d(TAG, "EventLister ended.")
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "$error")
+                }
+            })
+
+//            val chatRef = FirebaseDatabase.getInstance().getReference("Chat").push()
+//
+//            val key = chatRef.key
+//
+//            FirebaseDatabase.getInstance().getReference("Chat").child(key!!).setValue(
+//                ChatList("", SharedPreferencesUtil(this).getUser().id, binding.activityPostInfoTvWriter.text.toString(), "", ""))
+//
+//            val intent = Intent(this, ChatActivity::class.java)
+//            intent.putExtra("roomId", key)
+//            intent.putExtra("nickname", binding.activityPostInfoTvWriter.text.toString())
+//            startActivity(intent)
 
         }
 
