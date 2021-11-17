@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.database.DataSnapshot
@@ -98,10 +99,19 @@ class PostInfoActivity : AppCompatActivity() {
             override fun onDataChange(postSnapshot: DataSnapshot) {
                 val post = postSnapshot.getValue(Post::class.java)
 
+                val peopleNum = postSnapshot.child("participant").children.count()
+
                 mDatabase.child("Store").child(post!!.storeId).addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
 
                         val storeName = snapshot.child("name").getValue(String::class.java)
+
+                        if (user.id == post!!.userId) {
+                            if (peopleNum < 2) {
+                                binding.activityPostInfoBtnDelete.visibility = View.VISIBLE
+                                binding.activityPostInfoBtnChat.visibility = View.GONE
+                            }
+                        }
 
                         binding.activityPostInfoTvTitle.text = post!!.title
                         binding.activityPostInfoTvWriter.text = post!!.userId

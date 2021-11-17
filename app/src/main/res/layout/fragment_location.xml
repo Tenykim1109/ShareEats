@@ -15,7 +15,7 @@
         tools:layout_editor_absoluteY="168dp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/fragment_location_et_search_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -24,8 +24,9 @@
         android:layout_weight="1"
         android:hint="주소 입력"
         android:background="@drawable/round"
-        android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="text"
+        android:maxLines="1"
+        android:imeOptions="actionSearch"
         tools:ignore="TouchTargetSizeCheck"
         tools:layout_editor_absoluteX="100dp"
         tools:layout_editor_absoluteY="16dp" />

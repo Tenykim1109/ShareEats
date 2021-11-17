@@ -217,6 +217,7 @@ class OrderActivity : AppCompatActivity() {
                 foodType = it.data?.getStringExtra("foodType").toString()
                 Log.d("foodType check", it.data?.getStringExtra("foodType").toString())
             } else if (it.data?.getStringExtra("resultType") == "selectMenu") {
+                selectedMenuList.clear()
                 val menuList = it.data?.getParcelableArrayListExtra<StoreMenu>("menuList")
                 val quantityList = it.data?.getIntegerArrayListExtra("menuQuantityList")
                 var menuString = ""
