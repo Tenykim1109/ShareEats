@@ -210,6 +210,7 @@ class OrderActivity : AppCompatActivity() {
         if (it.resultCode == RESULT_OK) {
 
             if (it.data?.getStringExtra("resultType") == "findStore") {
+                binding.activityOrderTvMenu.text = ""
                 binding.activityOrderTvStore.text = it.data?.getStringExtra("storeName").toString()
                 storeId = it.data?.getStringExtra("storeId").toString()
                 binding.activityOrderTvMinPrice.text = CommonUtils().makeComma(it.data?.getStringExtra("storeMinPrice").toString().toInt())

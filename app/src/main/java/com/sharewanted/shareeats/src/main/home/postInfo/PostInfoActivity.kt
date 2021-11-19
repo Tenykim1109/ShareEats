@@ -1,5 +1,6 @@
 package com.sharewanted.shareeats.src.main.home.postInfo
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -111,6 +113,25 @@ class PostInfoActivity : AppCompatActivity() {
                                 binding.activityPostInfoBtnDelete.visibility = View.VISIBLE
                                 binding.activityPostInfoBtnChat.visibility = View.GONE
                             }
+                        }
+
+                        binding.activityPostInfoBtnDelete.setOnClickListener {
+
+                            val dialog = AlertDialog.Builder(this@PostInfoActivity)
+                                .setTitle("게시글 삭제")
+                                .setMessage("정말로 삭제하시겠습니까?")
+                                .setPositiveButton("삭제") { dialogInterface, i ->
+                                    mDatabase.child("Post").child(postId).removeValue()
+                                    mDatabase.child("User")
+                                        .child(ApplicationClass.sharedPreferencesUtil.getUser().id)
+                                        .child("postList").child(postId).removeValue()
+                                    finish()
+                                }
+                                .setNegativeButton("취소", null)
+                                .create()
+
+                            dialog.show()
+
                         }
 
                         binding.activityPostInfoTvTitle.text = post!!.title

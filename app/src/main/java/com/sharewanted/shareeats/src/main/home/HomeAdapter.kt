@@ -34,72 +34,57 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
 
         fun onBind(post: Post) {
 
-            mDatabase.child("Store").child(post.storeId).addListenerForSingleValueEvent(object : ValueEventListener {
+            mDatabase.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (index < postList.size) {
-                        val profile = snapshot.child("profile").value.toString()
-                        val storeName = snapshot.child("name").value.toString()
+//                    if (index < postList.size) {
+                        val profile = snapshot.child("Store").child(post.storeId).child("profile").value.toString()
+                        val storeName = snapshot.child("Store").child(post.storeId).child("name").value.toString()
 
                         val menuList = mutableListOf<StoreMenu>()
 
-                        for (dataSnapShot in snapshot.child("menu").children) {
+                        for (dataSnapShot in snapshot.child("Store").child(post.storeId).child("menu").children) {
                             val menu = dataSnapShot.getValue(StoreMenu::class.java)
                             menuList.add(menu!!)
                         }
 
                         Log.d("loop test", "loop check")
 
-                        mDatabase.child("Post").child(post.postId.toString()).child("participant")
-                            .addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onDataChange(snapshot: DataSnapshot) {
+                        Glide.with(itemView.context).load(profile).into(ivStore)
+                        tvTitle.text = post.title
+                        tvStore.text = storeName
 
-                                    Glide.with(itemView.context).load(profile).into(ivStore)
-                                    tvTitle.text = post.title
-                                    tvStore.text = storeName
+                        val postSnapshot = snapshot.child("Post").child(post.postId.toString()).child("participant")
 
+                        var totalPrice = 0
+                        for (dataSnapshot in postSnapshot.children) {
+                            Log.d("data test", dataSnapshot.value.toString())
 
-                                    var totalPrice = 0
-                                    for (dataSnapshot in snapshot.children) {
-                                        Log.d("data test", dataSnapshot.value.toString())
+                            for (index in menuList.indices) {
+                                val price = dataSnapshot.child("menu")
+                                    .child(menuList[index].name)
+                                    .child("price").value.toString()
+                                val quantity = dataSnapshot.child("menu")
+                                    .child(menuList[index].name)
+                                    .child("quantity").value.toString()
 
-                                        for (index in menuList.indices) {
-                                            val price = dataSnapshot.child("menu")
-                                                .child(menuList[index].name)
-                                                .child("price").value.toString()
-                                            val quantity = dataSnapshot.child("menu")
-                                                .child(menuList[index].name)
-                                                .child("quantity").value.toString()
-
-                                            if (price != "null") {
-                                                totalPrice += price.toInt() * quantity.toInt()
-                                            }
-                                        }
-
-                                    }
-
-                                    val goal = "${CommonUtils().makeComma(totalPrice)} / ${
-                                        CommonUtils().makeComma(post.minPrice)
-                                    }"
-                                    tvPrice.text = goal
-
-                                    progress.max = post.minPrice
-                                    progress.progress = totalPrice
-
+                                if (price != "null") {
+                                    totalPrice += price.toInt() * quantity.toInt()
                                 }
+                            }
 
-                                override fun onCancelled(error: DatabaseError) {
-                                    Log.d("HomeAdapter Post error", error.toString())
-                                    Toast.makeText(
-                                        itemView.context,
-                                        error.toString(),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
+                        }
 
-                            })
+                        val goal = "${CommonUtils().makeComma(totalPrice)} / ${
+                            CommonUtils().makeComma(post.minPrice)
+                        }"
+                        tvPrice.text = goal
+
+                        progress.max = post.minPrice
+                        progress.progress = totalPrice
+
                         refreshPost()
-                        index++
-                    }
+//                        index++
+//                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -116,7 +101,7 @@ class HomeAdapter(var postList: MutableList<Post>) : RecyclerView.Adapter<HomeAd
         return HomeViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: HomeAdapter.HomeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.apply {
             onBind(postList[position])
             itemView.setOnClickListener{
