@@ -145,11 +145,9 @@ class PostInfoActivity : AppCompatActivity() {
 
                                     binding.activityPostInfoBtnSelectMenu.setOnClickListener {
 
-                                        val intent = Intent(
-                                            this@PostInfoActivity,
-                                            SelectMenuActivity::class.java
-                                        ).apply {
+                                        val intent = Intent(this@PostInfoActivity, SelectMenuActivity::class.java).apply {
                                             putExtra("storeId", post!!.storeId)
+                                            putExtra("userType", "participant")
                                         }
                                         activityResult.launch(intent)
 

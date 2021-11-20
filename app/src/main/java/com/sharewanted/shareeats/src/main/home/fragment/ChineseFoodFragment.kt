@@ -60,10 +60,13 @@ class ChineseFoodFragment : Fragment() {
                 postList.clear()
                 for (dataSnapshot in snapshot.children) {
                     val type = dataSnapshot.child("type").getValue(String::class.java)
-                    if (type == "중식") {
-                        val post = dataSnapshot.getValue(Post::class.java)
+                    val completed = dataSnapshot.child("completed").getValue(String::class.java).toString()
 
-                        postList.add(post!!)
+                    if (type == "중식") {
+                        if (completed == "모집중") {
+                            val post = dataSnapshot.getValue(Post::class.java)
+                            postList.add(post!!)
+                        }
                     }
                 }
 

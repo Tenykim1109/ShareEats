@@ -65,6 +65,7 @@ class OrderActivity : AppCompatActivity() {
             val intent = Intent(this, SelectMenuActivity::class.java).apply {
                 putExtra("storeId", storeId)
                 putExtra("storeMinPrice", storeMinPrice)
+                putExtra("userType", "writer")
             }
 
             if (binding.activityOrderTvStore.text == null) {

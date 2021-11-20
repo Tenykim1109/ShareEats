@@ -31,6 +31,7 @@ class SelectMenuActivity : AppCompatActivity() {
             finish()
         }
 
+        val userType = intent.getStringExtra("userType").toString()
         val storeId = intent.getStringExtra("storeId").toString()
         val storeMinPrice = intent.getIntExtra("storeMinPrice", 0)
 
@@ -69,19 +70,34 @@ class SelectMenuActivity : AppCompatActivity() {
 
                     Log.d("price check", "minPrice : ${storeMinPrice}, totalPrice: ${totalMenuPrice}")
 
-                    if (totalMenuPrice == 0) {
-                        Toast.makeText(this@SelectMenuActivity, "메뉴를 최소 1개 이상 선택하세요.", Toast.LENGTH_SHORT).show()
-                    } else if (storeMinPrice <= totalMenuPrice) {
-                        Toast.makeText(this@SelectMenuActivity, "매장 주문 최소금액을 넘을 수 없습니다.", Toast.LENGTH_SHORT).show()
-                    } else {
-                        val intent = Intent(this@SelectMenuActivity, OrderActivity::class.java).apply {
-                            putExtra("resultType", "selectMenu")
-                            putParcelableArrayListExtra("menuList", menuAdapter.menuList as ArrayList<StoreMenu>)
-                            putIntegerArrayListExtra("menuQuantityList", quantityArr)
+                    if (userType == "writer") {
+                        if (totalMenuPrice == 0) {
+                            Toast.makeText(this@SelectMenuActivity, "메뉴를 최소 1개 이상 선택하세요.", Toast.LENGTH_SHORT).show()
+                        } else if (storeMinPrice <= totalMenuPrice) {
+                            Toast.makeText(this@SelectMenuActivity, "매장 주문 최소금액을 넘을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            val intent = Intent(this@SelectMenuActivity, OrderActivity::class.java).apply {
+                                putExtra("resultType", "selectMenu")
+                                putParcelableArrayListExtra("menuList", menuAdapter.menuList as ArrayList<StoreMenu>)
+                                putIntegerArrayListExtra("menuQuantityList", quantityArr)
+                            }
+                            setResult(RESULT_OK, intent)
+                            finish()
                         }
-                        setResult(RESULT_OK, intent)
-                        finish()
+                    } else {
+                        if (totalMenuPrice == 0) {
+                            Toast.makeText(this@SelectMenuActivity, "메뉴를 최소 1개 이상 선택하세요.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            val intent = Intent(this@SelectMenuActivity, OrderActivity::class.java).apply {
+                                putExtra("resultType", "selectMenu")
+                                putParcelableArrayListExtra("menuList", menuAdapter.menuList as ArrayList<StoreMenu>)
+                                putIntegerArrayListExtra("menuQuantityList", quantityArr)
+                            }
+                            setResult(RESULT_OK, intent)
+                            finish()
+                        }
                     }
+
                 }
             }
 

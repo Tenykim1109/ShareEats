@@ -127,6 +127,25 @@ class ParticipateActivity : AppCompatActivity() {
 
                             } else if (dataInputFlag == 1) {
                                 for (i in menuList.indices) {
+                                    val currentFund = snapshot.child("Post").child(post.postId.toString())
+                                        .child("fund").getValue(Int::class.java)
+
+                                    val minPrice = snapshot.child("Post").child(post.postId.toString())
+                                        .child("minPrice").getValue(Int::class.java)
+
+                                    var userFundingPrice = 0
+                                    for (i in menuList.indices) {
+                                        userFundingPrice += menuList[i].price * menuList[i].quantity
+                                    }
+
+                                    val stackCurrentPrice = currentFund!! + userFundingPrice
+
+                                    if (minPrice!! < stackCurrentPrice) {
+                                        mDatabase.child("Post").child(post.postId.toString()).child("completed").setValue("주문 완료")
+                                    }
+
+                                    mDatabase.child("Post").child(post.postId.toString()).child("fund").setValue(stackCurrentPrice)
+
                                     mDatabase.child("Post").child(post.postId.toString())
                                         .child("participant").child(user.id)
                                         .child("menu").child(menuList[i].name).setValue(menuList[i])

@@ -57,9 +57,12 @@ class TotalFoodFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 postList.clear()
                 for (dataSnapshot in snapshot.children) {
-                    val post = dataSnapshot.getValue(Post::class.java)
+                    val completed = dataSnapshot.child("completed").getValue(String::class.java).toString()
 
-                    postList.add(post!!)
+                    if (completed == "모집중") {
+                        val post = dataSnapshot.getValue(Post::class.java)
+                        postList.add(post!!)
+                    }
                 }
 
                 adapter = HomeListAdapter(postList)
