@@ -32,6 +32,7 @@ class SelectMenuActivity : AppCompatActivity() {
         }
 
         val storeId = intent.getStringExtra("storeId").toString()
+        val storeMinPrice = intent.getIntExtra("storeMinPrice", 0)
 
 
         mDatabase.child(storeId).child("menu").addValueEventListener(object : ValueEventListener{
@@ -57,14 +58,30 @@ class SelectMenuActivity : AppCompatActivity() {
                 }
 
                 binding.activitySelectMenuSave.setOnClickListener {
+                    quantityArr.clear()
+
                     quantityArr.addAll(menuAdapter.quantityArr)
-                    val intent = Intent(this@SelectMenuActivity, OrderActivity::class.java).apply {
-                        putExtra("resultType", "selectMenu")
-                        putParcelableArrayListExtra("menuList", menuAdapter.menuList as ArrayList<StoreMenu>)
-                        putIntegerArrayListExtra("menuQuantityList", quantityArr)
+
+                    var totalMenuPrice = 0
+                    for (i in list.indices) {
+                        totalMenuPrice += list[i].price * quantityArr[i]
                     }
-                    setResult(RESULT_OK, intent)
-                    finish()
+
+                    Log.d("price check", "minPrice : ${storeMinPrice}, totalPrice: ${totalMenuPrice}")
+
+                    if (totalMenuPrice == 0) {
+                        Toast.makeText(this@SelectMenuActivity, "메뉴를 최소 1개 이상 선택하세요.", Toast.LENGTH_SHORT).show()
+                    } else if (storeMinPrice <= totalMenuPrice) {
+                        Toast.makeText(this@SelectMenuActivity, "매장 주문 최소금액을 넘을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val intent = Intent(this@SelectMenuActivity, OrderActivity::class.java).apply {
+                            putExtra("resultType", "selectMenu")
+                            putParcelableArrayListExtra("menuList", menuAdapter.menuList as ArrayList<StoreMenu>)
+                            putIntegerArrayListExtra("menuQuantityList", quantityArr)
+                        }
+                        setResult(RESULT_OK, intent)
+                        finish()
+                    }
                 }
             }
 

@@ -18,6 +18,7 @@ import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentJapaneseFoodBinding
 import com.sharewanted.shareeats.databinding.FragmentKoreanFoodBinding
 import com.sharewanted.shareeats.src.main.home.HomeAdapter
+import com.sharewanted.shareeats.src.main.home.HomeListAdapter
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
 
@@ -28,7 +29,7 @@ class JapaneseFoodFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var adapter: HomeAdapter
+    private lateinit var adapter: HomeListAdapter
     private var postList = mutableListOf<Post>()
     private val mDatabase = Firebase.database.reference
 
@@ -66,17 +67,14 @@ class JapaneseFoodFragment : Fragment() {
                     }
                 }
 
-                adapter = HomeAdapter(postList)
-                adapter.setItemClickListener(object : HomeAdapter.ItemClickListener {
-                    override fun onClick(view: View, position: Int, postId: Int) {
-                        val intent = Intent(requireContext(), PostInfoActivity::class.java).apply {
-                            putExtra("postId", postId)
-                        }
-                        startActivity(intent)
+                adapter = HomeListAdapter(postList)
+                binding.fragmentJapaneseFoodLv.adapter = adapter
+                binding.fragmentJapaneseFoodLv.setOnItemClickListener { adapterView, view, i, l ->
+                    val intent = Intent(context, PostInfoActivity::class.java).apply {
+                        putExtra("postId", postList[i].postId)
                     }
-                })
-                binding.fragmentJapaneseFoodRv.adapter = adapter
-                binding.fragmentJapaneseFoodRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    startActivity(intent)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

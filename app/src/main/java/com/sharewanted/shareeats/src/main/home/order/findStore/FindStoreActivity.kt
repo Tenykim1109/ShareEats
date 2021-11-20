@@ -50,7 +50,8 @@ class FindStoreActivity : AppCompatActivity() {
                     val store = Store(data.child("storeId").getValue(String::class.java)!!, data.child("name").getValue(String::class.java)!!,
                         data.child("profile").getValue(String::class.java)!!, data.child("location").getValue(String::class.java)!!,
                         data.child("tel").getValue(String::class.java)!!, data.child("time").getValue(String::class.java)!!,
-                        data.child("info").getValue(String::class.java)!!, list, data.child("minPrice").getValue(Int::class.java)!!)
+                        data.child("info").getValue(String::class.java)!!, list, data.child("minPrice").getValue(Int::class.java)!!,
+                        data.child("type").getValue(String::class.java)!!)
                     storeList.add(store)
                 }
 
@@ -80,12 +81,6 @@ class FindStoreActivity : AppCompatActivity() {
             }
 
         })
-
-
-
-
-
-
 
     }
 }

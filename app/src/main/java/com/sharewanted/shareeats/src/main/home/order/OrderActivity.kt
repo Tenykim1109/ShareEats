@@ -37,12 +37,11 @@ private const val TAG = "OrderActivity_싸피"
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
     private var mDatabase = Firebase.database.reference
-    private lateinit var foodType: String
+    private var foodType: String? = null
     private var completed: Boolean = false
     private var storeId: String? = null
     private var storeMinPrice: Int? = null
     private var selectedMenuList = mutableListOf<StoreMenu>()
-    private var dataInputFlag = false
     lateinit var user: UserDto
     private var menuList: MutableList<Menu> = arrayListOf()
 
@@ -65,6 +64,7 @@ class OrderActivity : AppCompatActivity() {
         binding.activityOrderBtnSelectMenu.setOnClickListener {
             val intent = Intent(this, SelectMenuActivity::class.java).apply {
                 putExtra("storeId", storeId)
+                putExtra("storeMinPrice", storeMinPrice)
             }
 
             if (binding.activityOrderTvStore.text == null) {
@@ -142,7 +142,7 @@ class OrderActivity : AppCompatActivity() {
 
             var postId = 1
 
-            val post = Post(postId, title, date, user.id, storeId!!, place, closedTime, content, fund, storeMinPrice!!, completed, foodType)
+            val post = Post(postId, title, date, user.id, storeId!!, place, closedTime, content, fund, storeMinPrice!!, completed, foodType!!)
 
             val intent = Intent(this, ParticipateActivity::class.java).apply {
                 putExtra("post", post)
@@ -194,12 +194,15 @@ class OrderActivity : AppCompatActivity() {
         if (it.resultCode == RESULT_OK) {
 
             if (it.data?.getStringExtra("resultType") == "findStore") {
+                binding.activityOrderTvMenu.text = ""
                 binding.activityOrderTvStore.text = it.data?.getStringExtra("storeName").toString()
                 storeId = it.data?.getStringExtra("storeId").toString()
                 binding.activityOrderTvMinPrice.text = CommonUtils().makeComma(it.data?.getStringExtra("storeMinPrice").toString().toInt())
                 storeMinPrice = it.data?.getStringExtra("storeMinPrice").toString().toInt()
-
+                foodType = it.data?.getStringExtra("foodType").toString()
+                Log.d("foodType check", it.data?.getStringExtra("foodType").toString())
             } else if (it.data?.getStringExtra("resultType") == "selectMenu") {
+                selectedMenuList.clear()
                 val menuList = it.data?.getParcelableArrayListExtra<StoreMenu>("menuList")
                 val quantityList = it.data?.getIntegerArrayListExtra("menuQuantityList")
                 var menuString = ""
@@ -211,7 +214,6 @@ class OrderActivity : AppCompatActivity() {
                     }
                 }
                 binding.activityOrderTvMenu.text = menuString
-
             } else if (it.data?.getStringExtra("resultType") == "selectLocation") {
                 val location = it.data?.getStringExtra("location")
                 binding.activityOrderTvLocation.setText(location)

@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".src.main.home.order.OrderActivity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
 
     <!-- 커스텀 툴바 적용 -->
     <androidx.appcompat.widget.Toolbar
@@ -47,10 +53,6 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -66,7 +68,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:hint="제목" />
+                    android:hint="제목"
+                    android:singleLine="true"/>
 
                 <View
                     android:id="@+id/activity_order_tv_line1"
@@ -89,7 +92,7 @@
                 <TextView
                     android:id="@+id/activity_order_tv_header2"
                     style="@style/header_text"
-                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    android:layout_marginTop="24dp"
                     android:text="메뉴"
                     app:layout_constraintStart_toStartOf="@+id/activity_order_tv_header1"
                     app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_header1" />
@@ -97,114 +100,124 @@
                 <TextView
                     android:id="@+id/activity_order_tv_header3"
                     style="@style/header_text"
-                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    android:layout_marginTop="24dp"
                     android:text="최소금액"
                     app:layout_constraintStart_toStartOf="@+id/activity_order_tv_header2"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_header2"/>
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_header2" />
 
                 <TextView
                     android:id="@+id/activity_order_tv_header4"
                     style="@style/header_text"
-                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    android:layout_marginTop="16dp"
                     android:text="배달장소"
                     app:layout_constraintStart_toStartOf="@+id/activity_order_tv_header3"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_header3"/>
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_header3" />
 
                 <TextView
                     android:id="@+id/activity_order_tv_header5"
                     style="@style/header_text"
-                    android:layout_marginTop="@dimen/activity_margin_16dp"
+                    android:layout_marginTop="24dp"
                     android:text="마감시간"
                     app:layout_constraintStart_toStartOf="@+id/activity_order_tv_header4"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_header4"/>
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_header4" />
 
                 <TextView
                     android:id="@+id/activity_order_tv_store"
                     style="@style/body_text"
-                    android:layout_marginLeft="@dimen/activity_margin_32dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
                     android:enabled="false"
                     android:hint="음식점 선택"
-                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_tv_header1"
-                    app:layout_constraintStart_toEndOf="@+id/activity_order_tv_header1"
-                    app:layout_constraintTop_toTopOf="@+id/activity_order_tv_header1" />
+                    app:layout_constraintStart_toEndOf="@+id/activity_order_btn_find_store"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_line1" />
 
                 <TextView
                     android:id="@+id/activity_order_tv_menu"
                     style="@style/body_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="28dp"
                     android:enabled="false"
                     android:hint="메뉴 선택"
-                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_tv_header2"
-                    app:layout_constraintStart_toStartOf="@+id/activity_order_tv_store"
-                    app:layout_constraintTop_toTopOf="@+id/activity_order_tv_header2" />
+                    app:layout_constraintStart_toEndOf="@+id/activity_order_btn_select_menu"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_store" />
+
 
                 <TextView
                     android:id="@+id/activity_order_tv_minPrice"
                     style="@style/body_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
                     android:enabled="false"
-                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_tv_header3"
-                    app:layout_constraintStart_toStartOf="@+id/activity_order_tv_store"
-                    app:layout_constraintTop_toTopOf="@+id/activity_order_tv_header3"/>
+                    app:layout_constraintStart_toEndOf="@+id/activity_order_tv_header3"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_btn_select_menu" />
 
                 <EditText
                     android:id="@+id/activity_order_tv_location"
                     style="@style/body_text"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="8dp"
                     android:hint="장소 입력"
-                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_tv_header4"
-                    app:layout_constraintStart_toStartOf="@+id/activity_order_tv_store"
-                    app:layout_constraintTop_toTopOf="@+id/activity_order_tv_header4"/>
-
+                    android:maxWidth="230dp"
+                    app:layout_constraintStart_toEndOf="@+id/activity_order_btn_select_location"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_minPrice" />
 
                 <TextView
                     android:id="@+id/activity_order_tv_time"
                     style="@style/body_text"
-                    android:hint="시간 선택"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="20dp"
                     android:enabled="false"
-                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_tv_header5"
-                    app:layout_constraintStart_toStartOf="@+id/activity_order_tv_store"
-                    app:layout_constraintTop_toTopOf="@+id/activity_order_tv_header5"/>
+                    android:hint="시간 선택"
+                    app:layout_constraintStart_toEndOf="@+id/activity_order_btn_select_time"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_location" />
 
                 <Button
                     android:id="@+id/activity_order_btn_find_store"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="3dp"
                     android:backgroundTint="@color/appTheme"
                     android:text="찾기"
-                    android:layout_marginLeft="@dimen/activity_margin_32dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_tv_store"
-                    app:layout_constraintStart_toEndOf="@+id/activity_order_tv_store"
-                    app:layout_constraintTop_toTopOf="@+id/activity_order_tv_store"/>
+                    app:layout_constraintStart_toEndOf="@+id/activity_order_tv_header1"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_line1" />
 
                 <Button
                     android:id="@+id/activity_order_btn_select_menu"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="37dp"
                     android:backgroundTint="@color/appTheme"
                     android:text="선택"
-                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_tv_menu"
-                    app:layout_constraintStart_toStartOf="@+id/activity_order_btn_find_store"
-                    app:layout_constraintTop_toTopOf="@+id/activity_order_tv_menu"/>
+                    app:layout_constraintStart_toEndOf="@+id/activity_order_tv_header2"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_btn_find_store" />
 
                 <Button
                     android:id="@+id/activity_order_btn_select_location"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:backgroundTint="@color/appTheme"
                     android:text="찾기"
-                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_tv_location"
-                    app:layout_constraintStart_toStartOf="@+id/activity_order_btn_find_store"
-                    app:layout_constraintTop_toTopOf="@+id/activity_order_tv_location"/>
+                    app:layout_constraintStart_toEndOf="@+id/activity_order_tv_header4"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_tv_minPrice" />
 
                 <Button
                     android:id="@+id/activity_order_btn_select_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:backgroundTint="@color/appTheme"
                     android:text="선택"
-                    app:layout_constraintBottom_toBottomOf="@+id/activity_order_tv_time"
-                    app:layout_constraintStart_toStartOf="@+id/activity_order_btn_find_store"
-                    app:layout_constraintTop_toTopOf="@+id/activity_order_tv_time"/>
+                    app:layout_constraintStart_toEndOf="@+id/activity_order_tv_header5"
+                    app:layout_constraintTop_toBottomOf="@+id/activity_order_btn_select_location" />
 
-<!--                <Spinner-->
+                <!--                <Spinner-->
 <!--                    android:id="@+id/activity_order_spinner_type"-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
@@ -237,6 +250,6 @@
                 android:layout_marginBottom="@dimen/activity_margin_16dp"/>
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
-
 </LinearLayout>
+
+</ScrollView>
