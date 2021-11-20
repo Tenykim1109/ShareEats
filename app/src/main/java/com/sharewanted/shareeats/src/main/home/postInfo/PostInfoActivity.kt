@@ -20,6 +20,7 @@ import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.config.CommonUtils
 import com.sharewanted.shareeats.databinding.ActivityPostInfoBinding
 import com.sharewanted.shareeats.src.chat.ChatActivity
+import com.sharewanted.shareeats.src.main.MainActivity
 import com.sharewanted.shareeats.src.main.chat.models.ChatList
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.orderDto.StoreMenu
@@ -97,80 +98,114 @@ class PostInfoActivity : AppCompatActivity() {
             finish()
         }
 
-        mDatabase.child("Post").child(postId).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(postSnapshot: DataSnapshot) {
-                val post = postSnapshot.getValue(Post::class.java)
 
-                val peopleNum = postSnapshot.child("participant").children.count()
+        if (postId != null) {
 
-                mDatabase.child("Store").child(post!!.storeId).addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
+            mDatabase.child("Post").child(postId)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(postSnapshot: DataSnapshot) {
+                        val post = postSnapshot.getValue(Post::class.java)
 
-                        val storeName = snapshot.child("name").getValue(String::class.java)
+                        val peopleNum = postSnapshot.child("participant").children.count()
 
-                        if (user.id == post!!.userId) {
-                            if (peopleNum < 2) {
-                                binding.activityPostInfoBtnDelete.visibility = View.VISIBLE
-                                binding.activityPostInfoBtnChat.visibility = View.GONE
-                            }
-                        }
+                        mDatabase.child("Store").child(post!!.storeId)
+                            .addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
 
-                        binding.activityPostInfoBtnDelete.setOnClickListener {
+                                    val storeName =
+                                        snapshot.child("name").getValue(String::class.java)
 
-                            val dialog = AlertDialog.Builder(this@PostInfoActivity)
-                                .setTitle("게시글 삭제")
-                                .setMessage("정말로 삭제하시겠습니까?")
-                                .setPositiveButton("삭제") { dialogInterface, i ->
-                                    mDatabase.child("Post").child(postId).removeValue()
-                                    mDatabase.child("User")
-                                        .child(ApplicationClass.sharedPreferencesUtil.getUser().id)
-                                        .child("postList").child(postId).removeValue()
-                                    finish()
+                                    if (user.id == post!!.userId) {
+                                        if (peopleNum < 2) {
+                                            binding.activityPostInfoBtnDelete.visibility =
+                                                View.VISIBLE
+                                            binding.activityPostInfoBtnChat.visibility = View.GONE
+                                        }
+                                    }
+
+                                    binding.activityPostInfoTvTitle.text = post!!.title
+                                    binding.activityPostInfoTvWriter.text = post!!.userId
+                                    var date = Date(post.date)
+                                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
+                                    binding.activityPostInfoTvWriteDate.text =
+                                        dateFormat.format(date).toString()
+                                    binding.activityPostInfoTvLocation.text = post!!.place
+                                    date = Date(post.closedTime)
+                                    val timeFormat =
+                                        SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA)
+                                    binding.activityPostInfoTvClosedTime.text =
+                                        timeFormat.format(date).toString()
+                                    binding.activityPostInfoTvContent.text = post!!.content
+
+                                    binding.activityPostInfoTvStore.text = storeName
+
+                                    binding.activityPostInfoBtnSelectMenu.setOnClickListener {
+
+                                        val intent = Intent(
+                                            this@PostInfoActivity,
+                                            SelectMenuActivity::class.java
+                                        ).apply {
+                                            putExtra("storeId", post!!.storeId)
+                                        }
+                                        activityResult.launch(intent)
+
+                                    }
+
+                                    mPost = Post(
+                                        postId.toInt(),
+                                        post.title,
+                                        post.date,
+                                        user.id,
+                                        post.storeId,
+                                        post.place,
+                                        post.closedTime,
+                                        post.content,
+                                        post.fund,
+                                        post.minPrice,
+                                        post.completed,
+                                        post.type
+                                    )
                                 }
-                                .setNegativeButton("취소", null)
-                                .create()
 
-                            dialog.show()
+                                override fun onCancelled(error: DatabaseError) {
+                                    Toast.makeText(
+                                        this@PostInfoActivity,
+                                        error.toString(),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
 
-                        }
-
-                        binding.activityPostInfoTvTitle.text = post!!.title
-                        binding.activityPostInfoTvWriter.text = post!!.userId
-                        var date = Date(post.date)
-                        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
-                        binding.activityPostInfoTvWriteDate.text = dateFormat.format(date).toString()
-                        binding.activityPostInfoTvLocation.text = post!!.place
-                        date = Date(post.closedTime)
-                        val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA)
-                        binding.activityPostInfoTvClosedTime.text = timeFormat.format(date).toString()
-                        binding.activityPostInfoTvContent.text = post!!.content
-
-                        binding.activityPostInfoTvStore.text = storeName
-
-                        binding.activityPostInfoBtnSelectMenu.setOnClickListener {
-
-                            val intent = Intent(this@PostInfoActivity, SelectMenuActivity::class.java).apply {
-                                putExtra("storeId", post!!.storeId)
-                            }
-                            activityResult.launch(intent)
-
-                        }
-
-                        mPost = Post(postId.toInt(), post.title, post.date, user.id, post.storeId, post.place, post.closedTime, post.content, post.fund, post.minPrice, post.completed, post.type)
+                            })
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        Toast.makeText(this@PostInfoActivity, error.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@PostInfoActivity, error.toString(), Toast.LENGTH_SHORT)
+                            .show()
                     }
 
                 })
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@PostInfoActivity, error.toString(), Toast.LENGTH_SHORT).show()
-            }
+    }
 
-        })
+        binding.activityPostInfoBtnDelete.setOnClickListener {
+
+            val dialog = AlertDialog.Builder(this@PostInfoActivity)
+                .setTitle("게시글 삭제")
+                .setMessage("정말로 삭제하시겠습니까?")
+                .setPositiveButton("삭제") { dialogInterface, i ->
+                    mDatabase.child("Post").child(postId).removeValue()
+                    mDatabase.child("User").child(ApplicationClass.sharedPreferencesUtil.getUser().id).child("postList").child(postId).removeValue()
+                    val intent = Intent(this@PostInfoActivity, MainActivity::class.java)
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
+                    finish()
+                }
+                .setNegativeButton("취소", null)
+                .create()
+
+            dialog.show()
+
+        }
 
 
     }

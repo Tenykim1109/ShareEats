@@ -18,7 +18,8 @@
         android:theme="@style/Theme.ShareEats">
         <activity
             android:name=".src.main.home.postInfo.PostInfoActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTask" />
         <activity
             android:name=".src.main.home.order.selectLocation.SelectLocationActivity"
             android:exported="true" />
