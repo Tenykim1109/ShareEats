@@ -116,6 +116,10 @@ class PostInfoActivity : AppCompatActivity() {
                                         snapshot.child("name").getValue(String::class.java)
 
                                     if (user.id == post!!.userId) {
+                                        binding.activityPostInfoHeader6.visibility = View.GONE
+                                        binding.activityPostInfoTvMenu.visibility = View.GONE
+                                        binding.activityPostInfoBtnSelectMenu.visibility = View.GONE
+                                        binding.activityPostInfoBtnJoin.visibility = View.GONE
                                         if (peopleNum < 2) {
                                             binding.activityPostInfoBtnDelete.visibility =
                                                 View.VISIBLE

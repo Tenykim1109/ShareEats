@@ -56,23 +56,6 @@ class OrderActivity : AppCompatActivity() {
 
         user = ApplicationClass.sharedPreferencesUtil.getUser()
 
-//        ArrayAdapter.createFromResource(this, R.array.food_type_array, android.R.layout.simple_spinner_item).also {
-//            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            binding.activityOrderSpinnerType.adapter = it
-//        }
-//
-//        binding.activityOrderSpinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                foodType = binding.activityOrderSpinnerType.getItemAtPosition(p2).toString()
-//            }
-//
-//            override fun onNothingSelected(p0: AdapterView<*>?) {
-//                completed = false
-//                Toast.makeText(this@OrderActivity, "음식 분류를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show()
-//            }
-//
-//        }
-
         binding.activityOrderBtnFindStore.setOnClickListener {
             val intent = Intent(this, FindStoreActivity::class.java)
             activityResult.launch(intent)
@@ -81,6 +64,7 @@ class OrderActivity : AppCompatActivity() {
         binding.activityOrderBtnSelectMenu.setOnClickListener {
             val intent = Intent(this, SelectMenuActivity::class.java).apply {
                 putExtra("storeId", storeId)
+                putExtra("storeMinPrice", storeMinPrice)
             }
 
             if (binding.activityOrderTvStore.text == null) {
