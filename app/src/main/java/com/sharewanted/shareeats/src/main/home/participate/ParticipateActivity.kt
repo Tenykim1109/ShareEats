@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.database.creditcard.CreditCard
@@ -231,4 +232,16 @@ class ParticipateActivity : AppCompatActivity() {
             cardPassword = ""
         }
     }
+
+    //////////////////////////////////////////////////////////////////// 만약 토큰대신 구독형으로 알림을 보낼거면 사용할 코드
+//    private fun subscribe(postId: String) {
+//        FirebaseMessaging.getInstance().subscribeToTopic(postId)
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    Toast.makeText(this, "참여 신청을 완료했습니다.", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(this, "네트워크 상태가 불안정 합니다.", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//    }
 }
