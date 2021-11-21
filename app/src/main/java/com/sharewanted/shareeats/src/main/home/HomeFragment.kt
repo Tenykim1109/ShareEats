@@ -1,9 +1,11 @@
 package com.sharewanted.shareeats.src.main.home
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -76,6 +78,14 @@ class HomeFragment : Fragment() {
 
         })
 
+        binding.fragmentHomeActvSearchTitle.setOnKeyListener { view, keyCode, keyEvent ->
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                val imm: InputMethodManager = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.fragmentHomeActvSearchTitle.windowToken, 0)
+                true
+            }
+            false
+        }
 
 
         binding.fbWritePost.setOnClickListener {
