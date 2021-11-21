@@ -26,6 +26,7 @@ import com.sharewanted.shareeats.src.main.MainActivity
 import com.sharewanted.shareeats.src.main.home.HomeFragment
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.orderDto.StoreMenu
+import com.sharewanted.shareeats.src.main.home.pay.PayActivity
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 import com.sharewanted.shareeats.util.SharedPreferencesUtil
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +45,8 @@ class ParticipateActivity : AppCompatActivity() {
     private var mDatabase = Firebase.database.reference
     private var dataInputFlag = -1
     lateinit var user: UserDto
+
+    var payType = 0
 
     private var cardPassword: String?=null
 
@@ -78,10 +81,29 @@ class ParticipateActivity : AppCompatActivity() {
         }
 
         binding.activityParticipateTvOrderDate.text = SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis())
-        binding.activityParticipateTvTotalPrice.text = "${totalPrice} 원"
+        binding.activityParticipateTvTotalPrice.text = "${totalPrice}원"
         
         initView()
 
+        binding.activityParticipateRadioGroup.setOnCheckedChangeListener { radioGroup, i ->
+            when(i) {
+                R.id.activity_participate_radio_credit_card -> {
+                    Toast.makeText(this, "신용카드", Toast.LENGTH_SHORT).show()
+                    payType = 0
+                    showCardInfo()
+                }
+                R.id.activity_participate_radio_kakao_pay -> {
+                    Toast.makeText(this, "카카오페이", Toast.LENGTH_SHORT).show()
+                    payType = 1
+                    hideCardInfo()
+                }
+                R.id.activity_participate_radio_transfer_account -> {
+                    Toast.makeText(this, "계좌이체", Toast.LENGTH_SHORT).show()
+                    payType = 2
+                    showCardInfo()
+                }
+            }
+        }
 
         Log.d(TAG, "onCreate: ")
         binding.activityParticipateBtnCancel.setOnClickListener {
@@ -90,99 +112,121 @@ class ParticipateActivity : AppCompatActivity() {
         }
 
         binding.activityParticipateBtnPayment.setOnClickListener {
-            val company = binding.activityParticipateSpinner.selectedItem.toString()
-            val number = binding.activityParticipateCardNumber.text.toString()
-            val expiry = binding.activityParticipateExpiry.text.toString()
-            val cvc = binding.activityParticipateCvc.text.toString()
-            val password = binding.activityParticipatePassword.text.toString()
+            when(payType) {
+                0 -> {
+                    val company = binding.activityParticipateSpinner.selectedItem.toString()
+                    val number = binding.activityParticipateCardNumber.text.toString()
+                    val expiry = binding.activityParticipateExpiry.text.toString()
+                    val cvc = binding.activityParticipateCvc.text.toString()
+                    val password = binding.activityParticipatePassword.text.toString()
 
-            if (cardPassword != "") {
-                if (cardPassword.equals(password)) {
-                    Toast.makeText(this, "결제하기", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "onCreate: $company $number $expiry $cvc $password")
+                    if (cardPassword != "") {
+                        if (cardPassword.equals(password)) {
+                            Toast.makeText(this, "결제하기", Toast.LENGTH_SHORT).show()
+                            Log.d(TAG, "onCreate: $company $number $expiry $cvc $password")
 //                val intent = Intent(this, MainActivity::class.java)
 //                startActivity(intent)
-                    mDatabase.addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if (dataInputFlag == 0) {
-                                if (snapshot.hasChildren()) {
-                                    post.postId = snapshot.child("Post").children.last().key!!.toInt() + 1
-                                }
+                            mDatabase.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    if (dataInputFlag == 0) {
+                                        if (snapshot.hasChildren()) {
+                                            post.postId = snapshot.child("Post").children.last().key!!.toInt() + 1
+                                        }
 
-                                mDatabase.child("Post").child(post.postId.toString()).setValue(post)
+                                        mDatabase.child("Post").child(post.postId.toString()).setValue(post)
 
-                                for (i in menuList.indices) {
-                                    mDatabase.child("Post").child(post.postId.toString())
-                                        .child("participant").child(user.id)
-                                        .child("menu").child(menuList[i].name).setValue(menuList[i])
-                                }
+                                        for (i in menuList.indices) {
+                                            mDatabase.child("Post").child(post.postId.toString())
+                                                .child("participant").child(user.id)
+                                                .child("menu").child(menuList[i].name).setValue(menuList[i])
+                                        }
 
-                                val map = mapOf("postId" to post.postId)
-                                mDatabase.child("User").child(user.id).child("postList").child(post.postId.toString()).setValue(map)
+                                        val map = mapOf("postId" to post.postId)
+                                        mDatabase.child("User").child(user.id).child("postList").child(post.postId.toString()).setValue(map)
 
-                                dataInputFlag = 1
+                                        dataInputFlag = 1
 
-                                Toast.makeText(this@ParticipateActivity, "글 작성완료", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this@ParticipateActivity, "글 작성완료", Toast.LENGTH_SHORT).show()
 
 
-                            } else if (dataInputFlag == 1) {
-                                for (i in menuList.indices) {
-                                    val currentFund = snapshot.child("Post").child(post.postId.toString())
-                                        .child("fund").getValue(Int::class.java)
+                                    } else if (dataInputFlag == 1) {
+                                        for (i in menuList.indices) {
+                                            val currentFund = snapshot.child("Post").child(post.postId.toString())
+                                                .child("fund").getValue(Int::class.java)
 
-                                    val minPrice = snapshot.child("Post").child(post.postId.toString())
-                                        .child("minPrice").getValue(Int::class.java)
+                                            val minPrice = snapshot.child("Post").child(post.postId.toString())
+                                                .child("minPrice").getValue(Int::class.java)
 
-                                    var userFundingPrice = 0
-                                    for (i in menuList.indices) {
-                                        userFundingPrice += menuList[i].price * menuList[i].quantity
+                                            var userFundingPrice = 0
+                                            for (i in menuList.indices) {
+                                                userFundingPrice += menuList[i].price * menuList[i].quantity
+                                            }
+
+                                            val stackCurrentPrice = currentFund!! + userFundingPrice
+
+                                            if (minPrice!! < stackCurrentPrice) {
+                                                mDatabase.child("Post").child(post.postId.toString()).child("completed").setValue("주문 완료")
+                                            }
+
+                                            mDatabase.child("Post").child(post.postId.toString()).child("fund").setValue(stackCurrentPrice)
+
+                                            mDatabase.child("Post").child(post.postId.toString())
+                                                .child("participant").child(user.id)
+                                                .child("menu").child(menuList[i].name).setValue(menuList[i])
+                                        }
+
+                                        val map = mapOf("postId" to post.postId)
+                                        mDatabase.child("User").child(user.id).child("postList").child(post.postId.toString()).setValue(map)
+
+                                        Toast.makeText(this@ParticipateActivity, "참여완료", Toast.LENGTH_SHORT).show()
+
                                     }
 
-                                    val stackCurrentPrice = currentFund!! + userFundingPrice
+                                    val intent = Intent(this@ParticipateActivity, MainActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent)
+                                    finish()
 
-                                    if (minPrice!! < stackCurrentPrice) {
-                                        mDatabase.child("Post").child(post.postId.toString()).child("completed").setValue("주문 완료")
-                                    }
-
-                                    mDatabase.child("Post").child(post.postId.toString()).child("fund").setValue(stackCurrentPrice)
-
-                                    mDatabase.child("Post").child(post.postId.toString())
-                                        .child("participant").child(user.id)
-                                        .child("menu").child(menuList[i].name).setValue(menuList[i])
                                 }
 
-                                val map = mapOf("postId" to post.postId)
-                                mDatabase.child("User").child(user.id).child("postList").child(post.postId.toString()).setValue(map)
+                                override fun onCancelled(error: DatabaseError) {
+                                    Toast.makeText(this@ParticipateActivity, error.toString(), Toast.LENGTH_SHORT).show()
+                                }
 
-                                Toast.makeText(this@ParticipateActivity, "참여완료", Toast.LENGTH_SHORT).show()
-
+                            })
+                        } else {
+                            Toast.makeText(this, "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        if (company.isNotEmpty() && number.isNotEmpty() && expiry.isNotEmpty() && cvc.isNotEmpty() && password.isNotEmpty()) {
+                            val creditCard = CreditCard(user.id, company, number, expiry, cvc, password)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                creditCardRepository.insert(creditCard)
                             }
+                            cardPassword = password
 
-                            val intent = Intent(this@ParticipateActivity, MainActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent)
-                            finish()
-
+                            Toast.makeText(this@ParticipateActivity, "카드가 저장되었습니다.", Toast.LENGTH_SHORT).show()
                         }
-
-                        override fun onCancelled(error: DatabaseError) {
-                            Toast.makeText(this@ParticipateActivity, error.toString(), Toast.LENGTH_SHORT).show()
-                        }
-
-                    })
-                } else {
-                    Toast.makeText(this, "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                if (company.isNotEmpty() && number.isNotEmpty() && expiry.isNotEmpty() && cvc.isNotEmpty() && password.isNotEmpty()) {
-                    val creditCard = CreditCard(user.id, company, number, expiry, cvc, password)
-                    CoroutineScope(Dispatchers.IO).launch {
-                        creditCardRepository.insert(creditCard)
                     }
-                    cardPassword = password
+                }
+
+                1 -> {
+                    var name = "싸이버거"
+                    var price = totalPrice
+
+                    val intent = Intent(this, PayActivity::class.java).apply {
+                        putExtra("name", name)
+                        putExtra("price", price)
+                    }
+                    startActivity(intent);
+                }
+
+                2 -> {
+
                 }
             }
+
         }
 
 
@@ -192,7 +236,7 @@ class ParticipateActivity : AppCompatActivity() {
 
         binding.activityParticipateSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Toast.makeText(this@ParticipateActivity, "${cardList[position]}", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@ParticipateActivity, "${cardList[position]}", Toast.LENGTH_SHORT).show()
                 CoroutineScope(Dispatchers.Main).launch {
                     CoroutineScope(Dispatchers.IO).async {
                         selectedCard = creditCardRepository.getCreditCard(user.id, cardList[position])
@@ -230,5 +274,21 @@ class ParticipateActivity : AppCompatActivity() {
             binding.activityParticipatePassword.setText("")
             cardPassword = ""
         }
+    }
+
+    fun hideCardInfo() {
+        binding.activityParticipateCardCompanyLinear.visibility = View.GONE
+        binding.activityParticipateCardNumberLinear.visibility = View.GONE
+        binding.activityParticipateExpiryLinear.visibility = View.GONE
+        binding.activityParticipateCvcLinear.visibility = View.GONE
+        binding.activityParticipatePasswordLinear.visibility = View.GONE
+    }
+
+    fun showCardInfo() {
+        binding.activityParticipateCardCompanyLinear.visibility = View.VISIBLE
+        binding.activityParticipateCardNumberLinear.visibility = View.VISIBLE
+        binding.activityParticipateExpiryLinear.visibility = View.VISIBLE
+        binding.activityParticipateCvcLinear.visibility = View.VISIBLE
+        binding.activityParticipatePasswordLinear.visibility = View.VISIBLE
     }
 }

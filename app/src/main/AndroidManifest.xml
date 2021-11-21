@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareEats">
-
+        <activity
+            android:name=".src.main.home.pay.PayActivity"
+            android:exported="false" />
         <activity
             android:name=".src.main.home.postInfo.PostInfoActivity"
             android:exported="true"
@@ -79,7 +81,8 @@
         <activity
             android:name=".src.main.userlogin.JoinActivity"
             android:exported="false" />
-        <activity android:name=".src.main.userlogin.LoginActivity"
+        <activity
+            android:name=".src.main.userlogin.LoginActivity"
             android:exported="true" />
         <activity
             android:name=".src.splash.SplashActivity"
@@ -92,7 +95,7 @@
         </activity>
         <activity
             android:name=".src.main.MainActivity"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>
