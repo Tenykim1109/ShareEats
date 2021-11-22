@@ -37,11 +37,11 @@
             <TextView
                 style="@style/appbar_text"
                 android:layout_centerInParent="true"
+                android:layout_marginStart="96dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="57dp"
                 android:text="게시글 상세정보"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toStartOf="@+id/activity_post_info_btn_chat"
+                app:layout_constraintStart_toEndOf="@+id/activity_post_info_btn_cancel"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
@@ -55,6 +55,19 @@
                 android:text="채팅"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/activity_post_info_btn_delete"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/appTheme"
+                android:text="삭제"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

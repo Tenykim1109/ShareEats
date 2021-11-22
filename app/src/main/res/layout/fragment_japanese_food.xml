@@ -6,8 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".src.main.home.fragment.JapaneseFoodFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_japanese_food_rv"
+    <ListView
+        android:id="@+id/fragment_japanese_food_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

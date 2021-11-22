@@ -37,6 +37,7 @@ class FindStoreAdapter(val storeList: MutableList<Store>) : RecyclerView.Adapter
                     putExtra("storeId", data.storeId)
                     putExtra("storeName", data.name)
                     putExtra("storeMinPrice", data.minPrice.toString())
+                    putExtra("foodType", data.type)
                 }
                 (itemView.context as Activity).setResult(Activity.RESULT_OK, intent)
                 (itemView.context as Activity).finish()

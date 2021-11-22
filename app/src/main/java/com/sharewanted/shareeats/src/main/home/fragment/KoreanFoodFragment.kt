@@ -8,15 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentKoreanFoodBinding
-import com.sharewanted.shareeats.src.main.home.HomeAdapter
+import com.sharewanted.shareeats.src.main.home.HomeListAdapter
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
 
@@ -27,7 +25,7 @@ class KoreanFoodFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var adapter: HomeAdapter
+    private lateinit var adapter: HomeListAdapter
     private var postList = mutableListOf<Post>()
     private val mDatabase = Firebase.database.reference
 
@@ -58,24 +56,24 @@ class KoreanFoodFragment : Fragment() {
                 postList.clear()
                 for (dataSnapshot in snapshot.children) {
                     val type = dataSnapshot.child("type").getValue(String::class.java)
-                    if (type == "한식") {
-                        val post = dataSnapshot.getValue(Post::class.java)
+                    val completed = dataSnapshot.child("completed").getValue(String::class.java).toString()
 
-                        postList.add(post!!)
+                    if (type == "한식") {
+                        if (completed == "모집중") {
+                            val post = dataSnapshot.getValue(Post::class.java)
+                            postList.add(post!!)
+                        }
                     }
                 }
 
-                adapter = HomeAdapter(postList)
-                adapter.setItemClickListener(object : HomeAdapter.ItemClickListener {
-                    override fun onClick(view: View, position: Int, postId: Int) {
-                        val intent = Intent(requireContext(), PostInfoActivity::class.java).apply {
-                            putExtra("postId", postId)
-                        }
-                        startActivity(intent)
+                adapter = HomeListAdapter(postList)
+                binding.fragmentKoreanFoodLv.adapter = adapter
+                binding.fragmentKoreanFoodLv.setOnItemClickListener { adapterView, view, i, l ->
+                    val intent = Intent(context, PostInfoActivity::class.java).apply {
+                        putExtra("postId", postList[i].postId)
                     }
-                })
-                binding.fragmentKoreanFoodRv.adapter = adapter
-                binding.fragmentKoreanFoodRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    startActivity(intent)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

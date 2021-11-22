@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.database.creditcard.CreditCard
@@ -127,6 +128,25 @@ class ParticipateActivity : AppCompatActivity() {
 
                             } else if (dataInputFlag == 1) {
                                 for (i in menuList.indices) {
+                                    val currentFund = snapshot.child("Post").child(post.postId.toString())
+                                        .child("fund").getValue(Int::class.java)
+
+                                    val minPrice = snapshot.child("Post").child(post.postId.toString())
+                                        .child("minPrice").getValue(Int::class.java)
+
+                                    var userFundingPrice = 0
+                                    for (i in menuList.indices) {
+                                        userFundingPrice += menuList[i].price * menuList[i].quantity
+                                    }
+
+                                    val stackCurrentPrice = currentFund!! + userFundingPrice
+
+                                    if (minPrice!! < stackCurrentPrice) {
+                                        mDatabase.child("Post").child(post.postId.toString()).child("completed").setValue("주문 완료")
+                                    }
+
+                                    mDatabase.child("Post").child(post.postId.toString()).child("fund").setValue(stackCurrentPrice)
+
                                     mDatabase.child("Post").child(post.postId.toString())
                                         .child("participant").child(user.id)
                                         .child("menu").child(menuList[i].name).setValue(menuList[i])
@@ -212,4 +232,16 @@ class ParticipateActivity : AppCompatActivity() {
             cardPassword = ""
         }
     }
+
+    //////////////////////////////////////////////////////////////////// 만약 토큰대신 구독형으로 알림을 보낼거면 사용할 코드
+//    private fun subscribe(postId: String) {
+//        FirebaseMessaging.getInstance().subscribeToTopic(postId)
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    Toast.makeText(this, "참여 신청을 완료했습니다.", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(this, "네트워크 상태가 불안정 합니다.", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//    }
 }
