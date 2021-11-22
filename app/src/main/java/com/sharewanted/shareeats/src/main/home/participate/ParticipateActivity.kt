@@ -217,7 +217,7 @@ class ParticipateActivity : AppCompatActivity() {
 
                     val intent = Intent(this, PayActivity::class.java).apply {
                         putExtra("name", name)
-                        putExtra("price", price)
+                        putExtra("price", price.toString())
                     }
                     startActivity(intent);
                 }

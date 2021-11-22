@@ -13,17 +13,15 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.annotation.RequiresApi
-import com.android.volley.AuthFailureError
-import com.android.volley.Request
-import com.android.volley.RequestQueue
+import com.android.volley.*
 import com.android.volley.toolbox.Volley
-import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.sharewanted.shareeats.databinding.ActivityPayBinding
 import java.lang.Exception
 import java.security.MessageDigest
+import kotlin.math.log
 
 private const val TAG = "PayActivity_싸피"
 class PayActivity : AppCompatActivity() {
@@ -41,6 +39,10 @@ class PayActivity : AppCompatActivity() {
 
     inner class MyWebViewClient: WebViewClient() {
         val errorListener = Response.ErrorListener { error ->
+            Log.d(TAG, "Error, Status code ${error.networkResponse.statusCode}: ")
+            Log.d(TAG, "Error, URL : https://kapi.kakao.com/v1/payment/ready")
+            Log.d(TAG, "Error, Net Response to tString ${error.networkResponse.toString()}")
+            Log.d(TAG, "Error bytes: ${error.networkResponse.data}")
             Log.d(TAG, "Error: $error")
         }
 
@@ -76,23 +78,26 @@ class PayActivity : AppCompatActivity() {
                 params["cid"] = "TC0ONETIME"
                 params["partner_order_id"] = "partner_order_id"; // 가맹점 주문 번호
                 params["partner_user_id"] = "partner_user_id"; // 가맹점 회원 아이디
-                params["item_name"] = productName; // 상품 이름
+                params["item_name"] = "$productName"; // 상품 이름
                 params["quantity"] = "1"; // 상품 수량
-                params["total_amount"] = productPrice; // 상품 총액
+                params["total_amount"] = "$productPrice"; // 상품 총액
                 params["tax_free_amount"] = "0"; // 상품 비과세
                 params["approval_url"] = "https://developers.kakao.com/success"; // 결제 성공시 돌려 받을 url 주소
                 params["cancel_url"] = "https://developers.kakao.com/cancel"; // 결제 취소시 돌려 받을 url 주소
                 params["fail_url"] = "https://developers.kakao.com/fail"; // 결제 실패시 돌려 받을 url 주소
 
                 Log.d(TAG, "getParams: $params")
-                return params;
+                return params
+            }
+
+            override fun getBodyContentType(): String {
+                return "application/x-www-form-urlencoded; charset=UTF-8"
             }
 
             @Throws(AuthFailureError::class)
             override fun getHeaders(): MutableMap<String, String> {
                 var headers = HashMap<String, String>()
                 headers["Authorization"] = "KakaoAK " + "a1f2998651e0caedb45555dbf40c764c"
-//                headers["Content-type"] = "application/x-www-form-urlencoded;charset=utf-8"
                 Log.d(TAG, "getHeaders: $headers")
                 return headers
             }
