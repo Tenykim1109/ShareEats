@@ -5,22 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
+import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.databaseReference
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.sharedPreferencesUtil
 import com.sharewanted.shareeats.databinding.ActivityLoginBinding
 import com.sharewanted.shareeats.src.main.MainActivity
-import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
-import com.sharewanted.shareeats.src.main.mypage.edituser.EditUserActivity
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
-import com.sharewanted.shareeats.src.main.userlogin.find.CheckPasswordActivity
 import com.sharewanted.shareeats.src.main.userlogin.find.FindIdActivity
 import com.sharewanted.shareeats.src.main.userlogin.find.FindPasswordActivity
 
@@ -92,6 +88,8 @@ class LoginActivity : AppCompatActivity() {
                             var userTel = ""
                             var userEmail = ""
                             var userProfile = ""
+                            //최근 postId 추가
+                            var lastPostId = ""
 
                             it.children.forEach { user ->
                                 when(user.key) {
@@ -101,14 +99,28 @@ class LoginActivity : AppCompatActivity() {
                                     "tel" -> userTel = user.value.toString()
                                     "email" -> userEmail = user.value.toString()
                                     "profile" -> userProfile = user.value.toString()
+                                    //최근 postId 추가를 위한 리스트
+                                    "postList" -> if (user.child("postList").hasChildren()) {
+                                        lastPostId = user.child("postList").children.last().key!!.toInt().toString()
+                                    }
                                 }
                             }
 
                             if(myPassword == userPassword) {
                                 var intent = Intent(this@LoginActivity, MainActivity::class.java)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                sharedPreferencesUtil.addUser(UserDto(userId, userPassword, userName, userTel, userEmail, userProfile, mutableListOf()))
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                sharedPreferencesUtil.addUser(UserDto(userId, userPassword, userName, userTel, userEmail, userProfile, lastPostId, mutableListOf()))
+                                //최근 postId 구독
+                                Firebase.messaging.subscribeToTopic(lastPostId)
+                                    .addOnCompleteListener { task ->
+                                        var msg = getString(R.string.msg_subscribed)
+                                        if (!task.isSuccessful) {
+                                            msg = getString(R.string.msg_subscribe_failed)
+                                        }
+                                        Log.d(TAG, "task results : ${task}")
+                                        Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+                                    }
                                 startActivity(intent)
                                 return
                             }

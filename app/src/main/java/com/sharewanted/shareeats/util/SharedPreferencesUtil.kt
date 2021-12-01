@@ -19,6 +19,7 @@ class SharedPreferencesUtil(context: Context) {
         editor.putString("tel", user.tel)
         editor.putString("email", user.email)
         editor.putString("profile", user.profile)
+        editor.putString("lastPostId", user.lastPostId)
         editor.apply()
     }
 
@@ -30,7 +31,8 @@ class SharedPreferencesUtil(context: Context) {
             val tel = preferences.getString("tel", "")
             val email = preferences.getString("email", "")
             val profile = preferences.getString("profile", "")
-            return UserDto(id!!, password!!, name!!, tel!!, email!!, profile!!, mutableListOf())
+            val lastPostId = preferences.getString("lastPostId", "")
+            return UserDto(id!!, password!!, name!!, tel!!, email!!, profile!!, lastPostId!!, mutableListOf())
         } else {
             return UserDto()
         }
