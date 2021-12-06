@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
@@ -112,15 +113,15 @@ class LoginActivity : AppCompatActivity() {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 sharedPreferencesUtil.addUser(UserDto(userId, userPassword, userName, userTel, userEmail, userProfile, lastPostId, mutableListOf()))
                                 //최근 postId 구독
-                                Firebase.messaging.subscribeToTopic(lastPostId)
-                                    .addOnCompleteListener { task ->
-                                        var msg = getString(R.string.msg_subscribed)
-                                        if (!task.isSuccessful) {
-                                            msg = getString(R.string.msg_subscribe_failed)
-                                        }
-                                        Log.d(TAG, "task results : ${task}")
-                                        Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                                    }
+                                FirebaseMessaging.getInstance().subscribeToTopic(lastPostId)
+//                                    .addOnCompleteListener { task ->
+//                                    var msg = getString(R.string.msg_subscribed)
+//                                    if (!task.isSuccessful) {
+//                                        msg = getString(R.string.msg_subscribe_failed)
+//                                    }
+//                                    Log.d(TAG, "task results : ${task}")
+//                                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//                                }
                                 startActivity(intent)
                                 return
                             }

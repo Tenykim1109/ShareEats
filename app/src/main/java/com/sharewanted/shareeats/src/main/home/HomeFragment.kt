@@ -19,12 +19,17 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
+import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.databinding.FragmentHomeBinding
 import com.sharewanted.shareeats.src.main.MainActivity
 import com.sharewanted.shareeats.src.main.home.fragment.*
 import com.sharewanted.shareeats.src.main.home.order.OrderActivity
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
+import com.sharewanted.shareeats.util.RetrofitUtil
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -54,6 +59,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun initView() {
+
+        binding.button.setOnClickListener {
+            val notiService = RetrofitUtil.notiService
+            notiService.sendMessage(ApplicationClass.sharedPreferencesUtil.getUser().lastPostId).enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if (response.isSuccessful) {
+                        Log.d("noti check", "${response.body()}")
+                        Toast.makeText(mainActivity, "${response.body()}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+
+                }
+
+            })
+        }
 
         mDatabase.child("Post").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
@@ -155,17 +156,16 @@ class ParticipateActivity : AppCompatActivity() {
                                     if (minPrice!! < stackCurrentPrice) {
                                         mDatabase.child("Post").child(post.postId.toString()).child("completed").setValue("주문 완료")
                                         val notiService = RetrofitUtil.notiService
-                                        notiService.sendMessage(post.postId.toString()).enqueue(object :
-                                            Callback<String> {
+                                        notiService.sendMessage(post.postId.toString()).enqueue(object : Callback<String> {
                                             override fun onResponse(call: Call<String>, response: Response<String>) {
-                                                Log.d("noti check", "${response.body()}")
                                                 if (response.isSuccessful) {
-
+                                                    Log.d("noti check", "${response.body()}")
+                                                    Toast.makeText(this@ParticipateActivity, "${response.body()}", Toast.LENGTH_SHORT).show()
                                                 }
                                             }
 
                                             override fun onFailure(call: Call<String>, t: Throwable) {
-
+                                                Log.d(TAG, "onFailure: ${t.message}")
                                             }
 
                                         })
@@ -188,7 +188,7 @@ class ParticipateActivity : AppCompatActivity() {
                                 user.lastPostId = post.postId.toString()
                                 ApplicationClass.sharedPreferencesUtil.addUser(user)
                                 //최근 postId 구독
-                                Firebase.messaging.subscribeToTopic(user.lastPostId)
+                                FirebaseMessaging.getInstance().subscribeToTopic(user.lastPostId)
                                     .addOnCompleteListener { task ->
                                         var msg = getString(R.string.msg_subscribed)
                                         if (!task.isSuccessful) {
