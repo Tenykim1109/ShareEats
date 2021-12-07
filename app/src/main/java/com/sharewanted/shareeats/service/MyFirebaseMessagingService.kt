@@ -21,14 +21,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        if(remoteMessage.data.isNotEmpty()){
-            Log.i("바디: ", remoteMessage.data["body"].toString())
-            Log.i("타이틀: ", remoteMessage.data["title"].toString())
-            sendNotification(remoteMessage)
+        if(remoteMessage.notification != null){
+            Log.i("바디: ", remoteMessage.notification!!.title.toString())
+            Log.i("타이틀: ", remoteMessage.notification!!.body.toString())
             sendNotification(remoteMessage)
         } else {
             Log.i("수신에러: ", "data가 비어있습니다. 메시지를 수신하지 못했습니다.")
-            Log.i("data값: ", remoteMessage.data.toString())
+            Log.i("data값: ", remoteMessage.notification.toString())
         }
     }
 
@@ -43,9 +42,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(remoteMessage.data["body"].toString())
-            .setContentText(remoteMessage.data["title"].toString())
+            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setContentTitle(remoteMessage.notification!!.title)
+            .setContentText(remoteMessage.notification!!.body)
             .setAutoCancel(true)
             .setSound(soundUri)
             .setContentIntent(pendingIntent)
@@ -53,7 +52,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, getString(R.string.firebase_notification_channel_id), NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(channelId, getString(R.string.default_notification_channel_id), NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager.createNotificationChannel(channel)
         }
 
