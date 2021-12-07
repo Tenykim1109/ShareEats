@@ -64,14 +64,15 @@ class HomeFragment : Fragment() {
             val notiService = RetrofitUtil.notiService
             notiService.sendMessage(ApplicationClass.sharedPreferencesUtil.getUser().lastPostId).enqueue(object : Callback<String> {
                 override fun onResponse(call: Call<String>, response: Response<String>) {
+                    Log.d("noti check1", "${response.body()}")
                     if (response.isSuccessful) {
-                        Log.d("noti check", "${response.body()}")
+                        Log.d("noti check2", "${response.body()}")
                         Toast.makeText(mainActivity, "${response.body()}", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<String>, t: Throwable) {
-
+                    Log.d("noti fail", "${t.message}")
                 }
 
             })
