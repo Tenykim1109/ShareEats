@@ -1,4 +1,4 @@
-package com.sharewanted.shareeats.src.main
+package com.sharewanted.shareeats.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
