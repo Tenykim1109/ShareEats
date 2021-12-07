@@ -1,6 +1,7 @@
 package com.sharewanted.shareeats.src.main.home
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,17 +19,29 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
+import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.databinding.FragmentHomeBinding
+import com.sharewanted.shareeats.src.main.MainActivity
 import com.sharewanted.shareeats.src.main.home.fragment.*
 import com.sharewanted.shareeats.src.main.home.order.OrderActivity
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
+import com.sharewanted.shareeats.util.RetrofitUtil
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     private var postList = mutableListOf<Post>()
     private val mDatabase = Firebase.database.reference
+    private lateinit var mainActivity: MainActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -59,11 +72,11 @@ class HomeFragment : Fragment() {
                     }
                 }
 
-                val searchTitleAdapter = SearchTitleAdapter(requireContext(), R.layout.fragment_home_list_item_search_title, postList)
+                val searchTitleAdapter = SearchTitleAdapter(mainActivity, R.layout.fragment_home_list_item_search_title, postList)
                 binding.fragmentHomeActvSearchTitle.setAdapter(searchTitleAdapter)
                 binding.fragmentHomeActvSearchTitle.setOnItemClickListener { adapterView, view, i, l ->
                     val selectedPost = postList[i]
-                    val intent = Intent(requireContext(), PostInfoActivity::class.java).apply {
+                    val intent = Intent(mainActivity, PostInfoActivity::class.java).apply {
                         putExtra("postId", selectedPost.postId)
                     }
                     startActivity(intent)
@@ -73,7 +86,7 @@ class HomeFragment : Fragment() {
 
             override fun onCancelled(error: DatabaseError) {
                 Log.d("Post error", error.toString())
-                Toast.makeText(requireContext(), error.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(mainActivity, error.toString(), Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -89,7 +102,7 @@ class HomeFragment : Fragment() {
 
 
         binding.fbWritePost.setOnClickListener {
-            val intent = Intent(requireContext(), OrderActivity::class.java)
+            val intent = Intent(mainActivity, OrderActivity::class.java)
             startActivity(intent)
         }
 

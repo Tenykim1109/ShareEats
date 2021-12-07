@@ -119,7 +119,8 @@ class JoinActivity : AppCompatActivity() {
         var email = binding.activityJoinEtEmail.text.toString()
         var timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         var imgFileName = "IMAGE_" + timeStamp
-        var user = UserDto(id, password, name, tel, email, imgFileName, mutableListOf())
+        //최근 postId 추가
+        var user = UserDto(id, password, name, tel, email, imgFileName, "", mutableListOf())
 
         if(hasEmptyInput(user, password2) || isNotEqualPassword(password, password2)) {
             return false
@@ -149,7 +150,7 @@ class JoinActivity : AppCompatActivity() {
 
     private fun hasEmptyInput(user: UserDto, password2: String): Boolean {
         if(user.id.isEmpty() || user.password.isEmpty() || password2.isEmpty() ||
-                user.name.isEmpty() || user.tel.isEmpty() || user.email.isEmpty()) {
+            user.name.isEmpty() || user.tel.isEmpty() || user.email.isEmpty()) {
             Toast.makeText(this, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT).show()
             return true
         }
