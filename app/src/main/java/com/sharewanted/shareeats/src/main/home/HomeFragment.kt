@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initView() {
-
+        
         mDatabase.child("Post").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 postList.clear()
