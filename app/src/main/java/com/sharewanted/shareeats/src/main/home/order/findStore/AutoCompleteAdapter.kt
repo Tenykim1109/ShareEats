@@ -33,11 +33,11 @@ class AutoCompleteAdapter(context: Context, private val layoutResource: Int, pri
         val location = view.findViewById<TextView>(R.id.activity_find_store_tv_location)
         val time = view.findViewById<TextView>(R.id.activity_find_store_tv_time)
 
-        Glide.with(context).load(storeList[position].profile).into(profile)
-        name.text = storeList[position].name
-        tel.text = storeList[position].tel
-        location.text = storeList[position].location
-        time.text = storeList[position].time
+        Glide.with(context).load(mList[position].profile).into(profile)
+        name.text = mList[position].name
+        tel.text = mList[position].tel
+        location.text = mList[position].location
+        time.text = mList[position].time
 
         view.setOnClickListener {
             val intent = Intent(context, OrderActivity::class.java).apply {
