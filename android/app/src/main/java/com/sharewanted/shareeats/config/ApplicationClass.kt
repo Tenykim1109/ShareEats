@@ -18,12 +18,16 @@ class ApplicationClass : Application() {
 
         // Geocode API URL
         const val NAVER_GEOCODE_URL = "https://naveropenapi.apigw.ntruss.com"
+        // Notification API Server
+        const val NOTIFICATION_URL = "http://172.30.1.22:7777"
 
         // Firebase
         lateinit var databaseReference: DatabaseReference
         lateinit var storageRef: StorageReference
 
         lateinit var retrofit: Retrofit
+        // notification 전송을 위한 retrofit
+        lateinit var notiRetrofit: Retrofit
     }
 
     override fun onCreate() {
@@ -40,6 +44,11 @@ class ApplicationClass : Application() {
         // Retrofit 초기화
         retrofit = Retrofit.Builder()
             .baseUrl(NAVER_GEOCODE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        notiRetrofit = Retrofit.Builder()
+            .baseUrl(NOTIFICATION_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

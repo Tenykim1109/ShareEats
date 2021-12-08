@@ -208,7 +208,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                     })
 
                 }
-
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {

@@ -148,6 +148,7 @@
             </RadioGroup>
 
             <LinearLayout
+                android:id="@+id/activity_participate_card_company_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -170,6 +171,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/activity_participate_card_number_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
@@ -233,6 +235,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/activity_participate_expiry_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
@@ -283,6 +286,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/activity_participate_cvc_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
@@ -310,6 +314,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/activity_participate_password_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">

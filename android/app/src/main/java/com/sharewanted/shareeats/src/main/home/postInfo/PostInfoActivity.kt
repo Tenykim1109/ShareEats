@@ -151,86 +151,96 @@ class PostInfoActivity : AppCompatActivity() {
             finish()
         }
 
-
         if (postId != null) {
+
+            var loadCheck = false
 
             mDatabase.child("Post").child(postId)
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(postSnapshot: DataSnapshot) {
-                        val post = postSnapshot.getValue(Post::class.java)
+                        if (loadCheck == false) {
+                            val post = postSnapshot.getValue(Post::class.java)
 
-                        val peopleNum = postSnapshot.child("participant").children.count()
+                            val peopleNum = postSnapshot.child("participant").children.count()
 
-                        mDatabase.child("Store").child(post!!.storeId)
-                            .addValueEventListener(object : ValueEventListener {
-                                override fun onDataChange(snapshot: DataSnapshot) {
+                            mDatabase.child("Store").child(post!!.storeId)
+                                .addValueEventListener(object : ValueEventListener {
+                                    override fun onDataChange(snapshot: DataSnapshot) {
 
-                                    val storeName =
-                                        snapshot.child("name").getValue(String::class.java)
+                                        val storeName =
+                                            snapshot.child("name").getValue(String::class.java)
 
-                                    if (user.id == post!!.userId) {
-                                        binding.activityPostInfoHeader6.visibility = View.GONE
-                                        binding.activityPostInfoTvMenu.visibility = View.GONE
-                                        binding.activityPostInfoBtnSelectMenu.visibility = View.GONE
-                                        binding.activityPostInfoBtnJoin.visibility = View.GONE
-                                        if (peopleNum < 2) {
-                                            binding.activityPostInfoBtnDelete.visibility =
-                                                View.VISIBLE
-                                            binding.activityPostInfoBtnChat.visibility = View.GONE
+                                        if (user.id == post!!.userId) {
+                                            binding.activityPostInfoHeader6.visibility = View.GONE
+                                            binding.activityPostInfoTvMenu.visibility = View.GONE
+                                            binding.activityPostInfoBtnSelectMenu.visibility =
+                                                View.GONE
+                                            binding.activityPostInfoBtnJoin.visibility = View.GONE
+                                            if (peopleNum < 2) {
+                                                binding.activityPostInfoBtnDelete.visibility =
+                                                    View.VISIBLE
+                                                binding.activityPostInfoBtnChat.visibility =
+                                                    View.GONE
+                                            }
                                         }
+
+                                        binding.activityPostInfoTvTitle.text = post!!.title
+                                        binding.activityPostInfoTvWriter.text = post!!.userId
+                                        var date = Date(post.date)
+                                        val dateFormat =
+                                            SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
+                                        binding.activityPostInfoTvWriteDate.text =
+                                            dateFormat.format(date).toString()
+                                        binding.activityPostInfoTvLocation.text = post!!.place
+                                        date = Date(post.closedTime)
+                                        val timeFormat =
+                                            SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA)
+                                        binding.activityPostInfoTvClosedTime.text =
+                                            timeFormat.format(date).toString()
+                                        binding.activityPostInfoTvContent.text = post!!.content
+
+                                        binding.activityPostInfoTvStore.text = storeName
+
+                                        binding.activityPostInfoBtnSelectMenu.setOnClickListener {
+
+                                            val intent = Intent(
+                                                this@PostInfoActivity,
+                                                SelectMenuActivity::class.java
+                                            ).apply {
+                                                putExtra("storeId", post!!.storeId)
+                                                putExtra("userType", "participant")
+                                            }
+                                            activityResult.launch(intent)
+
+                                        }
+
+                                        mPost = Post(
+                                            postId.toInt(),
+                                            post.title,
+                                            post.date,
+                                            user.id,
+                                            post.storeId,
+                                            post.place,
+                                            post.closedTime,
+                                            post.content,
+                                            post.fund,
+                                            post.minPrice,
+                                            post.completed,
+                                            post.type
+                                        )
+                                        loadCheck = true
                                     }
 
-                                    binding.activityPostInfoTvTitle.text = post!!.title
-                                    binding.activityPostInfoTvWriter.text = post!!.userId
-                                    var date = Date(post.date)
-                                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
-                                    binding.activityPostInfoTvWriteDate.text =
-                                        dateFormat.format(date).toString()
-                                    binding.activityPostInfoTvLocation.text = post!!.place
-                                    date = Date(post.closedTime)
-                                    val timeFormat =
-                                        SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA)
-                                    binding.activityPostInfoTvClosedTime.text =
-                                        timeFormat.format(date).toString()
-                                    binding.activityPostInfoTvContent.text = post!!.content
-
-                                    binding.activityPostInfoTvStore.text = storeName
-
-                                    binding.activityPostInfoBtnSelectMenu.setOnClickListener {
-
-                                        val intent = Intent(this@PostInfoActivity, SelectMenuActivity::class.java).apply {
-                                            putExtra("storeId", post!!.storeId)
-                                            putExtra("userType", "participant")
-                                        }
-                                        activityResult.launch(intent)
-
+                                    override fun onCancelled(error: DatabaseError) {
+                                        Toast.makeText(
+                                            this@PostInfoActivity,
+                                            error.toString(),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
 
-                                    mPost = Post(
-                                        postId.toInt(),
-                                        post.title,
-                                        post.date,
-                                        user.id,
-                                        post.storeId,
-                                        post.place,
-                                        post.closedTime,
-                                        post.content,
-                                        post.fund,
-                                        post.minPrice,
-                                        post.completed,
-                                        post.type
-                                    )
-                                }
-
-                                override fun onCancelled(error: DatabaseError) {
-                                    Toast.makeText(
-                                        this@PostInfoActivity,
-                                        error.toString(),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-
-                            })
+                                })
+                        }
                     }
 
                     override fun onCancelled(error: DatabaseError) {

@@ -13,9 +13,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareEats">
-
+        <activity
+            android:name=".src.main.home.pay.PayActivity"
+            android:exported="false" />
         <activity
             android:name=".src.main.home.postInfo.PostInfoActivity"
             android:exported="true"
@@ -79,7 +82,8 @@
         <activity
             android:name=".src.main.userlogin.JoinActivity"
             android:exported="false" />
-        <activity android:name=".src.main.userlogin.LoginActivity"
+        <activity
+            android:name=".src.main.userlogin.LoginActivity"
             android:exported="true" />
         <activity
             android:name=".src.splash.SplashActivity"
@@ -93,15 +97,23 @@
         <activity
             android:name=".src.main.MainActivity"
             android:exported="true"/>
-
         <service
-            android:name=".src.main.MyFirebaseMessagingService"
+            android:name=".service.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_baseline_notifications_24" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/appTheme" />
     </application>
 
 </manifest>
