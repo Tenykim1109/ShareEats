@@ -36,32 +36,6 @@ public class FirebaseCloudMessageService {
 
 	private static final Logger logger = LoggerFactory.getLogger(FirebaseCloudMessageService.class);
 	
-//	public final ObjectMapper objectMapper;
-//	
-//	private final String API_URL = "https://fcm.googleapis.com/v1/projects/shareeats-5654f/messages:send";
-//	
-//	public FirebaseCloudMessageService(ObjectMapper objectMapper) {
-//		this.objectMapper = objectMapper;
-//	}
-	
-//	private List<String> clientTokens = new ArrayList<>();
-//	
-//	public void addToken(String token) {
-//		clientTokens.add(token);
-//	}
-//	
-//	private String getAccessToken() throws IOException {
-//		String firebaseConfigPath = "firebase/shareeats-firebase.json";
-//		
-//		GoogleCredentials googleCredentials = GoogleCredentials.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
-//				.createScoped(Arrays.asList("https://www.googleapis.com/auth/cloud-platform"));
-//		
-//		googleCredentials.refreshIfExpired();
-//		String token = googleCredentials.getAccessToken().getTokenValue();
-//		
-//		return token;
-//	}
-	
 	public String sendMessage(String subscribe) throws FirebaseMessagingException, IOException {
 		logger.info("send count check: check");
 		
@@ -103,44 +77,4 @@ public class FirebaseCloudMessageService {
 		
 	}
 	
-	
-//	private String makeMessage(String targetToken, String title, String body) throws JsonProcessingException {
-//		Notification noti = new FcmMessage.Notification(title, body, null);
-//		
-//		Message message = new FcmMessage.Message(null, targetToken);
-//		Map<String, String> data = new HashMap<>();
-//		data.put("title", title);
-//		data.put("body", body);
-//		message.setData(data);
-//		
-//		FcmMessage fcmMessage = new FcmMessage(false, message);
-//		
-//		return objectMapper.writeValueAsString(fcmMessage);
-//	}
-	
-//	public void sendMessageTo(String targetToken, String title, String body) throws IOException {
-//		String message = makeMessage(targetToken, title, body);
-//		logger.info("message: {}", message);
-//		OkHttpClient client = new OkHttpClient();
-//		RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
-//		Request request = new Request.Builder()
-//				.url(API_URL)
-//				.post(requestBody)
-//				.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
-//				.addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
-//				.build();
-//		
-//		Response response = client.newCall(request).execute();
-//		
-//		System.out.println(response.body().string());
-//	}
-	
-	
-//	public int broadCastMessage(String title, String body) throws IOException {
-//		for (String token : clientTokens) {
-//			logger.debug("broadcastmessage : {},{},{}", token, title, body);
-//			sendMessageTo(token, title, body);
-//		}
-//		return clientTokens.size();
-//	}
 }
