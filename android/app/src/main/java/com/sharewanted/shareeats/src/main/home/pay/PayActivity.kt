@@ -1,14 +1,18 @@
 package com.sharewanted.shareeats.src.main.home.pay
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Message
 import android.util.Base64
 import android.util.Log
+import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -47,7 +51,7 @@ class PayActivity : AppCompatActivity() {
         }
 
         val readyResponse = Response.Listener<String> { response ->
-            Log.d(TAG, "onResponse: $response")
+            Log.d(TAG, "readyResponse: $response")
 
             var parser = JsonParser()
             var element = parser.parse(response)
@@ -71,12 +75,13 @@ class PayActivity : AppCompatActivity() {
             @Throws(AuthFailureError::class)
             override fun getParams(): MutableMap<String, String> {
 
+                Log.d(TAG, "readyRequest")
                 Log.d(TAG, "getParams: name - $productName")
                 Log.d(TAG, "getParams: price - $productPrice")
 
                 var params = HashMap<String, String>()
                 params["cid"] = "TC0ONETIME"
-                params["partner_order_id"] = "partner_order_id"; // 가맹점 주문 번호
+                params["partner_order_id"] = "1001"; // 가맹점 주문 번호
                 params["partner_user_id"] = "partner_user_id"; // 가맹점 회원 아이디
                 params["item_name"] = "$productName"; // 상품 이름
                 params["quantity"] = "1"; // 상품 수량
@@ -96,6 +101,7 @@ class PayActivity : AppCompatActivity() {
 
             @Throws(AuthFailureError::class)
             override fun getHeaders(): MutableMap<String, String> {
+                Log.d(TAG, "readyRequest getHeaders: ")
                 var headers = HashMap<String, String>()
                 headers["Authorization"] = "KakaoAK " + "a1f2998651e0caedb45555dbf40c764c"
                 Log.d(TAG, "getHeaders: $headers")
@@ -104,7 +110,7 @@ class PayActivity : AppCompatActivity() {
         }
 
         var approvalResponse = Response.Listener<String> { response ->
-                Log.d(TAG, "onResponse: $response")
+            Log.d(TAG, "approvalResponse: $response")
         }
 
         var approvalRequest = object : StringRequest(
@@ -114,17 +120,20 @@ class PayActivity : AppCompatActivity() {
             errorListener
         ) {
             override fun getParams(): MutableMap<String, String> {
+                Log.d(TAG, "approvalRequest getParams: ")
                 var params = HashMap<String, String>()
                 params.put("cid", "TC0ONETIME");
                 params.put("tid", tidPin);
                 params.put("partner_order_id", "1001");
-                params.put("partner_user_id", "gorany");
+                params.put("partner_user_id", "partner_user_id");
                 params.put("pg_token", pgToken);
                 params.put("total_amount", productPrice);
-                return params;
+                return params
             }
 
             override fun getHeaders(): MutableMap<String, String> {
+                Log.d(TAG, "approvalRequest getHeaders: ")
+
                 val headers: MutableMap<String, String> = HashMap()
                 headers["Authorization"] = "KakaoAK " + "a1f2998651e0caedb45555dbf40c764c"
                 return headers
@@ -139,11 +148,13 @@ class PayActivity : AppCompatActivity() {
 
             if (url != null && url.contains("pg_token=")) {
                 var pg_token = url.substring(url.indexOf("pg_token=") + 9)
+                Log.d(TAG, "pg_token: $pg_token")
                 pgToken = pg_token
 
                 requestQueue.add(approvalRequest)
             } else if (url != null && url.startsWith("intent://")) {
                 try {
+                    Log.d(TAG, "shouldOverrideUrlLoading: else")
                     val intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
                     val existPackage = intent.`package`?.let {
                         packageManager.getLaunchIntentForPackage(
@@ -156,10 +167,11 @@ class PayActivity : AppCompatActivity() {
                     return true
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.d(TAG, "shouldOverrideUrlLoading exception: $e")
                 }
             }
 
-            view?.loadUrl(url)
+            view!!.loadUrl(url)
             return false
         }
     }
@@ -167,12 +179,11 @@ class PayActivity : AppCompatActivity() {
     lateinit var binding: ActivityPayBinding
 
     @SuppressLint("SetJavaScriptEnabled")
-    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPayBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
 //        try {
 //            val packageInfo = packageManager.getPackageInfo(
 //                packageName,
@@ -198,8 +209,55 @@ class PayActivity : AppCompatActivity() {
         webView = binding.activityPayWebView
         gson = Gson()
 
-        webView.settings.javaScriptEnabled = true
-        webView.webViewClient = myWebViewClient
+        webView.apply {
+            webViewClient = myWebViewClient
+
+            webChromeClient = object : WebChromeClient() {
+                override fun onCreateWindow(
+                    view: WebView?,
+                    isDialog: Boolean,
+                    isUserGesture: Boolean,
+                    resultMsg: Message?
+                ): Boolean {
+//                    return super.onCreateWindow(view, isDialog, isUserGesture, resultMsg)
+                    val newWebView = WebView(this@PayActivity).apply {
+                        webViewClient = WebViewClient()
+                        settings.javaScriptEnabled = true
+                    }
+
+                    val dialog = Dialog(this@PayActivity).apply {
+                        setContentView(newWebView)
+                        window!!.attributes.width = ViewGroup.LayoutParams.MATCH_PARENT
+                        window!!.attributes.height = ViewGroup.LayoutParams.MATCH_PARENT
+                        show()
+                    }
+
+                    newWebView.webChromeClient = object : WebChromeClient() {
+                        override fun onCloseWindow(window: WebView?) {
+                            dialog.dismiss()
+                        }
+                    }
+
+                    (resultMsg?.obj as WebView.WebViewTransport).webView = newWebView
+                    resultMsg.sendToTarget()
+                    return true
+                }
+            }
+
+            settings.javaScriptEnabled = true
+            settings.domStorageEnabled = true
+            settings.setSupportMultipleWindows(true)
+            settings.javaScriptCanOpenWindowsAutomatically = true
+            settings.safeBrowsingEnabled = true
+            settings.mediaPlaybackRequiresUserGesture = false
+            settings.allowContentAccess = true
+            settings.setGeolocationEnabled(true)
+            settings.allowUniversalAccessFromFileURLs = true
+            settings.allowFileAccess = true
+            fitsSystemWindows = true
+        }
+
+//        webView.webViewClient = myWebViewClient
 
         requestQueue.add(myWebViewClient.readyRequest)
 
