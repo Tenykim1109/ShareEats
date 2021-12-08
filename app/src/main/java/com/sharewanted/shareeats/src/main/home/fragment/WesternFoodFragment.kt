@@ -16,7 +16,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.databinding.FragmentWesternFoodBinding
-import com.sharewanted.shareeats.src.main.home.HomeAdapter
 import com.sharewanted.shareeats.src.main.home.HomeListAdapter
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity

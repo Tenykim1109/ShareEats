@@ -1,6 +1,7 @@
 package com.sharewanted.shareeats.src.main.home
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.CommonUtils
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 
+private const val TAG = "SearchTitleAdapter_싸피"
 class SearchTitleAdapter(context: Context, private val layoutResource: Int, private val postList: MutableList<Post>) : ArrayAdapter<Post>(context, layoutResource, postList),
     Filterable {
 
@@ -30,12 +32,12 @@ class SearchTitleAdapter(context: Context, private val layoutResource: Int, priv
         var tvFund = view.findViewById<TextView>(R.id.fragment_home_tv_fund)
         var progress = view.findViewById<LinearProgressIndicator>(R.id.fragment_home_list_item_progress_bar)
 
-        tvTitle.text = postList[position].title
-        tvPlace.text = postList[position].place
-        tvFund.text = "${CommonUtils().makeComma(postList[position].fund)} / ${CommonUtils().makeComma(postList[position].minPrice)}"
+        tvTitle.text = mList[position].title
+        tvPlace.text = mList[position].place
+        tvFund.text = "${CommonUtils().makeComma(mList[position].fund)} / ${CommonUtils().makeComma(mList[position].minPrice)}"
 
-        progress.max = postList[position].minPrice
-        progress.progress = postList[position].fund
+        progress.max = mList[position].minPrice
+        progress.progress = mList[position].fund
 
         return view
     }
@@ -45,7 +47,9 @@ class SearchTitleAdapter(context: Context, private val layoutResource: Int, priv
             override fun performFiltering(p0: CharSequence?): FilterResults {
                 val queryString = p0?.toString()
 
-                val filterResults = FilterResults()
+                Log.d(TAG, "performFiltering: ${queryString}")
+
+                var filterResults = FilterResults()
                 filterResults.values = if (queryString == null || queryString.isEmpty())
                     postList
                 else
@@ -61,11 +65,6 @@ class SearchTitleAdapter(context: Context, private val layoutResource: Int, priv
             }
 
         }
-    }
-
-
-    private fun refreshPost() {
-        notifyDataSetChanged()
     }
 
 }

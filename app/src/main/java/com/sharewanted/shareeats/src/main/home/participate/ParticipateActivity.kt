@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.database.creditcard.CreditCard
@@ -28,18 +29,22 @@ import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.orderDto.StoreMenu
 import com.sharewanted.shareeats.src.main.home.pay.PayActivity
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
+import com.sharewanted.shareeats.util.RetrofitUtil
 import com.sharewanted.shareeats.util.SharedPreferencesUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 
 private const val TAG = "ParticipateActivity_싸피"
 class ParticipateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityParticipateBinding
     private lateinit var adapter: ParticipateAdapter
-    var selectedCard: CreditCard?=null
+    var selectedCard: CreditCard? = null
     lateinit var post: Post
     private var menuList: MutableList<Menu> = arrayListOf()
     private var mDatabase = Firebase.database.reference
@@ -126,69 +131,107 @@ class ParticipateActivity : AppCompatActivity() {
                             Log.d(TAG, "onCreate: $company $number $expiry $cvc $password")
 //                val intent = Intent(this, MainActivity::class.java)
 //                startActivity(intent)
-                            mDatabase.addValueEventListener(object : ValueEventListener {
-                                override fun onDataChange(snapshot: DataSnapshot) {
-                                    if (dataInputFlag == 0) {
-                                        if (snapshot.hasChildren()) {
-                                            post.postId = snapshot.child("Post").children.last().key!!.toInt() + 1
-                                        }
 
-                                        mDatabase.child("Post").child(post.postId.toString()).setValue(post)
+                    var success = false
 
-                                        for (i in menuList.indices) {
-                                            mDatabase.child("Post").child(post.postId.toString())
-                                                .child("participant").child(user.id)
-                                                .child("menu").child(menuList[i].name).setValue(menuList[i])
-                                        }
+                    mDatabase.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (success == false) {
+                                if (dataInputFlag == 0) {
+                                    if (snapshot.hasChildren()) {
+                                        post.postId = snapshot.child("Post").children.last().key!!.toInt() + 1
+                                    }
 
-                                        val map = mapOf("postId" to post.postId)
-                                        mDatabase.child("User").child(user.id).child("postList").child(post.postId.toString()).setValue(map)
+                                    mDatabase.child("Post").child(post.postId.toString()).setValue(post)
 
-                                        dataInputFlag = 1
+                                    for (i in menuList.indices) {
+                                        mDatabase.child("Post").child(post.postId.toString())
+                                            .child("participant").child(user.id)
+                                            .child("menu").child(menuList[i].name).setValue(menuList[i])
+                                    }
 
-                                        Toast.makeText(this@ParticipateActivity, "글 작성완료", Toast.LENGTH_SHORT).show()
+                                    val map = mapOf("postId" to post.postId)
+                                    mDatabase.child("User").child(user.id).child("postList").child(post.postId.toString()).setValue(map)
+//                                dataInputFlag = 1
+
+                                    Log.d(TAG, "post checking : check")
+                                    success = true
+                                    Toast.makeText(this@ParticipateActivity, "글 작성완료", Toast.LENGTH_SHORT).show()
 
 
-                                    } else if (dataInputFlag == 1) {
-                                        for (i in menuList.indices) {
-                                            val currentFund = snapshot.child("Post").child(post.postId.toString())
-                                                .child("fund").getValue(Int::class.java)
+                                } else if (dataInputFlag == 1) {
+//                                for (i in menuList.indices) {
+                                    val currentFund = snapshot.child("Post").child(post.postId.toString())
+                                        .child("fund").getValue(Int::class.java)
 
                                             val minPrice = snapshot.child("Post").child(post.postId.toString())
                                                 .child("minPrice").getValue(Int::class.java)
 
-                                            var userFundingPrice = 0
-                                            for (i in menuList.indices) {
-                                                userFundingPrice += menuList[i].price * menuList[i].quantity
-                                            }
+
+                                    var userFundingPrice = 0
+                                    for (i in menuList.indices) {
+                                        userFundingPrice += menuList[i].price * menuList[i].quantity
+                                        mDatabase.child("Post").child(post.postId.toString())
+                                            .child("participant").child(user.id)
+                                            .child("menu").child(menuList[i].name).setValue(menuList[i])
+                                    }
 
                                             val stackCurrentPrice = currentFund!! + userFundingPrice
 
-                                            if (minPrice!! < stackCurrentPrice) {
-                                                mDatabase.child("Post").child(post.postId.toString()).child("completed").setValue("주문 완료")
+
+                                    if (minPrice!! < stackCurrentPrice) {
+                                        mDatabase.child("Post").child(post.postId.toString()).child("completed").setValue("주문 완료")
+                                        val notiService = RetrofitUtil.notiService
+                                        notiService.sendMessage(post.postId.toString()).enqueue(object : Callback<String> {
+                                            override fun onResponse(call: Call<String>, response: Response<String>) {
+                                                if (response.isSuccessful) {
+                                                    Log.d("noti check", "${response.body()}")
+                                                    Toast.makeText(this@ParticipateActivity, "${response.body()}", Toast.LENGTH_SHORT).show()
+                                                }
                                             }
+
+                                            override fun onFailure(call: Call<String>, t: Throwable) {
+                                                Log.d(TAG, "onFailure: ${t.message}")
+                                            }
+
+                                        })
+                                    }
 
                                             mDatabase.child("Post").child(post.postId.toString()).child("fund").setValue(stackCurrentPrice)
 
-                                            mDatabase.child("Post").child(post.postId.toString())
-                                                .child("participant").child(user.id)
-                                                .child("menu").child(menuList[i].name).setValue(menuList[i])
-                                        }
 
-                                        val map = mapOf("postId" to post.postId)
-                                        mDatabase.child("User").child(user.id).child("postList").child(post.postId.toString()).setValue(map)
 
-                                        Toast.makeText(this@ParticipateActivity, "참여완료", Toast.LENGTH_SHORT).show()
+//                                }
 
-                                    }
-
-                                    val intent = Intent(this@ParticipateActivity, MainActivity::class.java)
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent)
-                                    finish()
+                                    val map = mapOf("postId" to post.postId)
+                                    mDatabase.child("User").child(user.id).child("postList").child(post.postId.toString()).setValue(map)
+                                    success = true
+                                    Toast.makeText(this@ParticipateActivity, "참여완료", Toast.LENGTH_SHORT).show()
 
                                 }
+
+                                // 최근 postId 갱신
+                                val user = ApplicationClass.sharedPreferencesUtil.getUser()
+                                user.lastPostId = post.postId.toString()
+                                ApplicationClass.sharedPreferencesUtil.addUser(user)
+                                //최근 postId 구독
+                                FirebaseMessaging.getInstance().subscribeToTopic(user.lastPostId)
+                                    .addOnCompleteListener { task ->
+                                        var msg = getString(R.string.msg_subscribed)
+                                        if (!task.isSuccessful) {
+                                            msg = getString(R.string.msg_subscribe_failed)
+                                        }
+                                        Log.d(TAG, msg)
+                                        Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+                                    }
+
+                                val intent = Intent(this@ParticipateActivity, MainActivity::class.java)
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(intent)
+                                finish()
+                            }
+                        }
 
                                 override fun onCancelled(error: DatabaseError) {
                                     Toast.makeText(this@ParticipateActivity, error.toString(), Toast.LENGTH_SHORT).show()
@@ -291,4 +334,15 @@ class ParticipateActivity : AppCompatActivity() {
         binding.activityParticipateCvcLinear.visibility = View.VISIBLE
         binding.activityParticipatePasswordLinear.visibility = View.VISIBLE
     }
+    //////////////////////////////////////////////////////////////////// 만약 토큰대신 구독형으로 알림을 보낼거면 사용할 코드
+//    private fun subscribe(postId: String) {
+//        FirebaseMessaging.getInstance().subscribeToTopic(postId)
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    Toast.makeText(this, "참여 신청을 완료했습니다.", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(this, "네트워크 상태가 불안정 합니다.", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//    }
 }

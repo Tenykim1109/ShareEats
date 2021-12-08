@@ -53,7 +53,7 @@ class HomeListAdapter(private var postList: MutableList<Post>) : BaseAdapter() {
         mDatabase.addListenerForSingleValueEvent(object :
             ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-//                if (index < postList.size) {
+                if (index < postList.size) {
                     val profile = snapshot.child("Store").child(post.storeId).child("profile").value.toString()
                     val storeName = snapshot.child("Store").child(post.storeId).child("name").value.toString()
 
@@ -100,8 +100,8 @@ class HomeListAdapter(private var postList: MutableList<Post>) : BaseAdapter() {
 
                 }
                     refreshPost()
-//                    index++
-//                }
+                    index++
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
@@ -73,17 +74,69 @@ class PostInfoActivity : AppCompatActivity() {
             }
         }
         binding.activityPostInfoBtnChat.setOnClickListener {
-            val chatRef = FirebaseDatabase.getInstance().getReference("Chat").push()
+            val chatRef = FirebaseDatabase.getInstance().getReference("Chat")
+            val myId = SharedPreferencesUtil(this).getUser().id
+            val writer = binding.activityPostInfoTvWriter.text.toString()
+            var roomId: String? = null
 
-            val key = chatRef.key
+            chatRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (item in snapshot.children) {
+                        val id1 = item.child("userId1").getValue<String>()!!
+                        val id2 = item.child("userId2").getValue<String>()!!
 
-            FirebaseDatabase.getInstance().getReference("Chat").child(key!!).setValue(
-                ChatList("", SharedPreferencesUtil(this).getUser().id, binding.activityPostInfoTvWriter.text.toString(), "", ""))
+                        Log.d(TAG, "user1 = $id1, user2 = $id2")
+                        if (myId == id1 && writer == id2) {
+                            Log.d(TAG, "roomId = ${item.key}")
+                            roomId = item.key
+                            break
+                        } else if (myId == id2 && writer == id1) {
+                            Log.d(TAG, "roomId = ${item.key}")
+                            roomId = item.key
+                            break
+                        } else {
+                            Log.d(TAG, "new room create!!")
+                        }
+                    }
 
-            val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("roomId", key)
-            intent.putExtra("nickname", binding.activityPostInfoTvWriter.text.toString())
-            startActivity(intent)
+                    if (roomId == null) {
+                        Log.d(TAG, "새방판다")
+
+                        val newRef = chatRef.push()
+                        val key = newRef.key
+
+                        FirebaseDatabase.getInstance().getReference("Chat").child(key!!).setValue(ChatList("", myId, writer, "", ""))
+                        val intent = Intent(this@PostInfoActivity, ChatActivity::class.java)
+                        intent.putExtra("roomId", key)
+                        intent.putExtra("nickname", writer)
+                        startActivity(intent)
+                    } else {
+                        Log.d(TAG, roomId!!)
+
+                        val intent = Intent(this@PostInfoActivity, ChatActivity::class.java)
+                        intent.putExtra("roomId", roomId!!)
+                        intent.putExtra("nickname", writer)
+                        startActivity(intent)
+                    }
+                    Log.d(TAG, "EventLister ended.")
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "$error")
+                }
+            })
+
+//            val chatRef = FirebaseDatabase.getInstance().getReference("Chat").push()
+//
+//            val key = chatRef.key
+//
+//            FirebaseDatabase.getInstance().getReference("Chat").child(key!!).setValue(
+//                ChatList("", SharedPreferencesUtil(this).getUser().id, binding.activityPostInfoTvWriter.text.toString(), "", ""))
+//
+//            val intent = Intent(this, ChatActivity::class.java)
+//            intent.putExtra("roomId", key)
+//            intent.putExtra("nickname", binding.activityPostInfoTvWriter.text.toString())
+//            startActivity(intent)
 
         }
 
@@ -98,86 +151,96 @@ class PostInfoActivity : AppCompatActivity() {
             finish()
         }
 
-
         if (postId != null) {
+
+            var loadCheck = false
 
             mDatabase.child("Post").child(postId)
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(postSnapshot: DataSnapshot) {
-                        val post = postSnapshot.getValue(Post::class.java)
+                        if (loadCheck == false) {
+                            val post = postSnapshot.getValue(Post::class.java)
 
-                        val peopleNum = postSnapshot.child("participant").children.count()
+                            val peopleNum = postSnapshot.child("participant").children.count()
 
-                        mDatabase.child("Store").child(post!!.storeId)
-                            .addValueEventListener(object : ValueEventListener {
-                                override fun onDataChange(snapshot: DataSnapshot) {
+                            mDatabase.child("Store").child(post!!.storeId)
+                                .addValueEventListener(object : ValueEventListener {
+                                    override fun onDataChange(snapshot: DataSnapshot) {
 
-                                    val storeName =
-                                        snapshot.child("name").getValue(String::class.java)
+                                        val storeName =
+                                            snapshot.child("name").getValue(String::class.java)
 
-                                    if (user.id == post!!.userId) {
-                                        binding.activityPostInfoHeader6.visibility = View.GONE
-                                        binding.activityPostInfoTvMenu.visibility = View.GONE
-                                        binding.activityPostInfoBtnSelectMenu.visibility = View.GONE
-                                        binding.activityPostInfoBtnJoin.visibility = View.GONE
-                                        if (peopleNum < 2) {
-                                            binding.activityPostInfoBtnDelete.visibility =
-                                                View.VISIBLE
-                                            binding.activityPostInfoBtnChat.visibility = View.GONE
+                                        if (user.id == post!!.userId) {
+                                            binding.activityPostInfoHeader6.visibility = View.GONE
+                                            binding.activityPostInfoTvMenu.visibility = View.GONE
+                                            binding.activityPostInfoBtnSelectMenu.visibility =
+                                                View.GONE
+                                            binding.activityPostInfoBtnJoin.visibility = View.GONE
+                                            if (peopleNum < 2) {
+                                                binding.activityPostInfoBtnDelete.visibility =
+                                                    View.VISIBLE
+                                                binding.activityPostInfoBtnChat.visibility =
+                                                    View.GONE
+                                            }
                                         }
+
+                                        binding.activityPostInfoTvTitle.text = post!!.title
+                                        binding.activityPostInfoTvWriter.text = post!!.userId
+                                        var date = Date(post.date)
+                                        val dateFormat =
+                                            SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
+                                        binding.activityPostInfoTvWriteDate.text =
+                                            dateFormat.format(date).toString()
+                                        binding.activityPostInfoTvLocation.text = post!!.place
+                                        date = Date(post.closedTime)
+                                        val timeFormat =
+                                            SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA)
+                                        binding.activityPostInfoTvClosedTime.text =
+                                            timeFormat.format(date).toString()
+                                        binding.activityPostInfoTvContent.text = post!!.content
+
+                                        binding.activityPostInfoTvStore.text = storeName
+
+                                        binding.activityPostInfoBtnSelectMenu.setOnClickListener {
+
+                                            val intent = Intent(
+                                                this@PostInfoActivity,
+                                                SelectMenuActivity::class.java
+                                            ).apply {
+                                                putExtra("storeId", post!!.storeId)
+                                                putExtra("userType", "participant")
+                                            }
+                                            activityResult.launch(intent)
+
+                                        }
+
+                                        mPost = Post(
+                                            postId.toInt(),
+                                            post.title,
+                                            post.date,
+                                            user.id,
+                                            post.storeId,
+                                            post.place,
+                                            post.closedTime,
+                                            post.content,
+                                            post.fund,
+                                            post.minPrice,
+                                            post.completed,
+                                            post.type
+                                        )
+                                        loadCheck = true
                                     }
 
-                                    binding.activityPostInfoTvTitle.text = post!!.title
-                                    binding.activityPostInfoTvWriter.text = post!!.userId
-                                    var date = Date(post.date)
-                                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
-                                    binding.activityPostInfoTvWriteDate.text =
-                                        dateFormat.format(date).toString()
-                                    binding.activityPostInfoTvLocation.text = post!!.place
-                                    date = Date(post.closedTime)
-                                    val timeFormat =
-                                        SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA)
-                                    binding.activityPostInfoTvClosedTime.text =
-                                        timeFormat.format(date).toString()
-                                    binding.activityPostInfoTvContent.text = post!!.content
-
-                                    binding.activityPostInfoTvStore.text = storeName
-
-                                    binding.activityPostInfoBtnSelectMenu.setOnClickListener {
-
-                                        val intent = Intent(this@PostInfoActivity, SelectMenuActivity::class.java).apply {
-                                            putExtra("storeId", post!!.storeId)
-                                            putExtra("userType", "participant")
-                                        }
-                                        activityResult.launch(intent)
-
+                                    override fun onCancelled(error: DatabaseError) {
+                                        Toast.makeText(
+                                            this@PostInfoActivity,
+                                            error.toString(),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
 
-                                    mPost = Post(
-                                        postId.toInt(),
-                                        post.title,
-                                        post.date,
-                                        user.id,
-                                        post.storeId,
-                                        post.place,
-                                        post.closedTime,
-                                        post.content,
-                                        post.fund,
-                                        post.minPrice,
-                                        post.completed,
-                                        post.type
-                                    )
-                                }
-
-                                override fun onCancelled(error: DatabaseError) {
-                                    Toast.makeText(
-                                        this@PostInfoActivity,
-                                        error.toString(),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-
-                            })
+                                })
+                        }
                     }
 
                     override fun onCancelled(error: DatabaseError) {
