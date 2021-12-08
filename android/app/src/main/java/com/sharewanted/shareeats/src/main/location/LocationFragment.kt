@@ -134,83 +134,80 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                 val location = snapshot.child("place").getValue<String>()!!
                 val title = snapshot.child("title").getValue<String>()!!
                 val storeId = snapshot.child("storeId").getValue<String>()!!
-                val res = GeocodeService().getGeocode(location, getGeocodeCallback())
-
-                val post = snapshot.getValue<Post>()
-                Log.d(TAG, "post = $post")
-                hashMap.put("${post!!.postId}", post)
-
-                Log.d(TAG, "title = $title, storeId = $storeId")
-
                 var storeName = ""
 
+                // 매장 이름 가져오는 비동기 코드 내에서 marker 설정
                 storeRef.child(storeId).child("name").get().addOnSuccessListener {
-                    storeName = it.getValue<String>()!!
-                    Log.d(TAG, "storeName = $storeName")
-                }
+                    val res = GeocodeService().getGeocode(location, getGeocodeCallback())
 
-                res.observe(viewLifecycleOwner, { res ->
-                    Log.d(TAG, "livedata = ${res.addresses}")
+                    Log.d(TAG, "title = $title, storeId = $storeId")
+                    res.observe(viewLifecycleOwner, { res ->
 
-                    executor.execute {
+                        executor.execute {
+                            storeName = it.getValue<String>()!!
+                            Log.d(TAG, "storeName = $storeName")
 
-                        infoWindow = InfoWindow()
+                            infoWindow = InfoWindow()
 
-                        // BackgroundThread에서 마커 정보 초기화
-                        repeat(1) {
-                            for (address in res.addresses) {
-                                Log.d(TAG, "store_value = $storeName")
-                                Log.d(TAG, "도로명주소 = ${address.roadAddress}")
+                            // BackgroundThread에서 마커 정보 초기화
+                            repeat(1) {
+                                val post = snapshot.getValue<Post>()
+                                Log.d(TAG, "post = $post")
+                                hashMap.put("${post!!.postId}", post)
 
-                                val marker = Marker()
-                                marker.position = LatLng(address.y, address.x)
-                                marker.icon = MarkerIcons.RED
-                                marker.onClickListener = markerListener
-                                marker.tag = "제목: $title \n주문 매장: $storeName"
-                                marker.subCaptionText = "$postId"
+                                for (address in res.addresses) {
+                                    Log.d(TAG, "store_value = $storeName")
+                                    Log.d(TAG, "도로명주소 = ${address.roadAddress}")
 
-                                placeMarkers += marker
-                                placeInfoList += MarkerInfo(marker, title, storeName)
+                                    val marker = Marker()
+                                    marker.position = LatLng(address.y, address.x)
+                                    marker.icon = MarkerIcons.RED
+                                    marker.onClickListener = markerListener
+                                    marker.tag = "제목: $title \n주문 매장: $storeName"
+                                    marker.subCaptionText = "$postId"
 
-                            }
-                        }
-
-                        handler.post {
-                            infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(requireContext()) {
-                                override fun getText(infoWindow: InfoWindow): CharSequence {
-                                    return infoWindow.marker?.tag as CharSequence ?: ""
+                                    placeMarkers += marker
+                                    placeInfoList += MarkerInfo(marker, title, storeName)
                                 }
                             }
 
-                            // MainThread에서 지도에 마커 표시
-                            placeInfoList.forEach { markerInfo ->
-                                run {
-                                    markerInfo.marker.map = naverMap
-                                    Log.d(TAG, "title = ${markerInfo.title}, store = ${markerInfo.storeName}")
-                                    infoWindow.open(markerInfo.marker)
-                                    infoWindow.onClickListener = object : Overlay.OnClickListener {
-                                        override fun onClick(p0: Overlay): Boolean {
-                                            val infoWindow = p0 as InfoWindow
+                            handler.post {
+                                infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(requireContext()) {
+                                    override fun getText(infoWindow: InfoWindow): CharSequence {
+                                        return infoWindow.marker?.tag as CharSequence ?: ""
+                                    }
+                                }
 
-                                            Log.d(TAG, "${infoWindow.marker!!.subCaptionText} clicked.")
-                                            Log.d(TAG, "${hashMap.get(infoWindow.marker!!.subCaptionText)}")
+                                // MainThread에서 지도에 마커 표시
+                                placeInfoList.forEach { markerInfo ->
+                                    run {
+                                        markerInfo.marker.map = naverMap
+                                        Log.d(TAG, "title = ${markerInfo.title}, store = ${markerInfo.storeName}")
+                                        infoWindow.open(markerInfo.marker)
+                                        infoWindow.onClickListener = object : Overlay.OnClickListener {
+                                            override fun onClick(p0: Overlay): Boolean {
+                                                val infoWindow = p0 as InfoWindow
 
-                                            // intent로 게시글 id를 넘겨줌.
-                                            val intent = Intent(requireContext(), PostInfoActivity::class.java)
-                                            intent.putExtra("postId", infoWindow.marker!!.subCaptionText.toInt())
-                                            startActivity(intent)
-                                            return false
+                                                Log.d(TAG, "${infoWindow.marker!!.subCaptionText} clicked.")
+                                                Log.d(TAG, "${hashMap.get(infoWindow.marker!!.subCaptionText)}")
+
+                                                // intent로 게시글 id를 넘겨줌.
+                                                val intent = Intent(requireContext(), PostInfoActivity::class.java)
+                                                intent.putExtra("postId", infoWindow.marker!!.subCaptionText.toInt())
+                                                startActivity(intent)
+                                                return false
+                                            }
                                         }
                                     }
-
-
                                 }
+
+                                Log.d(TAG, "place size = ${placeMarkers.size}")
+                                Log.d(TAG, "info size = ${placeInfoList.size}")
                             }
-                            Log.d(TAG, "place size = ${placeMarkers.size}")
-                            Log.d(TAG, "info size = ${placeInfoList.size}")
                         }
-                    }
-                })
+                    })
+
+                }
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -229,7 +226,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                 Log.e(TAG, "$error")
             }
         }
-
         postRef.addChildEventListener(postEventListener)
     }
 

@@ -38,7 +38,6 @@ class SearchTitleAdapter(context: Context, private val layoutResource: Int, priv
 
         progress.max = mList[position].minPrice
         progress.progress = mList[position].fund
-
         return view
     }
 
