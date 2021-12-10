@@ -150,6 +150,96 @@ val readyResponse = Response.Listener<String> { response ->
 <br>
 
 </details>
+    
+<details markdown="4">
+<summary> 📚 네이버 지도 API 커스텀 마커 이슈</summary>    
+<br>
+<br>
+    
+```
+var storeName = ""
+
+// 매장 이름 가져오는 비동기 코드 내에서 marker 설정
+storeRef.child(storeId).child("name").get().addOnSuccessListener {
+    val res = GeocodeService().getGeocode(location, getGeocodeCallback())
+
+    Log.d(TAG, "title = $title, storeId = $storeId")
+    res.observe(viewLifecycleOwner, { res ->
+
+        executor.execute {
+            storeName = it.getValue<String>()!!
+            Log.d(TAG, "storeName = $storeName")
+
+            infoWindow = InfoWindow()
+
+            // BackgroundThread에서 마커 정보 초기화
+            repeat(1) {
+                val post = snapshot.getValue<Post>()
+                Log.d(TAG, "post = $post")
+                hashMap.put("${post!!.postId}", post)
+
+                for (address in res.addresses) {
+                    Log.d(TAG, "store_value = $storeName")
+                    Log.d(TAG, "도로명주소 = ${address.roadAddress}")
+
+                    val marker = Marker()
+                    marker.position = LatLng(address.y, address.x)
+                    marker.icon = MarkerIcons.RED
+                    marker.onClickListener = markerListener
+                    marker.tag = "제목: $title \n주문 매장: $storeName"
+                    marker.subCaptionText = "$postId"
+
+                    placeMarkers += marker
+                    placeInfoList += MarkerInfo(marker, title, storeName)
+                }
+            }
+
+            handler.post {
+                infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(requireContext()) {
+                    override fun getText(infoWindow: InfoWindow): CharSequence {
+                        return infoWindow.marker?.tag as CharSequence ?: ""
+                    }
+                }
+
+                // MainThread에서 지도에 마커 표시
+                placeInfoList.forEach { markerInfo ->
+                    run {
+                        markerInfo.marker.map = naverMap
+                        Log.d(TAG, "title = ${markerInfo.title}, store = ${markerInfo.storeName}")
+                        infoWindow.open(markerInfo.marker)
+                        infoWindow.onClickListener = object : Overlay.OnClickListener {
+                            override fun onClick(p0: Overlay): Boolean {
+                                val infoWindow = p0 as InfoWindow
+
+                                Log.d(TAG, "${infoWindow.marker!!.subCaptionText} clicked.")
+                                Log.d(TAG, "${hashMap.get(infoWindow.marker!!.subCaptionText)}")
+
+                                // intent로 게시글 id를 넘겨줌.
+                                val intent = Intent(requireContext(), PostInfoActivity::class.java)
+                                intent.putExtra("postId", infoWindow.marker!!.subCaptionText.toInt())
+                                startActivity(intent)
+                                return false
+                            }
+                        }
+                    }
+                }
+
+                Log.d(TAG, "place size = ${placeMarkers.size}")
+                Log.d(TAG, "info size = ${placeInfoList.size}")
+            }
+        }
+    })
+}
+    
+```    
+    
+네이버 지도 API 개발 중 커스텀 마커에 매장 이름이 표시되지 않는 이슈가 있었음.
+원인은 background thread에서 데이터를 받아오고 main thread에서 ui 처리를 하도록 설계했으나 firebase는 자체적인 비동기 루프를 가지고 있어 thread와 따로 움직였기 때문.
+따라서 firebase 비동기 루프 내에서 background와 main을 나눠서 처리하여 이슈 해결.
+    
+<br>
+    
+</details>    
 
 ## Screenshot
 
@@ -183,13 +273,14 @@ val readyResponse = Response.Listener<String> { response ->
         <td>백동열</td>
     </tr>
     <tr>
-        <td><a href=""></a></td>
+        <td><a href="https://github.com/Tenykim1109">@Tenykim1109</a></td>
         <td><a href="https://github.com/juhwankim-dev">@juhwankim-dev</a></td>
         <td><a href="https://github.com/JosephNaa">@JosephNaa</a></td>
         <td><a href="">@micro155</a></td>
     </tr>
     <tr>
-        <td><img src="" width="300px"/></td>
+        <td><img src="![48265915](https://user-images.githubusercontent.com/48265915/145594424-f43c1fe2-e788-4f6d-8d14-f3e0da73cd6d.jpg)
+" width="300px"/></td>
         <td><img src="https://user-images.githubusercontent.com/76620764/145577637-1cb20f92-d076-4e3f-91d4-9719a1621542.jpg"  width="300px"/></td>
         <td><img src="https://avatars.githubusercontent.com/u/17241871?v=4"  width="300px"/></td>
         <td><img src="https://avatars.githubusercontent.com/u/69238456?s=400&u=849688e4a8675e363dc45a29b8d3e1cb6d468a01&v=4"  width="300px"/></td>
