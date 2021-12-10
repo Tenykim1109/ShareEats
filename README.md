@@ -80,7 +80,7 @@ private fun initLottie() {
     })
 }
 ```
-이 코드에서 이런 문제가 있어 이렇게 해결을 블라블라
+
 
 <br>
 
@@ -124,6 +124,35 @@ getFilter 함수 내에 검색 조건을 설정하여 해당 조건에 충족하
 
 </details>
 
+<details markdown="3">
+<summary> 📚 카카오페이 리다이렉트 이슈</summary>
+<br>
+<br>
+
+```
+val readyResponse = Response.Listener<String> { response ->
+    Log.d(TAG, "readyResponse: $response")
+
+    var parser = JsonParser()
+    var element = parser.parse(response)
+
+    var url = element.asJsonObject.get("next_redirect_pc_url").asString
+    var tid = element.asJsonObject.get("tid").asString
+
+    Log.d(TAG, "url: $url")
+    Log.d(TAG, "tid: $tid")
+    
+    webView.loadUrl(url)
+    tidPin = tid
+}
+```
+카카오페이 api 개발 중 웹뷰를 띄워 redirect_moblie_url 로 앱에서 자체적으로 카카오페이 결제를 수행하도록 설계를 했으나,   
+제대로 넘어가지 못하고 pg_token을 가져오지 못함   
+하여, redirect_pc_url로 수정하여 웹에서 카카오페이를 사용할 때 사용하는 qr 결제 또는 메시지 결제로 대체
+
+<br>
+
+</details>
 
 ## Screenshot
 
@@ -159,13 +188,13 @@ getFilter 함수 내에 검색 조건을 설정하여 해당 조건에 충족하
     <tr>
         <td><a href=""></a></td>
         <td><a href="https://github.com/juhwankim-dev">@juhwankim-dev</a></td>
-        <td><a href=""></a></td>
+        <td><a href="https://github.com/JosephNaa">@JosephNaa</a></td>
         <td><a href="">@micro155</a></td>
     </tr>
     <tr>
         <td><img src="" width="300px"/></td>
         <td><img src="https://user-images.githubusercontent.com/76620764/145577637-1cb20f92-d076-4e3f-91d4-9719a1621542.jpg"  width="300px"/></td>
-        <td><img src=""  width="300px"/></td>
+        <td><img src="https://avatars.githubusercontent.com/u/17241871?v=4"  width="300px"/></td>
         <td><img src="https://avatars.githubusercontent.com/u/69238456?s=400&u=849688e4a8675e363dc45a29b8d3e1cb6d468a01&v=4"  width="300px"/></td>
     </tr>
     <tr>
