@@ -56,7 +56,7 @@ class PayActivity : AppCompatActivity() {
             var parser = JsonParser()
             var element = parser.parse(response)
 
-            var url = element.asJsonObject.get("next_redirect_mobile_url").asString
+            var url = element.asJsonObject.get("next_redirect_pc_url").asString
             var tid = element.asJsonObject.get("tid").asString
 
             Log.d(TAG, "url: $url")
@@ -147,6 +147,8 @@ class PayActivity : AppCompatActivity() {
             Log.d(TAG, "shouldOverrideUrlLoading: $url")
 
             if (url != null && url.contains("pg_token=")) {
+//            if (url != null) {
+//                var token = url.substring()
                 var pg_token = url.substring(url.indexOf("pg_token=") + 9)
                 Log.d(TAG, "pg_token: $pg_token")
                 pgToken = pg_token
