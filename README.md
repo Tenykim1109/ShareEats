@@ -90,7 +90,7 @@ private fun initLottie() {
         <td><a href="">@4z7l</a></td>
         <td><a href="https://github.com/juhwankim-dev">@juhwankim-dev</a></td>
         <td><a href="">@sgh002400</a></td>
-        <td><a href="">@sgh002400</a></td>
+        <td><a href="">@micro155</a></td>
     </tr>
     <tr>
         <td><img src="" width="300px"/></td>
@@ -102,7 +102,7 @@ private fun initLottie() {
         <td></td>
         <td>로그인, 회원가입, 마이페이지<br>주문내역, 회원정보 수정, 공지사항</td>
         <td></td>
-        <td></td>
+        <td>게시글 작성, 게시글 목록, 게시글 검색, 참여하기</td>
     </tr>
 </tbody>
 </table>
