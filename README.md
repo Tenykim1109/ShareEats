@@ -44,9 +44,6 @@
 - IDE
   - Android Studio
   - Spring Tool Suite
-.
-.
-.
 
 
 ## Problem
