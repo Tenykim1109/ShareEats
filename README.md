@@ -116,9 +116,9 @@ override fun getFilter(): Filter {
         }
     }
 ```
-AutoCompleteTextView를 사용하면서 키워드에 따라 검색 결과를 다르게 보여주도록 검색 조건을 설정하는데 애를 먹었습니다.   
-AutoCompleteTextView의 리스트에 보여줄 커스텀 어댑터를 작성하면서 Filterable 인터페이스를 사용하여 getFilter 함수를 오버라이딩했습니다.   
-getFilter 함수 내에 검색 조건을 설정하여 해당 조건에 충족하는 키워드 기준으로 검색 결과 리스트를 반환하는 형식으로 구현했습니다.
+AutoCompleteTextView를 사용하면서 키워드에 따라 검색 결과를 다르게 보여주도록 검색 조건을 설정하는데 어려움을 겪음
+AutoCompleteTextView의 리스트에 보여줄 커스텀 어댑터를 작성하면서 Filterable 인터페이스를 사용하여 getFilter 함수를 오버라이딩
+getFilter 함수 내에 검색 조건을 설정하여 해당 조건에 충족하는 키워드 기준으로 검색 결과 리스트를 반환하는 형식으로 
 
 <br>
 
