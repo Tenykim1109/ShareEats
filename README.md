@@ -205,7 +205,55 @@ storeRef.child(storeId).child("name").get().addOnSuccessListener {
     
 <br>
     
-</details>    
+</details>
+    
+    
+<details markdown="4">
+<summary> 📚 코드 통일 이슈 </summary>
+<br>
+<br>
+
+```
+📦 com.sharedwanted.shareeats
+ ┣ 📂 config
+ ┃ ┗ 📜 ApplicationClass
+ ┣ 📂 database
+ ┣ 📂 service
+ ┣ 📂 src
+ ┃ ┗ 📂 api
+ ┃ ┗ 📂 main
+ ┃ ┗ 📂 splash
+ ┣ 📂 util
+ ┃ ┗ 📜 SharedPreferencesUtil
+```
+
+각자 생각하는 구조를 통일하기 위해 전체적으로 템플릿화 시켜서 개발을 시작함
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- margin 값 -->
+    <dimen name="activity_margin_32dp">32dp</dimen>
+    <dimen name="activity_margin_16dp">16dp</dimen>
+    <dimen name="activity_margin_8dp">8dp</dimen>
+    <dimen name="appbar_margin_54dp">54dp</dimen>
+
+    <!-- 폰트 크기 값 -->
+    <dimen name="appbar_text_size_18sp">18sp</dimen>
+    <dimen name="header_text_size_16sp">16sp</dimen>
+    <dimen name="body_text_size_14sp">14sp</dimen>
+    <dimen name="explain_text_size_10sp">10sp</dimen>
+</resources>
+```
+
+사이즈 기준 없이 제 각각으로 UI를 제작하다 보니 전체적인 통일성이 떨어짐 <br>
+이를 해결하기 위해 dimens, themes 등 값을 적극 활용하였으며 <br>
+더불어 수정사항이 생겼을 시 유지 보수가 간편해진다는 것을 깨달음
+
+
+<br>
+
+</details>
 
 ## Screenshot
 
