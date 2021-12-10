@@ -37,6 +37,13 @@
   - Toolbar
   - Custom ListView
 
+- Language
+  - Kotlin
+  - Java
+ 
+- IDE
+  - Android Studio
+  - Spring Tool Suite
 .
 .
 .
