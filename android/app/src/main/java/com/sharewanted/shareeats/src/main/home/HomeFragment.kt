@@ -16,7 +16,6 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.location.*
 import com.google.android.material.tabs.TabLayout
@@ -27,7 +26,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
-import com.sharewanted.shareeats.databinding.DialogSelectDongBinding
 import com.sharewanted.shareeats.databinding.FragmentHomeBinding
 import com.sharewanted.shareeats.src.api.GeocodingApi
 import com.sharewanted.shareeats.src.main.MainActivity
@@ -35,9 +33,7 @@ import com.sharewanted.shareeats.src.main.home.fragment.*
 import com.sharewanted.shareeats.src.main.home.order.OrderActivity
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.selectLocation.AddressResponse
-import com.sharewanted.shareeats.src.main.home.order.selectLocation.LatLngCoords
 import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
-import com.sharewanted.shareeats.util.RetrofitUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,6 +49,7 @@ class HomeFragment : Fragment() {
     private lateinit var mLastLocation: Location
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     private var currentTab: TabLayout.Tab? = null
+    private var check = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -85,32 +82,35 @@ class HomeFragment : Fragment() {
         initView()
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        ApplicationClass.retrofit.create(GeocodingApi::class.java)
-//            .getAddress("${mLastLocation.longitude},${mLastLocation.latitude}", "legalcode,addr", "json")
-//            .enqueue(object : Callback<AddressResponse> {
-//                override fun onResponse(call: Call<AddressResponse>, response: Response<AddressResponse>) {
-//                    if (response.isSuccessful) {
-//
-//                        val addressResponse = response.body() as AddressResponse
-//
-//                        var dongName = ""
-//
-//                        dongName += "${addressResponse.results[1].region.area3.name}"
-//
-//                        binding.fragmentHomeTvDongName.text = dongName
-//
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<AddressResponse>, t: Throwable) {
-//                    Log.d(TAG, "onFailure: ${t.message}")
-//                }
-//
-//            })
-//
-//    }
+    private fun currentLocation() {
+
+        ApplicationClass.retrofit.create(GeocodingApi::class.java)
+            .getAddress("${mLastLocation.longitude},${mLastLocation.latitude}", "legalcode,addr", "json")
+            .enqueue(object : Callback<AddressResponse> {
+                override fun onResponse(call: Call<AddressResponse>, response: Response<AddressResponse>) {
+                    if (response.isSuccessful) {
+
+                        val addressResponse = response.body() as AddressResponse
+
+                        var dongName = ""
+
+                        dongName += "${addressResponse.results[1].region.area3.name}"
+
+                        binding.fragmentHomeTvDongName.text = dongName
+
+                        childFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_home_fcv_tab_host, TotalFoodFragment(binding.fragmentHomeTvDongName.text.toString()))
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .commit()
+                    }
+                }
+
+                override fun onFailure(call: Call<AddressResponse>, t: Throwable) {
+                    Log.d(TAG, "onFailure: ${t.message}")
+                }
+
+            })
+    }
 
     private fun initView() {
         
@@ -159,11 +159,6 @@ class HomeFragment : Fragment() {
             val intent = Intent(mainActivity, OrderActivity::class.java)
             startActivity(intent)
         }
-
-        childFragmentManager.beginTransaction()
-            .replace(R.id.fragment_home_fcv_tab_host, TotalFoodFragment(binding.fragmentHomeTvDongName.text.toString()))
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .commit()
 
         binding.fragmentHomeTlMenuType.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -250,7 +245,6 @@ class HomeFragment : Fragment() {
                                 } else {
                                     loadListFragment(currentTab)
                                 }
-
                             }
                         }
 
@@ -259,7 +253,6 @@ class HomeFragment : Fragment() {
                         }
 
                     })
-
                 dialog.dismiss()
 
             }
@@ -302,15 +295,18 @@ class HomeFragment : Fragment() {
 
             Log.d(TAG, "onLocationResult()")
             onLocationChanged(locationResult.lastLocation)
-
         }
     }
 
     fun onLocationChanged(location: Location) {
 
-        Log.d(TAG, "onLocationChanged()")
         mLastLocation = location
-        Log.d("locationChanged", "location : ${mLastLocation}")
+        if (check == false) {
+            if (mLastLocation != null) {
+                currentLocation()
+                check = true
+            }
+        }
 
     }
 
@@ -326,7 +322,6 @@ class HomeFragment : Fragment() {
         }
 
         Log.d(TAG, "startLocationUpdates() 위치 권한이 하나라도 존재하는 경우")
-
 
         mFusedLocationProviderClient!!.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
     }
