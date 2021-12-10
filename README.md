@@ -301,7 +301,7 @@ storeRef.child(storeId).child("name").get().addOnSuccessListener {
     <tr>
         <td>네이버 지도 API, 1:1 채팅, 만든이</td>
         <td>로그인, 회원가입, 마이페이지<br>회원정보 수정, 공지사항</td>
-        <td></td>
+        <td>카드정보 저장, 결제하기<br>카카오페이 API</td>
         <td>게시글 작성, 게시글 목록, 게시글 검색, 참여하기</td>
     </tr>
 </tbody>
