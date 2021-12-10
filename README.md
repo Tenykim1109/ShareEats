@@ -14,7 +14,7 @@
 
 ## Tech
 - Third Party
- * Firebase Realtime Database
+ 1. Firebase Realtime Database
  2. Firebase Storage
  3. NaverMap SDK
  4. Naver Cloud API (Geocoding, Reverse Geocoding)
