@@ -85,6 +85,44 @@ private fun initLottie() {
 <br>
 
 </details>
+<details markdown="2">
+<summary> 📚 AutoCompleteTextView 검색 조건 설정 이슈</summary>
+<br>
+<br>
+
+```
+override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(p0: CharSequence?): FilterResults {
+                val queryString = p0?.toString()
+
+                Log.d(TAG, "performFiltering: ${queryString}")
+
+                var filterResults = FilterResults()
+                filterResults.values = if (queryString == null || queryString.isEmpty())
+                    postList
+                else
+                    postList.filter {
+                        it.title.contains(queryString) || it.content.contains(queryString) || it.place.contains(queryString)
+                    }
+                return filterResults
+            }
+
+            override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
+                mList = p1!!.values as MutableList<Post>
+                notifyDataSetChanged()
+            }
+
+        }
+    }
+```
+AutoCompleteTextView를 사용하면서 키워드에 따라 검색 결과를 다르게 보여주도록 검색 조건을 설정하는데 애를 먹었습니다.   
+AutoCompleteTextView의 리스트에 보여줄 커스텀 어댑터를 작성하면서 Filterable 인터페이스를 사용하여 getFilter 함수를 오버라이딩했습니다.   
+getFilter 함수 내에 검색 조건을 설정하여 해당 조건에 충족하는 키워드 기준으로 검색 결과 리스트를 반환하는 형식으로 구현했습니다.
+
+<br>
+
+</details>
 
 
 ## Screenshot
