@@ -107,9 +107,9 @@ private fun initLottie() {
         <td>백동열</td>
     </tr>
     <tr>
-        <td><a href="">@4z7l</a></td>
+        <td><a href=""></a></td>
         <td><a href="https://github.com/juhwankim-dev">@juhwankim-dev</a></td>
-        <td><a href="">@sgh002400</a></td>
+        <td><a href=""></a></td>
         <td><a href="">@micro155</a></td>
     </tr>
     <tr>
