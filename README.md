@@ -51,7 +51,7 @@
 
 ## Problem
 
-📚 LoginFragment.kt
+📚 **LoginFragment.kt**
 ```
 private fun initLottie() {
     binding.splash.addAnimatorListener(object : Animator.AnimatorListener {
@@ -80,20 +80,23 @@ private fun initLottie() {
 
 ## Screenshot
 
-1️⃣ 로그인
+1️⃣ **로그인**
 
 ![와어이프레임_로그인](https://user-images.githubusercontent.com/76620764/145572789-9a08a954-d013-4f92-b4ba-b60773a08f2b.jpg)
 <br>
 
-2️⃣ 게시글
+2️⃣ **게시글**
+
 ![와이어프레임_게시글](https://user-images.githubusercontent.com/76620764/145572911-2acfd1c3-c3f2-486b-a171-e75d40bf4f63.jpg)
 <br>
 
-3️⃣ 채팅
+3️⃣ **채팅**
+
 ![와어이프레임_채팅](https://user-images.githubusercontent.com/76620764/145572935-1a1324c2-c700-4c77-bcf8-155949b0317d.jpg)
 <br>
 
-4️⃣ 마이페이지
+4️⃣ **마이페이지**
+
 ![와어이프레임_마이페이지](https://user-images.githubusercontent.com/76620764/145572953-9050a6b2-768d-4b51-b494-5d9223e9310a.jpg)
 <br>
 
