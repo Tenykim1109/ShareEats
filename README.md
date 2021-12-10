@@ -1,5 +1,6 @@
 # ShareEats
 (대충 여기 어디쯤 썸네일)
+![shareeats_logo](https://user-images.githubusercontent.com/69238456/145581257-00fc54cf-ec1a-4680-ab71-2ecb7a5c7eea.png)
 - Wanted Hack.career Hackathon
 - 프로젝트 기간: `2021.10.30` ~ `2021.12.10`
 
