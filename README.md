@@ -49,40 +49,6 @@
 ## Problem
 
 <details markdown="1">
-<summary> 📚 로그아웃시 앱이 강제종료되는 이슈</summary>
-<br>
-<br>
-
-```
-private fun initLottie() {
-    binding.splash.addAnimatorListener(object : Animator.AnimatorListener {
-        override fun onAnimationStart(animation: Animator?) {
-
-        }
-
-        override fun onAnimationEnd(animation: Animator?) {
-            if (FourMostPreference.getFirstVisit()) {
-                startActivity(Intent(this@SplashActivity, ServiceExplainActivity::class.java))
-            } else {
-                startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
-            }
-            finish()
-        }
-
-        override fun onAnimationCancel(animation: Animator?) {
-        }
-
-        override fun onAnimationRepeat(animation: Animator?) {
-        }
-    })
-}
-```
-
-
-<br>
-
-</details>
-<details markdown="2">
 <summary> 📚 AutoCompleteTextView 검색 조건 설정 이슈</summary>
 <br>
 <br>
@@ -121,7 +87,7 @@ getFilter 함수 내에 검색 조건을 설정하여 해당 조건에 충족하
 
 </details>
 
-<details markdown="3">
+<details markdown="2">
 <summary> 📚 카카오페이 리다이렉트 이슈</summary>
 <br>
 <br>
@@ -151,7 +117,7 @@ val readyResponse = Response.Listener<String> { response ->
 
 </details>
     
-<details markdown="4">
+<details markdown="3">
 <summary> 📚 네이버 지도 API 커스텀 마커 이슈</summary>    
 <br>
 <br>
@@ -276,7 +242,7 @@ storeRef.child(storeId).child("name").get().addOnSuccessListener {
         <td><a href="https://github.com/Tenykim1109">@Tenykim1109</a></td>
         <td><a href="https://github.com/juhwankim-dev">@juhwankim-dev</a></td>
         <td><a href="https://github.com/JosephNaa">@JosephNaa</a></td>
-        <td><a href="">@micro155</a></td>
+        <td><a href="https://github.com/micro155">@micro155</a></td>
     </tr>
     <tr>
         <td><img src="https://avatars.githubusercontent.com/u/48265915?v=4" width="300px"/></td>
