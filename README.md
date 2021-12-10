@@ -96,7 +96,7 @@ private fun initLottie() {
         <td><img src="" width="300px"/></td>
         <td><img src="https://user-images.githubusercontent.com/76620764/145577637-1cb20f92-d076-4e3f-91d4-9719a1621542.jpg"  width="300px"/></td>
         <td><img src=""  width="300px"/></td>
-        <td><img src=""  width="300px"/></td>
+        <td><img src="https://avatars.githubusercontent.com/u/69238456?s=400&u=849688e4a8675e363dc45a29b8d3e1cb6d468a01&v=4"  width="300px"/></td>
     </tr>
     <tr>
         <td></td>
