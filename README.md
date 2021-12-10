@@ -83,13 +83,13 @@ private fun initLottie() {
     </tr>
     <tr>
         <td><img src="" width="300px"/></td>
-        <td><img src="/wiki/contributor/sgh002400.png"  width="300px"/></td>
+        <td><img src="https://user-images.githubusercontent.com/76620764/145577637-1cb20f92-d076-4e3f-91d4-9719a1621542.jpg"  width="300px"/></td>
         <td><img src=""  width="300px"/></td>
         <td><img src=""  width="300px"/></td>
     </tr>
     <tr>
         <td></td>
-        <td>저는 이런걸 구현했습니다~ 블라블라~</td>
+        <td>로그인, 회원가입, 마이페이지<br>주문내역, 회원정보 수정, 공지사항</td>
         <td></td>
         <td></td>
     </tr>
