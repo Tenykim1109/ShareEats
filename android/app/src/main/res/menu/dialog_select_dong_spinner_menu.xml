@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:name="@+id/dongName1"
+        android:title="원평동" />
+    <item
+        android:name="@+id/dongName2"
+        android:title="지산동" />
+    <item
+        android:name="@+id/dongName3"
+        android:title="도량동" />
+    <item
+        android:name="@+id/dongName4"
+        android:title="봉곡동" />
+    <item
+        android:name="@+id/dongName5"
+        android:title="부곡동" />
+    <item
+        android:name="@+id/dongName6"
+        android:title="선기동" />
+    <item
+        android:name="@+id/dongName7"
+        android:title="수점동" />
+    <item
+        android:name="@+id/dongName8"
+        android:title="남통동" />
+    <item
+        android:name="@+id/dongName8"
+        android:title="형곡동" />
+    <item
+        android:name="@+id/dongName8"
+        android:title="송정동" />
+</menu>

@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="location_array">
-        <item>진평동</item>
-        <item>공단동</item>
+        <item>전체</item>
         <item>원평동</item>
-        <item>형곡동</item>
-        <item>신평동</item>
+        <item>지산동</item>
+        <item>진평동</item>
+        <item>봉곡동</item>
+        <item>부곡동</item>
+        <item>선기동</item>
+        <item>수점동</item>
+        <item>남통동</item>
+        <item>형곡동</item>.
+        <item>송정동</item>
     </string-array>
     <string-array name="food_type_array">
         <item>한식</item>

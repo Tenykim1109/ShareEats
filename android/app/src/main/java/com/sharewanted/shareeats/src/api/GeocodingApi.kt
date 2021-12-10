@@ -1,5 +1,7 @@
-package com.sharewanted.shareeats.src.main.home.order.selectLocation
+package com.sharewanted.shareeats.src.api
 
+import com.sharewanted.shareeats.src.main.home.order.selectLocation.AddressResponse
+import com.sharewanted.shareeats.src.main.home.order.selectLocation.CoordsResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
