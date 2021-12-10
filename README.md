@@ -16,14 +16,21 @@
 
 ## Tech
 - Third Party
- 1. Firebase Realtime Database
- 2. Firebase Storage
- 3. Firebase Cloud Message
- 4. NaverMap SDK
- 5. Naver Cloud API (Geocoding, Reverse Geocoding)
- 6. KaKao Pay API
+  - Firebase Realtime Database
+  - Firebase Storage
+  - Firebase Cloud Message
+  - NaverMap SDK
+  - Naver Cloud API (Geocoding, Reverse Geocoding)
+  - KaKao Pay API
 
-- LiveData
+- UI
+  - ConstraintLayout
+  - BottomNavigation
+  - TabLayout
+  - Fragment
+  - AutoCompleteTextView
+  - Toolbar
+  - Custom ListView
 
 .
 .
