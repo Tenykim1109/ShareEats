@@ -1,9 +1,14 @@
-# ShareEats
-<p align="center">
-	<img src="https://user-images.githubusercontent.com/69238456/145581257-00fc54cf-ec1a-4680-ab71-2ecb7a5c7eea.png" width="30%" height="30%"/>
-</p>
+<h1 align="center">
+    <br> 🍲ShareEats🍲
+</h1>
+
+![썸네일 테스트](https://user-images.githubusercontent.com/76620764/145583547-cc74c765-eb7d-420a-9dc1-fc3706dc6931.png)
+
 - Wanted Hack.career Hackathon
 - 프로젝트 기간: `2021.10.30` ~ `2021.12.10`
+
+<br>
+<br>
 
 ## Features
 - 현위치 또는 선택한 동네를 기준으로 배달 펀딩 게시글 확인 가능
