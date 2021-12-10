@@ -279,14 +279,13 @@ storeRef.child(storeId).child("name").get().addOnSuccessListener {
         <td><a href="">@micro155</a></td>
     </tr>
     <tr>
-        <td><img src="![48265915](https://user-images.githubusercontent.com/48265915/145594424-f43c1fe2-e788-4f6d-8d14-f3e0da73cd6d.jpg)
-" width="300px"/></td>
+        <td><img src="https://avatars.githubusercontent.com/u/48265915?v=4" width="300px"/></td>
         <td><img src="https://user-images.githubusercontent.com/76620764/145577637-1cb20f92-d076-4e3f-91d4-9719a1621542.jpg"  width="300px"/></td>
         <td><img src="https://avatars.githubusercontent.com/u/17241871?v=4"  width="300px"/></td>
         <td><img src="https://avatars.githubusercontent.com/u/69238456?s=400&u=849688e4a8675e363dc45a29b8d3e1cb6d468a01&v=4"  width="300px"/></td>
     </tr>
     <tr>
-        <td></td>
+        <td>네이버 지도 API, 1:1 채팅, 만든이</td>
         <td>로그인, 회원가입, 마이페이지<br>회원정보 수정, 공지사항</td>
         <td></td>
         <td>게시글 작성, 게시글 목록, 게시글 검색<br>참여하기</td>
