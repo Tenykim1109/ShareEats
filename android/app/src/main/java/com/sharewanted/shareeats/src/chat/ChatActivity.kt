@@ -1,5 +1,6 @@
 package com.sharewanted.shareeats.src.chat
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -24,6 +25,7 @@ import java.lang.String.format
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+private const val TAG = "ChatActivity_싸피"
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatBinding
@@ -39,12 +41,10 @@ class ChatActivity : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val roomId = intent.getStringExtra("roomId")!!
         val myNick = SharedPreferencesUtil(this).getUser().name
-        val nickname = intent.getStringExtra("nickname")!!
+        val writer = intent.getStringExtra("writer")!!
         val myId = SharedPreferencesUtil(this).getUser().id
         val myImage = SharedPreferencesUtil(this).getUser().profile
-        Log.d("ChatActivity_roomId", roomId)
 
         list = mutableListOf()
 
@@ -52,13 +52,54 @@ class ChatActivity : AppCompatActivity() {
 
         // Firebase reference
         database = FirebaseDatabase.getInstance()
-        mRef = database.getReference("Chat").child(roomId).child("Chat")
+        val chatRef = database.getReference("Chat")
+        var roomId: String? = null
+
+        // ChatActivity 내부에서 과거 채팅 기록이 있는지 확인하여 data init
+        chatRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (item in snapshot.children) {
+                    val id1 = item.child("userId1").getValue<String>()!!
+                    val id2 = item.child("userId2").getValue<String>()!!
+
+                    Log.d(TAG, "user1 = $id1, user2 = $id2")
+                    if (myId == id1 && writer == id2) {
+                        Log.d(TAG, "roomId = ${item.key}")
+                        roomId = item.key
+                        break
+                    } else if (myId == id2 && writer == id1) {
+                        Log.d(TAG, "roomId = ${item.key}")
+                        roomId = item.key
+                        break
+                    } else {
+                        Log.d(TAG, "new room create!!")
+                    }
+                }
+
+                if (roomId == null) {
+                    Log.d(TAG, "새방판다")
+
+                    val newRef = chatRef.push()
+                    roomId = newRef.key!!
+
+                } else {
+                    Log.d(TAG, roomId!!)
+                }
+
+                mRef = database.getReference("Chat").child(roomId!!).child("Chat")
+                Log.d(TAG, "EventLister ended.")
+                getChatting()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(TAG, "Error occurred.")
+            }
+        })
 
         binding.rvChatView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = chatAdapter
         }
-
 
         binding.btnChatSend.setOnClickListener {
             val msg = binding.editTextTextPersonName.text.toString()
@@ -69,12 +110,12 @@ class ChatActivity : AppCompatActivity() {
             if (!TextUtils.isEmpty(msg)) {
                 binding.editTextTextPersonName.setText("")
                 mRef.push().setValue(Chat(myId, msg, myImage, current.format(formatter), myNick))
-                database.getReference("Chat").child(roomId).child("recentChat").setValue(msg)
-                database.getReference("Chat").child(roomId).child("recentDate").setValue(current.format(formatter))
+                database.getReference("Chat").child(roomId!!).child("recentChat").setValue(msg)
+                database.getReference("Chat").child(roomId!!).child("recentDate").setValue(current.format(formatter))
             }
         }
 
-        getChatting()
+//        getChatting()
     }
 
     private fun getChatting() {

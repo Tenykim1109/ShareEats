@@ -28,6 +28,9 @@ class OrderInfoAdapter(var list: MutableList<OrderInfo>) : RecyclerView.Adapter<
             }
             fragment_my_page_order_info_profile.setOnClickListener {
                 val intent = Intent(itemView.context, ChatActivity::class.java)
+
+                // ChatActivity에서 쓰기 위해 상대방의 Id 필요
+                intent.putExtra("writer", order.userId)
                 itemView.context.startActivity(intent)
             }
             fragment_my_page_order_info_name.text = order.userId
