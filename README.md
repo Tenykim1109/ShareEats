@@ -1,6 +1,7 @@
 # ShareEats
-(대충 여기 어디쯤 썸네일)
-![shareeats_logo](https://user-images.githubusercontent.com/69238456/145581257-00fc54cf-ec1a-4680-ab71-2ecb7a5c7eea.png)
+<p align="center">
+	<img src="https://user-images.githubusercontent.com/69238456/145581257-00fc54cf-ec1a-4680-ab71-2ecb7a5c7eea.png" width="30%" height="30%"/>
+</p>
 - Wanted Hack.career Hackathon
 - 프로젝트 기간: `2021.10.30` ~ `2021.12.10`
 
@@ -102,7 +103,7 @@ private fun initLottie() {
         <td></td>
         <td>로그인, 회원가입, 마이페이지<br>주문내역, 회원정보 수정, 공지사항</td>
         <td></td>
-        <td>게시글 작성, 게시글 목록, 게시글 검색, 참여하기</td>
+        <td>게시글 작성, 게시글 목록, 게시글 검색<br>참여하기</td>
     </tr>
 </tbody>
 </table>
