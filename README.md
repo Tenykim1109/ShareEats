@@ -13,7 +13,8 @@
 - 지난 주문 내역 확인 가능
 
 ## Tech
-- MVVM
+- Third Party
+ 1. Firebase Realtime Database
 - LiveData
 
 .
