@@ -51,7 +51,11 @@
 
 ## Problem
 
-📚 **LoginFragment.kt**
+<details markdown="1">
+<summary> 📚 로그아웃시 앱이 강제종료되는 이슈</summary>
+<br>
+<br>
+
 ```
 private fun initLottie() {
     binding.splash.addAnimatorListener(object : Animator.AnimatorListener {
@@ -77,6 +81,11 @@ private fun initLottie() {
 }
 ```
 이 코드에서 이런 문제가 있어 이렇게 해결을 블라블라
+
+<br>
+
+</details>
+
 
 ## Screenshot
 
