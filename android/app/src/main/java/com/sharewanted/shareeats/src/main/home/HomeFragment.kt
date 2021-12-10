@@ -292,14 +292,12 @@ class HomeFragment : Fragment() {
 
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-
             Log.d(TAG, "onLocationResult()")
             onLocationChanged(locationResult.lastLocation)
         }
     }
 
     fun onLocationChanged(location: Location) {
-
         mLastLocation = location
         if (check == false) {
             if (mLastLocation != null) {
@@ -307,7 +305,6 @@ class HomeFragment : Fragment() {
                 check = true
             }
         }
-
     }
 
     fun startLocationUpdates() {
