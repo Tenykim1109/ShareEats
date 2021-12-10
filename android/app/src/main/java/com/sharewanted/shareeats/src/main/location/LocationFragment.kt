@@ -2,7 +2,6 @@ package com.sharewanted.shareeats.src.main.location
 
 import android.Manifest
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -16,8 +15,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.UiThread
-import androidx.core.app.ActivityCompat
-import androidx.fragment.app.FragmentManager
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.gun0912.tedpermission.PermissionListener
@@ -27,7 +24,6 @@ import com.naver.maps.map.*
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import com.sharewanted.shareeats.R
@@ -36,7 +32,7 @@ import com.sharewanted.shareeats.databinding.FragmentLocationBinding
 import com.sharewanted.shareeats.service.GeocodeService
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.selectLocation.CoordsResponse
-import com.sharewanted.shareeats.src.main.home.order.selectLocation.GeocodingApi
+import com.sharewanted.shareeats.src.api.GeocodingApi
 import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
 import com.sharewanted.shareeats.src.main.location.model.MarkerInfo
 import com.sharewanted.shareeats.util.RetrofitCallback

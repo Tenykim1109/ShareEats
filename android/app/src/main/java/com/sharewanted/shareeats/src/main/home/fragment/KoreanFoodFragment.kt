@@ -21,7 +21,7 @@ import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class KoreanFoodFragment : Fragment() {
+class KoreanFoodFragment(val dongName: String) : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
@@ -60,8 +60,16 @@ class KoreanFoodFragment : Fragment() {
 
                     if (type == "한식") {
                         if (completed == "모집중") {
-                            val post = dataSnapshot.getValue(Post::class.java)
-                            postList.add(post!!)
+                            if (dongName != "전체") {
+                                val place = dataSnapshot.child("place").getValue(String::class.java).toString()
+                                if (place.contains(dongName)) {
+                                    val post = dataSnapshot.getValue(Post::class.java)
+                                    postList.add(post!!)
+                                }
+                            } else {
+                                val post = dataSnapshot.getValue(Post::class.java)
+                                postList.add(post!!)
+                            }
                         }
                     }
                 }
@@ -85,14 +93,4 @@ class KoreanFoodFragment : Fragment() {
 
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            KoreanFoodFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

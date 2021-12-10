@@ -3,7 +3,6 @@ package com.sharewanted.shareeats.src.main.home.order.selectLocation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
@@ -18,6 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.util.Log
 import android.widget.EditText
+import com.sharewanted.shareeats.src.api.GeocodingApi
 
 class SelectLocationActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivitySelectLocationBinding
@@ -115,8 +115,6 @@ class SelectLocationActivity : AppCompatActivity(), OnMapReadyCallback {
 
         reverseGeocodingService.getAddress(latLng, "legalcode,addr", "json").enqueue(object : Callback<AddressResponse>{
             override fun onResponse(call: Call<AddressResponse>, response: Response<AddressResponse>) {
-
-//                Log.d("response check", )
 
                 if (response.isSuccessful) {
 
