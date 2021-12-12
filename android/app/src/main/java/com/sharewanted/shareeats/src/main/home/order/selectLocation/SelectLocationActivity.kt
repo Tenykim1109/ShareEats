@@ -17,7 +17,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.util.Log
 import android.widget.EditText
-import com.sharewanted.shareeats.src.api.GeocodingApi
+import com.sharewanted.shareeats.src.api.GeocodeApi
+import com.sharewanted.shareeats.src.main.location.model.Geocode
 
 class SelectLocationActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivitySelectLocationBinding
@@ -49,17 +50,17 @@ class SelectLocationActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onStart()
 
         binding.activitySelectLocationBtnSearch.setOnClickListener {
-            val geocodingService = ApplicationClass.retrofit.create(GeocodingApi::class.java)
-            geocodingService.getCoords(binding.activitySelectLocationEtAddress.text.toString()).enqueue(object : Callback<CoordsResponse> {
-                override fun onResponse(call: Call<CoordsResponse>, response: Response<CoordsResponse>) {
+            val geocodingService = ApplicationClass.retrofit.create(GeocodeApi::class.java)
+            geocodingService.getGeocode(binding.activitySelectLocationEtAddress.text.toString()).enqueue(object : Callback<Geocode> {
+                override fun onResponse(call: Call<Geocode>, response: Response<Geocode>) {
                     if (response.isSuccessful) {
-                        val coords = response.body() as CoordsResponse
+                        val geocode = response.body() as Geocode
 
-                        Log.d("coords test", coords.toString())
+                        Log.d("coords test", geocode.toString())
 
-                        if (coords.coords.size != 0) {
-                            val lat = coords.coords[0].x
-                            val lng = coords.coords[0].y
+                        if (geocode.addresses.size != 0) {
+                            val lat = geocode.addresses[0].x
+                            val lng = geocode.addresses[0].y
 
                             setMarker(lat, lng)
 
@@ -70,8 +71,8 @@ class SelectLocationActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
 
-                override fun onFailure(call: Call<CoordsResponse>, t: Throwable) {
-                    Log.d("getCoords error", t.toString())
+                override fun onFailure(call: Call<Geocode>, t: Throwable) {
+                    Log.d("getGeocode error", t.toString())
                     Toast.makeText(this@SelectLocationActivity, t.toString(), Toast.LENGTH_SHORT).show()
                 }
 
@@ -107,7 +108,7 @@ class SelectLocationActivity : AppCompatActivity(), OnMapReadyCallback {
         marker.position = LatLng(lng, lat)
         marker.map = naverMap
 
-        val reverseGeocodingService = ApplicationClass.retrofit.create(GeocodingApi::class.java)
+        val reverseGeocodingService = ApplicationClass.retrofit.create(GeocodeApi::class.java)
 
         val latLng = LatLngCoords(lat, lng).toString()
 

@@ -14,7 +14,6 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.storageRef
-import com.sharewanted.shareeats.src.chat.ChatActivity
 import com.sharewanted.shareeats.src.main.chat.models.ChatList
 import com.sharewanted.shareeats.src.main.userlogin.dto.UserDto
 

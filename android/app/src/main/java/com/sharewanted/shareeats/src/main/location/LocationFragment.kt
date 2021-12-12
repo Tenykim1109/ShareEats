@@ -30,10 +30,10 @@ import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.databinding.FragmentLocationBinding
 import com.sharewanted.shareeats.service.GeocodeService
+import com.sharewanted.shareeats.src.api.GeocodeApi
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
-import com.sharewanted.shareeats.src.main.home.order.selectLocation.CoordsResponse
-import com.sharewanted.shareeats.src.api.GeocodingApi
 import com.sharewanted.shareeats.src.main.home.postInfo.PostInfoActivity
+import com.sharewanted.shareeats.src.main.location.model.Geocode
 import com.sharewanted.shareeats.src.main.location.model.MarkerInfo
 import com.sharewanted.shareeats.util.RetrofitCallback
 import retrofit2.Call
@@ -253,18 +253,18 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
 
         binding.fragmentLocationEtSearchAddress.setOnKeyListener { view, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                val geocodingService = ApplicationClass.retrofit.create(GeocodingApi::class.java)
-                geocodingService.getCoords(binding.fragmentLocationEtSearchAddress.text.toString()).enqueue(object :
-                    Callback<CoordsResponse> {
-                    override fun onResponse(call: Call<CoordsResponse>, response: Response<CoordsResponse>) {
+                val geocodingService = ApplicationClass.retrofit.create(GeocodeApi::class.java)
+                geocodingService.getGeocode(binding.fragmentLocationEtSearchAddress.text.toString()).enqueue(object :
+                    Callback<Geocode> {
+                    override fun onResponse(call: Call<Geocode>, response: Response<Geocode>) {
                         if (response.isSuccessful) {
-                            val coords = response.body() as CoordsResponse
+                            val geocode = response.body() as Geocode
 
-                            Log.d("coords test", coords.toString())
+                            Log.d("geocode test", geocode.toString())
 
-                            if (coords.coords.size != 0) {
-                                val lat = coords.coords[0].x
-                                val lng = coords.coords[0].y
+                            if (geocode.addresses.size != 0) {
+                                val lat = geocode.addresses[0].x
+                                val lng = geocode.addresses[0].y
 
                                 setMarker(lat, lng)
                             }
@@ -272,8 +272,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                         }
                     }
 
-                    override fun onFailure(call: Call<CoordsResponse>, t: Throwable) {
-                        Log.d("getCoords error", t.toString())
+                    override fun onFailure(call: Call<Geocode>, t: Throwable) {
+                        Log.d("getGeocode error", t.toString())
                         Toast.makeText(requireContext(), t.toString(), Toast.LENGTH_SHORT).show()
                     }
                 })

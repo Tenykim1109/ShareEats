@@ -1,4 +1,4 @@
-package com.sharewanted.shareeats.src.chat
+package com.sharewanted.shareeats.src.main.chat
 
 import android.content.Intent
 import android.os.Build

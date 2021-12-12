@@ -14,15 +14,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
-import com.sharewanted.shareeats.config.CommonUtils
 import com.sharewanted.shareeats.databinding.ActivityPostInfoBinding
-import com.sharewanted.shareeats.src.chat.ChatActivity
 import com.sharewanted.shareeats.src.main.MainActivity
-import com.sharewanted.shareeats.src.main.chat.models.ChatList
+import com.sharewanted.shareeats.src.main.chat.ChatActivity
 import com.sharewanted.shareeats.src.main.home.order.orderDto.Post
 import com.sharewanted.shareeats.src.main.home.order.orderDto.StoreMenu
 import com.sharewanted.shareeats.src.main.home.order.selectMenu.SelectMenuActivity

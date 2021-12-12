@@ -27,7 +27,7 @@ import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
 import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.databinding.FragmentHomeBinding
-import com.sharewanted.shareeats.src.api.GeocodingApi
+import com.sharewanted.shareeats.src.api.GeocodeApi
 import com.sharewanted.shareeats.src.main.MainActivity
 import com.sharewanted.shareeats.src.main.home.fragment.*
 import com.sharewanted.shareeats.src.main.home.order.OrderActivity
@@ -84,7 +84,7 @@ class HomeFragment : Fragment() {
 
     private fun currentLocation() {
 
-        ApplicationClass.retrofit.create(GeocodingApi::class.java)
+        ApplicationClass.retrofit.create(GeocodeApi::class.java)
             .getAddress("${mLastLocation.longitude},${mLastLocation.latitude}", "legalcode,addr", "json")
             .enqueue(object : Callback<AddressResponse> {
                 override fun onResponse(call: Call<AddressResponse>, response: Response<AddressResponse>) {
@@ -222,7 +222,7 @@ class HomeFragment : Fragment() {
 
                 Log.d(TAG, "initView: ${mLastLocation.latitude}, ${mLastLocation.longitude}")
 
-                ApplicationClass.retrofit.create(GeocodingApi::class.java).getAddress("${mLastLocation.longitude},${mLastLocation.latitude}", "legalcode,addr", "json")
+                ApplicationClass.retrofit.create(GeocodeApi::class.java).getAddress("${mLastLocation.longitude},${mLastLocation.latitude}", "legalcode,addr", "json")
                     .enqueue(object : Callback<AddressResponse> {
                         override fun onResponse(call: Call<AddressResponse>, response: Response<AddressResponse>) {
 

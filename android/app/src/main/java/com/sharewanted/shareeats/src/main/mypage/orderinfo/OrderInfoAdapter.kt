@@ -9,9 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sharewanted.shareeats.R
-import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.config.ApplicationClass.Companion.storageRef
-import com.sharewanted.shareeats.src.chat.ChatActivity
+import com.sharewanted.shareeats.src.main.chat.ChatActivity
 
 class OrderInfoAdapter(var list: MutableList<OrderInfo>) : RecyclerView.Adapter<OrderInfoAdapter.OrderInfoViewHolder>() {
 
