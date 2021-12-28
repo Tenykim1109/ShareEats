@@ -32,7 +32,7 @@ class ApplicationClass : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        NaverMapSdk.getInstance(this).client = NaverMapSdk.NaverCloudPlatformClient("qg2dq62e1v")
+        NaverMapSdk.getInstance(this).client = NaverMapSdk.NaverCloudPlatformClient("xxxxxxxxx")
 
         //shared preference 초기화
         sharedPreferencesUtil = SharedPreferencesUtil(applicationContext)

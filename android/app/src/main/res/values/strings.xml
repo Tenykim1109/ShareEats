@@ -2,8 +2,8 @@
     <string name="app_name">ShareEats</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="api_id">qg2dq62e1v</string>
-    <string name="api_key">7ZjCUUbEHaK2ABuSYCj2dhUgJ6GwjbJJhl30nqEL</string>
+    <string name="api_id">xxxxxxxx</string>
+    <string name="api_key">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
     <string name="firebase_notification_channel_id">ssafy</string>
     <!-- 주제 구독 상태 추가 -->
     <string name="fcm_message">주문 상태 알림</string>

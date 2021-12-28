@@ -13,6 +13,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.sharewanted.shareeats.R
+import com.sharewanted.shareeats.config.ApplicationClass
 import com.sharewanted.shareeats.databinding.ActivityChatBinding
 import com.sharewanted.shareeats.src.main.chat.ChatAdapter
 import com.sharewanted.shareeats.src.main.chat.ChatListAdapter
@@ -42,7 +43,7 @@ class ChatActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val myNick = SharedPreferencesUtil(this).getUser().name
-        val writer = intent.getStringExtra("writer")!!
+        val writer = intent.getStringExtra("writer")
         val myId = SharedPreferencesUtil(this).getUser().id
         val myImage = SharedPreferencesUtil(this).getUser().profile
 
@@ -63,11 +64,11 @@ class ChatActivity : AppCompatActivity() {
                     val id2 = item.child("userId2").getValue<String>()!!
 
                     Log.d(TAG, "user1 = $id1, user2 = $id2")
-                    if (myId == id1 && writer == id2) {
+                    if (myId == id1) {
                         Log.d(TAG, "roomId = ${item.key}")
                         roomId = item.key
                         break
-                    } else if (myId == id2 && writer == id1) {
+                    } else if (myId == id2) {
                         Log.d(TAG, "roomId = ${item.key}")
                         roomId = item.key
                         break
@@ -81,6 +82,8 @@ class ChatActivity : AppCompatActivity() {
 
                     val newRef = chatRef.push()
                     roomId = newRef.key!!
+                    database.getReference("Chat").child(roomId!!).child("userId1").setValue(ApplicationClass.sharedPreferencesUtil.getUser().id)
+                    database.getReference("Chat").child(roomId!!).child("userId2").setValue(writer)
 
                 } else {
                     Log.d(TAG, roomId!!)
