@@ -170,7 +170,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, TextView.OnEditorAction
                             handler.post {
                                 infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(requireContext()) {
                                     override fun getText(infoWindow: InfoWindow): CharSequence {
-                                        return infoWindow.marker?.tag as CharSequence ?: ""
+                                        return infoWindow.marker?.tag as CharSequence
                                     }
                                 }
 

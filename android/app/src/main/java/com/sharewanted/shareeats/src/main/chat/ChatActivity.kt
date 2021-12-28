@@ -46,6 +46,7 @@ class ChatActivity : AppCompatActivity() {
         val writer = intent.getStringExtra("writer")
         val myId = SharedPreferencesUtil(this).getUser().id
         val myImage = SharedPreferencesUtil(this).getUser().profile
+        var roomId = intent.getStringExtra("roomId")
 
         list = mutableListOf()
 
@@ -54,28 +55,10 @@ class ChatActivity : AppCompatActivity() {
         // Firebase reference
         database = FirebaseDatabase.getInstance()
         val chatRef = database.getReference("Chat")
-        var roomId: String? = null
 
         // ChatActivity 내부에서 과거 채팅 기록이 있는지 확인하여 data init
         chatRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                for (item in snapshot.children) {
-                    val id1 = item.child("userId1").getValue<String>()!!
-                    val id2 = item.child("userId2").getValue<String>()!!
-
-                    Log.d(TAG, "user1 = $id1, user2 = $id2")
-                    if (myId == id1) {
-                        Log.d(TAG, "roomId = ${item.key}")
-                        roomId = item.key
-                        break
-                    } else if (myId == id2) {
-                        Log.d(TAG, "roomId = ${item.key}")
-                        roomId = item.key
-                        break
-                    } else {
-                        Log.d(TAG, "new room create!!")
-                    }
-                }
 
                 if (roomId == null) {
                     Log.d(TAG, "새방판다")
@@ -118,7 +101,6 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-//        getChatting()
     }
 
     private fun getChatting() {

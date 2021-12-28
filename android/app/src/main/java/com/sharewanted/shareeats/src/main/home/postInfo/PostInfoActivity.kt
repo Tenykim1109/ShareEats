@@ -70,10 +70,7 @@ class PostInfoActivity : AppCompatActivity() {
             }
         }
         binding.activityPostInfoBtnChat.setOnClickListener {
-            val chatRef = FirebaseDatabase.getInstance().getReference("Chat")
-            val myId = SharedPreferencesUtil(this).getUser().id
             val writer = binding.activityPostInfoTvWriter.text.toString()
-            var roomId: String? = null
 
             val intent = Intent(this@PostInfoActivity, ChatActivity::class.java)
 
